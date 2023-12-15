@@ -5435,7 +5435,7 @@ namespace XPExplorerBar
 				Anchor = AnchorStyles.None;
 				Dock = DockStyle.None;
 
-				FontName = "Tahoma";
+				FontName = "Segoe UI";
 				FontSize = 8.25f;
 				FontDecoration = FontStyle.Regular;
 

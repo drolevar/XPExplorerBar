@@ -2792,7 +2792,7 @@ namespace XPExplorerBar
 			if (Environment.OSVersion.Version.Major >= 5)
 			{
 				// Win2k, XP, Server 2003
-				titleFont = new Font("Tahoma", 8.25f, FontStyle.Bold);
+				titleFont = new Font("Segoe UI", 8.25f, FontStyle.Bold);
 			}
 			else
 			{
@@ -2870,7 +2870,7 @@ namespace XPExplorerBar
 			if (Environment.OSVersion.Version.Major >= 5)
 			{
 				// Win2k, XP, Server 2003
-				titleFont = new Font("Tahoma", 8.25f, FontStyle.Bold);
+				titleFont = new Font("Segoe UI", 8.25f, FontStyle.Bold);
 			}
 			else
 			{

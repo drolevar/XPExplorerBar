@@ -135,7 +135,7 @@ namespace XPExplorerBarDemo
 	        this.pictureTasksExpando.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.pictureTasksExpando.AutoLayout = true;
 	        this.pictureTasksExpando.ExpandedHeight = 129;
-	        this.pictureTasksExpando.Font = new System.Drawing.Font("Tahoma", 8.25F);
+	        this.pictureTasksExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.pictureTasksExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.slideShowTaskItem, this.orderOnlineTaskItem, this.printPicturesTaskItem, this.copyToCDTaskItem });
 	        this.pictureTasksExpando.Location = new System.Drawing.Point(12, 12);
 	        this.pictureTasksExpando.Name = "pictureTasksExpando";
@@ -202,7 +202,7 @@ namespace XPExplorerBarDemo
 	        this.fileAndFolderTasksExpando.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.fileAndFolderTasksExpando.AutoLayout = true;
 	        this.fileAndFolderTasksExpando.ExpandedHeight = 112;
-	        this.fileAndFolderTasksExpando.Font = new System.Drawing.Font("Tahoma", 8.25F);
+	        this.fileAndFolderTasksExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.fileAndFolderTasksExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.newFolderTaskItem, this.publishToWebTaskItem, this.shareFolderTaskItem });
 	        this.fileAndFolderTasksExpando.Location = new System.Drawing.Point(12, 153);
 	        this.fileAndFolderTasksExpando.Name = "fileAndFolderTasksExpando";
@@ -254,7 +254,7 @@ namespace XPExplorerBarDemo
 	        this.otherPlacesExpando.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.otherPlacesExpando.AutoLayout = true;
 	        this.otherPlacesExpando.ExpandedHeight = 120;
-	        this.otherPlacesExpando.Font = new System.Drawing.Font("Tahoma", 8.25F);
+	        this.otherPlacesExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.otherPlacesExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.myDocumentsTaskItem, this.myPicturesTaskItem, this.myComputerTaskItem, this.myNetworkPlacesTaskItem });
 	        this.otherPlacesExpando.Location = new System.Drawing.Point(12, 277);
 	        this.otherPlacesExpando.Name = "otherPlacesExpando";
@@ -318,7 +318,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        this.detailsExpando.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.detailsExpando.ExpandedHeight = 106;
-	        this.detailsExpando.Font = new System.Drawing.Font("Tahoma", 8.25F);
+	        this.detailsExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.detailsExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.label1, this.label2, this.label3 });
 	        this.detailsExpando.Location = new System.Drawing.Point(12, 409);
 	        this.detailsExpando.Name = "detailsExpando";
@@ -330,7 +330,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.label1.BackColor = System.Drawing.Color.Transparent;
-	        this.label1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+	        this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 	        this.label1.Location = new System.Drawing.Point(12, 33);
 	        this.label1.Name = "label1";
 	        this.label1.Size = new System.Drawing.Size(160, 14);
@@ -402,7 +402,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        this.customExpando.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.customExpando.ExpandedHeight = 186;
-	        this.customExpando.Font = new System.Drawing.Font("Tahoma", 8.25F);
+	        this.customExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.customExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.customTaskItem1, this.customTaskItem2, this.customTaskItem3, this.customButton, this.customTextBox, this.customComboBox, this.customCheckBox, this.customRadioButton });
 	        this.customExpando.Location = new System.Drawing.Point(12, 12);
 	        this.customExpando.Name = "customExpando";
@@ -648,7 +648,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        // label5
 	        // 
-	        this.label5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+	        this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 	        this.label5.Location = new System.Drawing.Point(8, 280);
 	        this.label5.Name = "label5";
 	        this.label5.Size = new System.Drawing.Size(208, 16);
@@ -657,7 +657,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        // label4
 	        // 
-	        this.label4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+	        this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 	        this.label4.Location = new System.Drawing.Point(8, 184);
 	        this.label4.Name = "label4";
 	        this.label4.Size = new System.Drawing.Size(208, 16);
@@ -721,7 +721,7 @@ namespace XPExplorerBarDemo
 	        this.serializeExpando.CustomSettings.SpecialBackColor = System.Drawing.Color.WhiteSmoke;
 	        this.serializeExpando.CustomSettings.SpecialBorderColor = System.Drawing.Color.Black;
 	        this.serializeExpando.ExpandedHeight = 109;
-	        this.serializeExpando.Font = new System.Drawing.Font("Tahoma", 8.25F);
+	        this.serializeExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.serializeExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.serializeTaskItem1, this.serializeTaskItem2, this.serializeTaskItem3 });
 	        this.serializeExpando.Location = new System.Drawing.Point(12, 12);
 	        this.serializeExpando.Name = "serializeExpando";
@@ -777,12 +777,12 @@ namespace XPExplorerBarDemo
 	        // 
 	        // DemoForm
 	        // 
-	        this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
-	        this.ClientSize = new System.Drawing.Size(736, 568);
+	        this.AutoScaleBaseSize = new System.Drawing.Size(5, 15);
+	        this.ClientSize = new System.Drawing.Size(736, 588);
 	        this.Controls.Add(this.serializeGroupBox);
 	        this.Controls.Add(this.customGroupBox);
 	        this.Controls.Add(this.systemTaskPane);
-	        this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+	        this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 	        this.Menu = this.menubar;
 	        this.Name = "DemoForm";
 	        this.Text = "XPEplorerBar Demo";
