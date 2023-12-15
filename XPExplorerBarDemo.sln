@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34310.174
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPExplorerBarDemo", "XPExplorerBarDemo\XPExplorerBarDemo.csproj", "{9D441A8F-700A-4873-AD39-4366135ABE7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPExplorerBar", "XPExplorerBar\XPExplorerBar.csproj", "{D4B2101F-AF3A-4E28-B3BE-6F69C131BFB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{1EF98766-76FF-4AF2-A8AF-C3E7907E13F4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		LICENSE = LICENSE
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D441A8F-700A-4873-AD39-4366135ABE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D441A8F-700A-4873-AD39-4366135ABE7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D441A8F-700A-4873-AD39-4366135ABE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D441A8F-700A-4873-AD39-4366135ABE7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4B2101F-AF3A-4E28-B3BE-6F69C131BFB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B2101F-AF3A-4E28-B3BE-6F69C131BFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4B2101F-AF3A-4E28-B3BE-6F69C131BFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4B2101F-AF3A-4E28-B3BE-6F69C131BFB5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83648781-95CC-4509-86BC-CE34C7C722A7}
+	EndGlobalSection
+EndGlobal
