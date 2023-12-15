@@ -2,30 +2,31 @@
  * Copyright © 2004-2005, Mathew Hall
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
- *    - Redistributions of source code must retain the above copyright notice, 
+ *    - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * 
- *    - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ *
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
 
 
 using System;
+using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing;
@@ -33,12 +34,9 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Windows.Forms;
 using System.Xml.Serialization;
-
 
 namespace XPExplorerBar
 {
@@ -100,14 +98,14 @@ namespace XPExplorerBar
 		/// </summary>
 		public ExplorerBarInfo()
 		{
-			this.taskPane = new TaskPaneInfo();
-			this.taskItem = new TaskItemInfo();
-			this.expando = new ExpandoInfo();
-			this.header = new HeaderInfo();
+			taskPane = new TaskPaneInfo();
+			taskItem = new TaskItemInfo();
+			expando = new ExpandoInfo();
+			header = new HeaderInfo();
 
-			this.officialTheme = false;
-			this.classicTheme = false;
-			this.shellStylePath = null;
+			officialTheme = false;
+			classicTheme = false;
+			shellStylePath = null;
 		}
 
 		#endregion
@@ -120,7 +118,7 @@ namespace XPExplorerBar
 		/// </summary>
 		public void SetUnthemedArrowImages()
 		{
-			this.Header.SetUnthemedArrowImages();
+			Header.SetUnthemedArrowImages();
 		}
 
 
@@ -129,14 +127,14 @@ namespace XPExplorerBar
 		/// </summary>
 		public void UseClassicTheme()
 		{
-			this.classicTheme = true;
+			classicTheme = true;
 			
-			this.TaskPane.SetDefaultValues();
-			this.Expando.SetDefaultValues();
-			this.Header.SetDefaultValues();
-			this.TaskItem.SetDefaultValues();
+			TaskPane.SetDefaultValues();
+			Expando.SetDefaultValues();
+			Header.SetDefaultValues();
+			TaskItem.SetDefaultValues();
 
-			this.SetUnthemedArrowImages();
+			SetUnthemedArrowImages();
 		}
 
 
@@ -145,9 +143,9 @@ namespace XPExplorerBar
 		/// </summary>
 		public void Dispose()
 		{
-			this.taskPane.Dispose();
-			this.header.Dispose();
-			this.expando.Dispose();
+			taskPane.Dispose();
+			header.Dispose();
+			expando.Dispose();
 		}
 
 		#endregion
@@ -162,12 +160,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.taskPane;
+				return taskPane;
 			}
 
 			set
 			{
-				this.taskPane = value;
+				taskPane = value;
 			}
 		}
 
@@ -179,12 +177,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.taskItem;
+				return taskItem;
 			}
 
 			set
 			{
-				this.taskItem = value;
+				taskItem = value;
 			}
 		}
 
@@ -196,12 +194,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.expando;
+				return expando;
 			}
 
 			set
 			{
-				this.expando = value;
+				expando = value;
 			}
 		}
 
@@ -213,12 +211,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.header;
+				return header;
 			}
 
 			set
 			{
-				this.header = value;
+				header = value;
 			}
 		}
 
@@ -231,7 +229,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.officialTheme;
+				return officialTheme;
 			}
 
 			/*set
@@ -262,7 +260,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.classicTheme;
+				return classicTheme;
 			}
 		}
 
@@ -275,12 +273,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.shellStylePath;
+				return shellStylePath;
 			}
 
 			set
 			{
-				this.shellStylePath = value;
+				shellStylePath = value;
 			}
 		}
 
@@ -293,7 +291,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of an ExplorerBarInfo (as 
 		/// ExplorerBarInfos contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable()]
+		[Serializable]
 			public class ExplorerBarInfoSurrogate : ISerializable
 		{
 			#region Class Data
@@ -334,10 +332,10 @@ namespace XPExplorerBar
 			/// </summary>
 			public ExplorerBarInfoSurrogate()
 			{
-				this.TaskPaneInfoSurrogate = null;
-				this.TaskItemInfoSurrogate = null;
-				this.ExpandoInfoSurrogate = null;
-				this.HeaderInfoSurrogate = null;
+				TaskPaneInfoSurrogate = null;
+				TaskItemInfoSurrogate = null;
+				ExpandoInfoSurrogate = null;
+				HeaderInfoSurrogate = null;
 			}
 
 			#endregion
@@ -353,17 +351,17 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(ExplorerBarInfo explorerBarInfo)
 			{
-				this.TaskPaneInfoSurrogate = new TaskPaneInfo.TaskPaneInfoSurrogate();
-				this.TaskPaneInfoSurrogate.Load(explorerBarInfo.TaskPane);
+				TaskPaneInfoSurrogate = new TaskPaneInfo.TaskPaneInfoSurrogate();
+				TaskPaneInfoSurrogate.Load(explorerBarInfo.TaskPane);
 
-				this.TaskItemInfoSurrogate = new TaskItemInfo.TaskItemInfoSurrogate();
-				this.TaskItemInfoSurrogate.Load(explorerBarInfo.TaskItem);
+				TaskItemInfoSurrogate = new TaskItemInfo.TaskItemInfoSurrogate();
+				TaskItemInfoSurrogate.Load(explorerBarInfo.TaskItem);
 
-				this.ExpandoInfoSurrogate = new ExpandoInfo.ExpandoInfoSurrogate();
-				this.ExpandoInfoSurrogate.Load(explorerBarInfo.Expando);
+				ExpandoInfoSurrogate = new ExpandoInfo.ExpandoInfoSurrogate();
+				ExpandoInfoSurrogate.Load(explorerBarInfo.Expando);
 
-				this.HeaderInfoSurrogate = new HeaderInfo.HeaderInfoSurrogate();
-				this.HeaderInfoSurrogate.Load(explorerBarInfo.Header);
+				HeaderInfoSurrogate = new HeaderInfo.HeaderInfoSurrogate();
+				HeaderInfoSurrogate.Load(explorerBarInfo.Header);
 			}
 
 
@@ -375,10 +373,10 @@ namespace XPExplorerBar
 			{
 				ExplorerBarInfo explorerBarInfo = new ExplorerBarInfo();
 
-				explorerBarInfo.TaskPane = this.TaskPaneInfoSurrogate.Save();
-				explorerBarInfo.TaskItem = this.TaskItemInfoSurrogate.Save();
-				explorerBarInfo.Expando = this.ExpandoInfoSurrogate.Save();
-				explorerBarInfo.Header = this.HeaderInfoSurrogate.Save();				
+				explorerBarInfo.TaskPane = TaskPaneInfoSurrogate.Save();
+				explorerBarInfo.TaskItem = TaskItemInfoSurrogate.Save();
+				explorerBarInfo.Expando = ExpandoInfoSurrogate.Save();
+				explorerBarInfo.Header = HeaderInfoSurrogate.Save();				
 				
 				return explorerBarInfo;
 			}
@@ -392,12 +390,12 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 				
-				info.AddValue("TaskPaneInfoSurrogate", this.TaskPaneInfoSurrogate);
-				info.AddValue("TaskItemInfoSurrogate", this.TaskItemInfoSurrogate);
-				info.AddValue("ExpandoInfoSurrogate", this.ExpandoInfoSurrogate);
-				info.AddValue("HeaderInfoSurrogate", this.HeaderInfoSurrogate);
+				info.AddValue("TaskPaneInfoSurrogate", TaskPaneInfoSurrogate);
+				info.AddValue("TaskItemInfoSurrogate", TaskItemInfoSurrogate);
+				info.AddValue("ExpandoInfoSurrogate", ExpandoInfoSurrogate);
+				info.AddValue("HeaderInfoSurrogate", HeaderInfoSurrogate);
 			}
 
 
@@ -408,14 +406,14 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the ExplorerBarInfoSurrogate</param>
 			/// <param name="context">The source from which the ExplorerBarInfoSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected ExplorerBarInfoSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected ExplorerBarInfoSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 
-				this.TaskPaneInfoSurrogate = (TaskPaneInfo.TaskPaneInfoSurrogate) info.GetValue("TaskPaneInfoSurrogate", typeof(TaskPaneInfo.TaskPaneInfoSurrogate));
-				this.TaskItemInfoSurrogate = (TaskItemInfo.TaskItemInfoSurrogate) info.GetValue("TaskItemInfoSurrogate", typeof(TaskItemInfo.TaskItemInfoSurrogate));
-				this.ExpandoInfoSurrogate = (ExpandoInfo.ExpandoInfoSurrogate) info.GetValue("ExpandoInfoSurrogate", typeof(ExpandoInfo.ExpandoInfoSurrogate));
-				this.HeaderInfoSurrogate = (HeaderInfo.HeaderInfoSurrogate) info.GetValue("HeaderInfoSurrogate", typeof(HeaderInfo.HeaderInfoSurrogate));
+				TaskPaneInfoSurrogate = (TaskPaneInfo.TaskPaneInfoSurrogate) info.GetValue("TaskPaneInfoSurrogate", typeof(TaskPaneInfo.TaskPaneInfoSurrogate));
+				TaskItemInfoSurrogate = (TaskItemInfo.TaskItemInfoSurrogate) info.GetValue("TaskItemInfoSurrogate", typeof(TaskItemInfo.TaskItemInfoSurrogate));
+				ExpandoInfoSurrogate = (ExpandoInfo.ExpandoInfoSurrogate) info.GetValue("ExpandoInfoSurrogate", typeof(ExpandoInfo.ExpandoInfoSurrogate));
+				HeaderInfoSurrogate = (HeaderInfo.HeaderInfoSurrogate) info.GetValue("HeaderInfoSurrogate", typeof(HeaderInfo.HeaderInfoSurrogate));
 			}
 
 			#endregion
@@ -493,21 +491,21 @@ namespace XPExplorerBar
 		public TaskPaneInfo()
 		{
 			// set background values
-			this.gradientStartColor = Color.Transparent;
-			this.gradientEndColor = Color.Transparent;
-			this.direction = LinearGradientMode.Vertical;
+			gradientStartColor = Color.Transparent;
+			gradientEndColor = Color.Transparent;
+			direction = LinearGradientMode.Vertical;
 
 			// set padding values
-			this.padding = new Padding(12, 12, 12, 12);
+			padding = new Padding(12, 12, 12, 12);
 
 			// images
-			this.backImage = null;
-			this.stretchMode = ImageStretchMode.Tile;
+			backImage = null;
+			stretchMode = ImageStretchMode.Tile;
 
-			this.watermark = null;
-			this.watermarkAlignment = ContentAlignment.BottomCenter;
+			watermark = null;
+			watermarkAlignment = ContentAlignment.BottomCenter;
 
-			this.owner = null;
+			owner = null;
 		}
 
 		#endregion
@@ -521,21 +519,21 @@ namespace XPExplorerBar
 		public void SetDefaultValues()
 		{
 			// set background values
-			this.gradientStartColor = SystemColors.Window;
-			this.gradientEndColor = SystemColors.Window;
-			this.direction = LinearGradientMode.Vertical;
+			gradientStartColor = SystemColors.Window;
+			gradientEndColor = SystemColors.Window;
+			direction = LinearGradientMode.Vertical;
 
 			// set padding values
-			this.padding.Left = 12;
-			this.padding.Top = 12;
-			this.padding.Right = 12;
-			this.padding.Bottom = 12;
+			padding.Left = 12;
+			padding.Top = 12;
+			padding.Right = 12;
+			padding.Bottom = 12;
 
 			// images
-			this.backImage = null;
-			this.stretchMode = ImageStretchMode.Tile;
-			this.watermark = null;
-			this.watermarkAlignment = ContentAlignment.BottomCenter;
+			backImage = null;
+			stretchMode = ImageStretchMode.Tile;
+			watermark = null;
+			watermarkAlignment = ContentAlignment.BottomCenter;
 		}
 
 
@@ -545,21 +543,21 @@ namespace XPExplorerBar
 		public void SetDefaultEmptyValues()
 		{
 			// set background values
-			this.gradientStartColor = Color.Empty;
-			this.gradientEndColor = Color.Empty;
-			this.direction = LinearGradientMode.Vertical;
+			gradientStartColor = Color.Empty;
+			gradientEndColor = Color.Empty;
+			direction = LinearGradientMode.Vertical;
 
 			// set padding values
-			this.padding.Left = 0;
-			this.padding.Top = 0;
-			this.padding.Right = 0;
-			this.padding.Bottom = 0;
+			padding.Left = 0;
+			padding.Top = 0;
+			padding.Right = 0;
+			padding.Bottom = 0;
 
 			// images
-			this.backImage = null;
-			this.stretchMode = ImageStretchMode.Tile;
-			this.watermark = null;
-			this.watermarkAlignment = ContentAlignment.BottomCenter;
+			backImage = null;
+			stretchMode = ImageStretchMode.Tile;
+			watermark = null;
+			watermarkAlignment = ContentAlignment.BottomCenter;
 		}
 
 
@@ -568,16 +566,16 @@ namespace XPExplorerBar
 		/// </summary>
 		public void Dispose()
 		{
-			if (this.backImage != null)
+			if (backImage != null)
 			{
-				this.backImage.Dispose();
-				this.backImage = null;
+				backImage.Dispose();
+				backImage = null;
 			}
 
-			if (this.watermark != null)
+			if (watermark != null)
 			{
-				this.watermark.Dispose();
-				this.watermark = null;
+				watermark.Dispose();
+				watermark = null;
 			}
 		}
 
@@ -596,18 +594,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.gradientStartColor;
+				return gradientStartColor;
 			}
 
 			set
 			{
-				if (this.gradientStartColor != value)
+				if (gradientStartColor != value)
 				{
-					this.gradientStartColor = value;
+					gradientStartColor = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -622,7 +620,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeGradientStartColor()
 		{
-			return this.GradientStartColor != Color.Empty;
+			return GradientStartColor != Color.Empty;
 		}
 
 
@@ -634,18 +632,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.gradientEndColor;
+				return gradientEndColor;
 			}
 
 			set
 			{
-				if (this.gradientEndColor != value)
+				if (gradientEndColor != value)
 				{
-					this.gradientEndColor = value;
+					gradientEndColor = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -660,7 +658,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeGradientEndColor()
 		{
-			return this.GradientEndColor != Color.Empty;
+			return GradientEndColor != Color.Empty;
 		}
 
 
@@ -673,7 +671,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.direction;
+				return direction;
 			}
 
 			set
@@ -683,13 +681,13 @@ namespace XPExplorerBar
 					throw new InvalidEnumArgumentException("value", (int) value, typeof(LinearGradientMode));
 				}
 
-				if (this.direction != value)
+				if (direction != value)
 				{
-					this.direction = value;
+					direction = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -708,18 +706,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.backImage;
+				return backImage;
 			}
 
 			set
 			{
-				if (this.backImage != value)
+				if (backImage != value)
 				{
-					this.backImage = value;
+					backImage = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -736,7 +734,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.stretchMode;
+				return stretchMode;
 			}
 
 			set
@@ -746,13 +744,13 @@ namespace XPExplorerBar
 					throw new InvalidEnumArgumentException("value", (int) value, typeof(ImageStretchMode));
 				}
 
-				if (this.stretchMode != value)
+				if (stretchMode != value)
 				{
-					this.stretchMode = value;
+					stretchMode = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -768,18 +766,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.watermark;
+				return watermark;
 			}
 
 			set
 			{
-				if (this.watermark != value)
+				if (watermark != value)
 				{
-					this.watermark = value;
+					watermark = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -796,7 +794,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.watermarkAlignment;
+				return watermarkAlignment;
 			}
 
 			set
@@ -806,13 +804,13 @@ namespace XPExplorerBar
 					throw new InvalidEnumArgumentException("value", (int) value, typeof(ContentAlignment));
 				}
 
-				if (this.watermarkAlignment != value)
+				if (watermarkAlignment != value)
 				{
-					this.watermarkAlignment = value;
+					watermarkAlignment = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -830,18 +828,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.padding;
+				return padding;
 			}
 
 			set
 			{
-				if (this.padding != value)
+				if (padding != value)
 				{
-					this.padding = value;
+					padding = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskPane.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -856,7 +854,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializePadding()
 		{
-			return this.Padding != Padding.Empty;
+			return Padding != Padding.Empty;
 		}
 
 		#endregion
@@ -870,12 +868,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.owner;
+				return owner;
 			}
 			
 			set
 			{
-				this.owner = value;
+				owner = value;
 			}
 		}
 
@@ -890,7 +888,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of a TaskPaneInfo (as 
 		/// TaskPaneInfos contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable()]
+		[Serializable]
 			public class TaskPaneInfoSurrogate : ISerializable
 		{
 			#region Class Data
@@ -961,17 +959,17 @@ namespace XPExplorerBar
 			/// </summary>
 			public TaskPaneInfoSurrogate()
 			{
-				this.GradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.GradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.GradientDirection = LinearGradientMode.Vertical;
+				GradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
+				GradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
+				GradientDirection = LinearGradientMode.Vertical;
 
-				this.Padding = Padding.Empty;
+				Padding = Padding.Empty;
 
-				this.BackImage = new byte[0];
-				this.StretchMode = ImageStretchMode.Normal;
+				BackImage = new byte[0];
+				StretchMode = ImageStretchMode.Normal;
 
-				this.Watermark = new byte[0];
-				this.WatermarkAlignment = ContentAlignment.BottomCenter;
+				Watermark = new byte[0];
+				WatermarkAlignment = ContentAlignment.BottomCenter;
 			}
 
 			#endregion
@@ -987,17 +985,17 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(TaskPaneInfo taskPaneInfo)
 			{
-				this.GradientStartColor = ThemeManager.ConvertColorToString(taskPaneInfo.GradientStartColor);
-				this.GradientEndColor = ThemeManager.ConvertColorToString(taskPaneInfo.GradientEndColor);
-				this.GradientDirection = taskPaneInfo.GradientDirection;
+				GradientStartColor = ThemeManager.ConvertColorToString(taskPaneInfo.GradientStartColor);
+				GradientEndColor = ThemeManager.ConvertColorToString(taskPaneInfo.GradientEndColor);
+				GradientDirection = taskPaneInfo.GradientDirection;
 
-				this.Padding = taskPaneInfo.Padding;
+				Padding = taskPaneInfo.Padding;
 
-				this.BackImage = ThemeManager.ConvertImageToByteArray(taskPaneInfo.BackImage);
-				this.StretchMode = taskPaneInfo.StretchMode;
+				BackImage = ThemeManager.ConvertImageToByteArray(taskPaneInfo.BackImage);
+				StretchMode = taskPaneInfo.StretchMode;
 
-				this.Watermark = ThemeManager.ConvertImageToByteArray(taskPaneInfo.Watermark);
-				this.WatermarkAlignment = taskPaneInfo.WatermarkAlignment;
+				Watermark = ThemeManager.ConvertImageToByteArray(taskPaneInfo.Watermark);
+				WatermarkAlignment = taskPaneInfo.WatermarkAlignment;
 			}
 
 
@@ -1009,17 +1007,17 @@ namespace XPExplorerBar
 			{
 				TaskPaneInfo taskPaneInfo = new TaskPaneInfo();
 
-				taskPaneInfo.GradientStartColor = ThemeManager.ConvertStringToColor(this.GradientStartColor);
-				taskPaneInfo.GradientEndColor = ThemeManager.ConvertStringToColor(this.GradientEndColor);
-				taskPaneInfo.GradientDirection = this.GradientDirection;
+				taskPaneInfo.GradientStartColor = ThemeManager.ConvertStringToColor(GradientStartColor);
+				taskPaneInfo.GradientEndColor = ThemeManager.ConvertStringToColor(GradientEndColor);
+				taskPaneInfo.GradientDirection = GradientDirection;
 
-				taskPaneInfo.Padding = this.Padding;
+				taskPaneInfo.Padding = Padding;
 
-				taskPaneInfo.BackImage = ThemeManager.ConvertByteArrayToImage(this.BackImage);
-				taskPaneInfo.StretchMode = this.StretchMode;
+				taskPaneInfo.BackImage = ThemeManager.ConvertByteArrayToImage(BackImage);
+				taskPaneInfo.StretchMode = StretchMode;
 
-				taskPaneInfo.Watermark = ThemeManager.ConvertByteArrayToImage(this.Watermark);
-				taskPaneInfo.WatermarkAlignment = this.WatermarkAlignment;
+				taskPaneInfo.Watermark = ThemeManager.ConvertByteArrayToImage(Watermark);
+				taskPaneInfo.WatermarkAlignment = WatermarkAlignment;
 				
 				return taskPaneInfo;
 			}
@@ -1033,19 +1031,19 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 				
-				info.AddValue("GradientStartColor", this.GradientStartColor);
-				info.AddValue("GradientEndColor", this.GradientEndColor);
-				info.AddValue("GradientDirection", this.GradientDirection);
+				info.AddValue("GradientStartColor", GradientStartColor);
+				info.AddValue("GradientEndColor", GradientEndColor);
+				info.AddValue("GradientDirection", GradientDirection);
 				
-				info.AddValue("Padding", this.Padding);
+				info.AddValue("Padding", Padding);
 				
-				info.AddValue("BackImage", this.BackImage);
-				info.AddValue("StretchMode", this.StretchMode);
+				info.AddValue("BackImage", BackImage);
+				info.AddValue("StretchMode", StretchMode);
 				
-				info.AddValue("Watermark", this.Watermark);
-				info.AddValue("WatermarkAlignment", this.WatermarkAlignment);
+				info.AddValue("Watermark", Watermark);
+				info.AddValue("WatermarkAlignment", WatermarkAlignment);
 			}
 
 
@@ -1056,21 +1054,21 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the TaskPaneInfoSurrogate</param>
 			/// <param name="context">The source from which the TaskPaneInfoSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected TaskPaneInfoSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected TaskPaneInfoSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 
-				this.GradientStartColor = info.GetString("GradientStartColor");
-				this.GradientEndColor = info.GetString("GradientEndColor");
-				this.GradientDirection = (LinearGradientMode) info.GetValue("GradientDirection", typeof(LinearGradientMode));
+				GradientStartColor = info.GetString("GradientStartColor");
+				GradientEndColor = info.GetString("GradientEndColor");
+				GradientDirection = (LinearGradientMode) info.GetValue("GradientDirection", typeof(LinearGradientMode));
 				
-				this.Padding = (Padding) info.GetValue("Padding", typeof(Padding));
+				Padding = (Padding) info.GetValue("Padding", typeof(Padding));
 
-				this.BackImage = (byte[]) info.GetValue("BackImage", typeof(byte[]));
-				this.StretchMode = (ImageStretchMode) info.GetValue("StretchMode", typeof(ImageStretchMode));
+				BackImage = (byte[]) info.GetValue("BackImage", typeof(byte[]));
+				StretchMode = (ImageStretchMode) info.GetValue("StretchMode", typeof(ImageStretchMode));
 
-				this.Watermark = (byte[]) info.GetValue("Watermark", typeof(byte[]));
-				this.WatermarkAlignment = (ContentAlignment) info.GetValue("WatermarkAlignment", typeof(ContentAlignment));
+				Watermark = (byte[]) info.GetValue("Watermark", typeof(byte[]));
+				WatermarkAlignment = (ContentAlignment) info.GetValue("WatermarkAlignment", typeof(ContentAlignment));
 			}
 
 			#endregion
@@ -1169,18 +1167,18 @@ namespace XPExplorerBar
 		public TaskItemInfo()
 		{
 			// set padding values
-			this.padding = new Padding(6, 0, 4, 0);
+			padding = new Padding(6, 0, 4, 0);
 
 			// set margin values
-			this.margin = new Margin(0, 4, 0, 0);
+			margin = new Margin(0, 4, 0, 0);
 
 			// set text values
-			this.linkNormal = SystemColors.ControlText;
-			this.linkHot = SystemColors.ControlText;
+			linkNormal = SystemColors.ControlText;
+			linkHot = SystemColors.ControlText;
 
-			this.fontDecoration = FontStyle.Underline;
+			fontDecoration = FontStyle.Underline;
 
-			this.owner = null;
+			owner = null;
 		}
 
 		#endregion
@@ -1194,22 +1192,22 @@ namespace XPExplorerBar
 		public void SetDefaultValues()
 		{
 			// set padding values
-			this.padding.Left = 6;
-			this.padding.Top = 0;
-			this.padding.Right = 4;
-			this.padding.Bottom = 0;
+			padding.Left = 6;
+			padding.Top = 0;
+			padding.Right = 4;
+			padding.Bottom = 0;
 
 			// set margin values
-			this.margin.Left = 0;
-			this.margin.Top = 4;
-			this.margin.Right = 0;
-			this.margin.Bottom = 0;
+			margin.Left = 0;
+			margin.Top = 4;
+			margin.Right = 0;
+			margin.Bottom = 0;
 
 			// set text values
-			this.linkNormal = SystemColors.ControlText;
-			this.linkHot = SystemColors.HotTrack;
+			linkNormal = SystemColors.ControlText;
+			linkHot = SystemColors.HotTrack;
 
-			this.fontDecoration = FontStyle.Underline;
+			fontDecoration = FontStyle.Underline;
 		}
 
 
@@ -1218,11 +1216,11 @@ namespace XPExplorerBar
 		/// </summary>
 		public void SetDefaultEmptyValues()
 		{
-			this.padding = Padding.Empty;
-			this.margin = Margin.Empty;
-			this.linkNormal = Color.Empty;
-			this.linkHot = Color.Empty;
-			this.fontDecoration = FontStyle.Underline;
+			padding = Padding.Empty;
+			margin = Margin.Empty;
+			linkNormal = Color.Empty;
+			linkHot = Color.Empty;
+			fontDecoration = FontStyle.Underline;
 		}
 
 		#endregion
@@ -1241,18 +1239,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.margin;
+				return margin;
 			}
 
 			set
 			{
-				if (this.margin != value)
+				if (margin != value)
 				{
-					this.margin = value;
+					margin = value;
 
-					if (this.TaskItem != null)
+					if (TaskItem != null)
 					{
-						this.TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1267,7 +1265,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeMargin()
 		{
-			return this.Margin != Margin.Empty;
+			return Margin != Margin.Empty;
 		}
 
 		#endregion
@@ -1283,18 +1281,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.padding;
+				return padding;
 			}
 
 			set
 			{
-				if (this.padding != value)
+				if (padding != value)
 				{
-					this.padding = value;
+					padding = value;
 
-					if (this.TaskItem != null)
+					if (TaskItem != null)
 					{
-						this.TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1309,7 +1307,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializePadding()
 		{
-			return this.Padding != Padding.Empty;
+			return Padding != Padding.Empty;
 		}
 
 		#endregion
@@ -1324,18 +1322,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.linkNormal;
+				return linkNormal;
 			}
 
 			set
 			{
-				if (this.linkNormal != value)
+				if (linkNormal != value)
 				{
-					this.linkNormal = value;
+					linkNormal = value;
 
-					if (this.TaskItem != null)
+					if (TaskItem != null)
 					{
-						this.TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1350,7 +1348,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeLinkColor()
 		{
-			return this.LinkColor != Color.Empty;
+			return LinkColor != Color.Empty;
 		}
 
 
@@ -1362,18 +1360,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.linkHot;
+				return linkHot;
 			}
 
 			set
 			{
-				if (this.linkHot != value)
+				if (linkHot != value)
 				{
-					this.linkHot = value;
+					linkHot = value;
 
-					if (this.TaskItem != null)
+					if (TaskItem != null)
 					{
-						this.TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1388,7 +1386,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeHotLinkColor()
 		{
-			return this.HotLinkColor != Color.Empty;
+			return HotLinkColor != Color.Empty;
 		}
 
 
@@ -1401,7 +1399,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.fontDecoration;
+				return fontDecoration;
 			}
 
 			set
@@ -1411,13 +1409,13 @@ namespace XPExplorerBar
 					throw new InvalidEnumArgumentException("value", (int) value, typeof(FontStyle));
 				}
 
-				if (this.fontDecoration != value)
+				if (fontDecoration != value)
 				{
-					this.fontDecoration = value;
+					fontDecoration = value;
 
-					if (this.TaskItem != null)
+					if (TaskItem != null)
 					{
-						this.TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
+						TaskItem.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1434,12 +1432,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.owner;
+				return owner;
 			}
 			
 			set
 			{
-				this.owner = value;
+				owner = value;
 			}
 		}
 
@@ -1454,7 +1452,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of a TaskItemInfo (as 
 		/// TaskItemInfos contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable()]
+		[Serializable]
 			public class TaskItemInfoSurrogate : ISerializable
 		{
 			#region Class Data
@@ -1505,13 +1503,13 @@ namespace XPExplorerBar
 			/// </summary>
 			public TaskItemInfoSurrogate()
 			{
-				this.Padding = Padding.Empty;
-				this.Margin = Margin.Empty;
+				Padding = Padding.Empty;
+				Margin = Margin.Empty;
 
-				this.LinkNormal = ThemeManager.ConvertColorToString(Color.Empty);
-				this.LinkHot = ThemeManager.ConvertColorToString(Color.Empty);
+				LinkNormal = ThemeManager.ConvertColorToString(Color.Empty);
+				LinkHot = ThemeManager.ConvertColorToString(Color.Empty);
 
-				this.FontDecoration = FontStyle.Regular;
+				FontDecoration = FontStyle.Regular;
 			}
 
 			#endregion
@@ -1527,13 +1525,13 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(TaskItemInfo taskItemInfo)
 			{
-				this.Padding = taskItemInfo.Padding;
-				this.Margin = taskItemInfo.Margin;
+				Padding = taskItemInfo.Padding;
+				Margin = taskItemInfo.Margin;
 
-				this.LinkNormal = ThemeManager.ConvertColorToString(taskItemInfo.LinkColor);
-				this.LinkHot = ThemeManager.ConvertColorToString(taskItemInfo.HotLinkColor);
+				LinkNormal = ThemeManager.ConvertColorToString(taskItemInfo.LinkColor);
+				LinkHot = ThemeManager.ConvertColorToString(taskItemInfo.HotLinkColor);
 
-				this.FontDecoration = taskItemInfo.FontDecoration;
+				FontDecoration = taskItemInfo.FontDecoration;
 			}
 
 
@@ -1545,13 +1543,13 @@ namespace XPExplorerBar
 			{
 				TaskItemInfo taskItemInfo = new TaskItemInfo();
 
-				taskItemInfo.Padding = this.Padding;
-				taskItemInfo.Margin = this.Margin;
+				taskItemInfo.Padding = Padding;
+				taskItemInfo.Margin = Margin;
 
-				taskItemInfo.LinkColor = ThemeManager.ConvertStringToColor(this.LinkNormal);
-				taskItemInfo.HotLinkColor = ThemeManager.ConvertStringToColor(this.LinkHot);
+				taskItemInfo.LinkColor = ThemeManager.ConvertStringToColor(LinkNormal);
+				taskItemInfo.HotLinkColor = ThemeManager.ConvertStringToColor(LinkHot);
 
-				taskItemInfo.FontDecoration = this.FontDecoration;
+				taskItemInfo.FontDecoration = FontDecoration;
 				
 				return taskItemInfo;
 			}
@@ -1565,15 +1563,15 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 				
-				info.AddValue("Padding", this.Padding);
-				info.AddValue("Margin", this.Margin);
+				info.AddValue("Padding", Padding);
+				info.AddValue("Margin", Margin);
 
-				info.AddValue("LinkNormal", this.LinkNormal);
-				info.AddValue("LinkHot", this.LinkHot);
+				info.AddValue("LinkNormal", LinkNormal);
+				info.AddValue("LinkHot", LinkHot);
 
-				info.AddValue("FontDecoration", this.FontDecoration);
+				info.AddValue("FontDecoration", FontDecoration);
 			}
 
 
@@ -1584,17 +1582,17 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the TaskItemInfoSurrogate</param>
 			/// <param name="context">The source from which the TaskItemInfoSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected TaskItemInfoSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected TaskItemInfoSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 				
-				this.Padding = (Padding) info.GetValue("Padding", typeof(Padding));
-				this.Margin = (Margin) info.GetValue("Margin", typeof(Margin));
+				Padding = (Padding) info.GetValue("Padding", typeof(Padding));
+				Margin = (Margin) info.GetValue("Margin", typeof(Margin));
 				
-				this.LinkNormal = info.GetString("LinkNormal");
-				this.LinkHot = info.GetString("LinkHot");
+				LinkNormal = info.GetString("LinkNormal");
+				LinkHot = info.GetString("LinkHot");
 
-				this.FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
+				FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
 			}
 
 			#endregion
@@ -1724,26 +1722,26 @@ namespace XPExplorerBar
 		public ExpandoInfo()
 		{
 			// set background color values
-			this.specialBackColor = Color.Transparent;
-			this.normalBackColor = Color.Transparent;
+			specialBackColor = Color.Transparent;
+			normalBackColor = Color.Transparent;
 
 			// set border values
-			this.specialBorder = new Border(1, 0, 1, 1);
-			this.specialBorderColor = Color.Transparent;
+			specialBorder = new Border(1, 0, 1, 1);
+			specialBorderColor = Color.Transparent;
 
-			this.normalBorder = new Border(1, 0, 1, 1);
-			this.normalBorderColor = Color.Transparent;
+			normalBorder = new Border(1, 0, 1, 1);
+			normalBorderColor = Color.Transparent;
 
 			// set padding values
-			this.specialPadding = new Padding(12, 10, 12, 10);
-			this.normalPadding = new Padding(12, 10, 12, 10);
+			specialPadding = new Padding(12, 10, 12, 10);
+			normalPadding = new Padding(12, 10, 12, 10);
 
-			this.specialBackImage = null;
-			this.normalBackImage = null;
+			specialBackImage = null;
+			normalBackImage = null;
 
-			this.watermarkAlignment = ContentAlignment.BottomRight;
+			watermarkAlignment = ContentAlignment.BottomRight;
 
-			this.owner = null;
+			owner = null;
 		}
 
 		#endregion
@@ -1757,39 +1755,39 @@ namespace XPExplorerBar
 		public void SetDefaultValues()
 		{
 			// set background color values
-			this.specialBackColor = SystemColors.Window;
-			this.normalBackColor = SystemColors.Window;
+			specialBackColor = SystemColors.Window;
+			normalBackColor = SystemColors.Window;
 
 			// set border values
-			this.specialBorder.Left = 1;
-			this.specialBorder.Top = 0;
-			this.specialBorder.Right = 1;
-			this.specialBorder.Bottom = 1;
+			specialBorder.Left = 1;
+			specialBorder.Top = 0;
+			specialBorder.Right = 1;
+			specialBorder.Bottom = 1;
 
-			this.specialBorderColor = SystemColors.Highlight;
+			specialBorderColor = SystemColors.Highlight;
 
-			this.normalBorder.Left = 1;
-			this.normalBorder.Top = 0;
-			this.normalBorder.Right = 1;
-			this.normalBorder.Bottom = 1;
+			normalBorder.Left = 1;
+			normalBorder.Top = 0;
+			normalBorder.Right = 1;
+			normalBorder.Bottom = 1;
 
-			this.normalBorderColor = SystemColors.Control;
+			normalBorderColor = SystemColors.Control;
 
 			// set padding values
-			this.specialPadding.Left = 12;
-			this.specialPadding.Top = 10;
-			this.specialPadding.Right = 12;
-			this.specialPadding.Bottom = 10;
+			specialPadding.Left = 12;
+			specialPadding.Top = 10;
+			specialPadding.Right = 12;
+			specialPadding.Bottom = 10;
 			
-			this.normalPadding.Left = 12;
-			this.normalPadding.Top = 10;
-			this.normalPadding.Right = 12;
-			this.normalPadding.Bottom = 10;
+			normalPadding.Left = 12;
+			normalPadding.Top = 10;
+			normalPadding.Right = 12;
+			normalPadding.Bottom = 10;
 
-			this.specialBackImage = null;
-			this.normalBackImage = null;
+			specialBackImage = null;
+			normalBackImage = null;
 
-			this.watermarkAlignment = ContentAlignment.BottomRight;
+			watermarkAlignment = ContentAlignment.BottomRight;
 		}
 
 
@@ -1799,24 +1797,24 @@ namespace XPExplorerBar
 		public void SetDefaultEmptyValues()
 		{
 			// set background color values
-			this.specialBackColor = Color.Empty;
-			this.normalBackColor = Color.Empty;
+			specialBackColor = Color.Empty;
+			normalBackColor = Color.Empty;
 
 			// set border values
-			this.specialBorder = Border.Empty;
-			this.specialBorderColor = Color.Empty;
+			specialBorder = Border.Empty;
+			specialBorderColor = Color.Empty;
 
-			this.normalBorder = Border.Empty;
-			this.normalBorderColor = Color.Empty;
+			normalBorder = Border.Empty;
+			normalBorderColor = Color.Empty;
 
 			// set padding values
-			this.specialPadding = Padding.Empty;
-			this.normalPadding = Padding.Empty;
+			specialPadding = Padding.Empty;
+			normalPadding = Padding.Empty;
 
-			this.specialBackImage = null;
-			this.normalBackImage = null;
+			specialBackImage = null;
+			normalBackImage = null;
 
-			this.watermarkAlignment = ContentAlignment.BottomRight;
+			watermarkAlignment = ContentAlignment.BottomRight;
 		}
 
 
@@ -1825,16 +1823,16 @@ namespace XPExplorerBar
 		/// </summary>
 		public void Dispose()
 		{
-			if (this.specialBackImage != null)
+			if (specialBackImage != null)
 			{
-				this.specialBackImage.Dispose();
-				this.specialBackImage = null;
+				specialBackImage.Dispose();
+				specialBackImage = null;
 			}
 
-			if (this.normalBackImage != null)
+			if (normalBackImage != null)
 			{
-				this.normalBackImage.Dispose();
-				this.normalBackImage = null;
+				normalBackImage.Dispose();
+				normalBackImage = null;
 			}
 		}
 
@@ -1853,18 +1851,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBackColor;
+				return specialBackColor;
 			}
 
 			set
 			{
-				if (this.specialBackColor != value)
+				if (specialBackColor != value)
 				{
-					this.specialBackColor = value;
+					specialBackColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1879,7 +1877,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialBackColor()
 		{
-			return this.SpecialBackColor != Color.Empty;
+			return SpecialBackColor != Color.Empty;
 		}
 
 
@@ -1891,18 +1889,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBackColor;
+				return normalBackColor;
 			}
 
 			set
 			{
-				if (this.normalBackColor != value)
+				if (normalBackColor != value)
 				{
-					this.normalBackColor = value;
+					normalBackColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1917,7 +1915,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalBackColor()
 		{
-			return this.NormalBackColor != Color.Empty;
+			return NormalBackColor != Color.Empty;
 		}
 
 		
@@ -1930,7 +1928,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.watermarkAlignment;
+				return watermarkAlignment;
 			}
 
 			set
@@ -1940,13 +1938,13 @@ namespace XPExplorerBar
 					throw new InvalidEnumArgumentException("value", (int) value, typeof(ContentAlignment));
 				}
 
-				if (this.watermarkAlignment != value)
+				if (watermarkAlignment != value)
 				{
-					this.watermarkAlignment = value;
+					watermarkAlignment = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -1962,14 +1960,14 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBackImage;
+				return specialBackImage;
 			}
 
 			set
 			{
-				if (this.specialBackImage != value)
+				if (specialBackImage != value)
 				{
-					this.specialBackImage = value;
+					specialBackImage = value;
 				}
 			}
 		}
@@ -1984,14 +1982,14 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBackImage;
+				return normalBackImage;
 			}
 
 			set
 			{
-				if (this.normalBackImage != value)
+				if (normalBackImage != value)
 				{
-					this.normalBackImage = value;
+					normalBackImage = value;
 				}
 			}
 		}
@@ -2008,18 +2006,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBorder;
+				return specialBorder;
 			}
 
 			set
 			{
-				if (this.specialBorder != value)
+				if (specialBorder != value)
 				{
-					this.specialBorder = value;
+					specialBorder = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -2034,7 +2032,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialBorder()
 		{
-			return this.SpecialBorder != Border.Empty;
+			return SpecialBorder != Border.Empty;
 		}
 
 
@@ -2046,18 +2044,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBorder;
+				return normalBorder;
 			}
 
 			set
 			{
-				if (this.normalBorder != value)
+				if (normalBorder != value)
 				{
-					this.normalBorder = value;
+					normalBorder = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -2072,7 +2070,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalBorder()
 		{
-			return this.NormalBorder != Border.Empty;
+			return NormalBorder != Border.Empty;
 		}
 
 
@@ -2084,18 +2082,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBorderColor;
+				return specialBorderColor;
 			}
 
 			set
 			{
-				if (this.specialBorderColor != value)
+				if (specialBorderColor != value)
 				{
-					this.specialBorderColor = value;
+					specialBorderColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -2110,7 +2108,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialBorderColor()
 		{
-			return this.SpecialBorderColor != Color.Empty;
+			return SpecialBorderColor != Color.Empty;
 		}
 
 
@@ -2122,18 +2120,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBorderColor;
+				return normalBorderColor;
 			}
 
 			set
 			{
-				if (this.normalBorderColor != value)
+				if (normalBorderColor != value)
 				{
-					this.normalBorderColor = value;
+					normalBorderColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -2148,7 +2146,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalBorderColor()
 		{
-			return this.NormalBorderColor != Color.Empty;
+			return NormalBorderColor != Color.Empty;
 		}
 
 		#endregion
@@ -2163,18 +2161,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialPadding;
+				return specialPadding;
 			}
 
 			set
 			{
-				if (this.specialPadding != value)
+				if (specialPadding != value)
 				{
-					this.specialPadding = value;
+					specialPadding = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -2189,7 +2187,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialPadding()
 		{
-			return this.SpecialPadding != Padding.Empty;
+			return SpecialPadding != Padding.Empty;
 		}
 		
 
@@ -2201,18 +2199,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalPadding;
+				return normalPadding;
 			}
 
 			set
 			{
-				if (this.normalPadding != value)
+				if (normalPadding != value)
 				{
-					this.normalPadding = value;
+					normalPadding = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -2227,7 +2225,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalPadding()
 		{
-			return this.NormalPadding != Padding.Empty;
+			return NormalPadding != Padding.Empty;
 		}
 
 		#endregion
@@ -2241,12 +2239,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.owner;
+				return owner;
 			}
 
 			set
 			{
-				this.owner = value;
+				owner = value;
 			}
 		}
 
@@ -2261,7 +2259,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of an ExpandoInfo (as 
 		/// ExpandoInfos contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable()]
+		[Serializable]
 			public class ExpandoInfoSurrogate : ISerializable
 		{
 			#region Class Data
@@ -2350,22 +2348,22 @@ namespace XPExplorerBar
 			/// </summary>
 			public ExpandoInfoSurrogate()
 			{
-				this.SpecialBackColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalBackColor = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialBackColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalBackColor = ThemeManager.ConvertColorToString(Color.Empty);
 
-				this.SpecialBorder = Border.Empty;
-				this.NormalBorder = Border.Empty;
+				SpecialBorder = Border.Empty;
+				NormalBorder = Border.Empty;
 
-				this.SpecialBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
 				
-				this.SpecialPadding = Padding.Empty;
-				this.NormalPadding = Padding.Empty;
+				SpecialPadding = Padding.Empty;
+				NormalPadding = Padding.Empty;
 
-				this.SpecialBackImage = new byte[0];
-				this.NormalBackImage = new byte[0];
+				SpecialBackImage = new byte[0];
+				NormalBackImage = new byte[0];
 
-				this.WatermarkAlignment = ContentAlignment.BottomRight;
+				WatermarkAlignment = ContentAlignment.BottomRight;
 			}
 
 			#endregion
@@ -2381,22 +2379,22 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(ExpandoInfo expandoInfo)
 			{
-				this.SpecialBackColor = ThemeManager.ConvertColorToString(expandoInfo.SpecialBackColor);
-				this.NormalBackColor =ThemeManager.ConvertColorToString( expandoInfo.NormalBackColor);
+				SpecialBackColor = ThemeManager.ConvertColorToString(expandoInfo.SpecialBackColor);
+				NormalBackColor =ThemeManager.ConvertColorToString( expandoInfo.NormalBackColor);
 
-				this.SpecialBorder = expandoInfo.SpecialBorder;
-				this.NormalBorder = expandoInfo.NormalBorder;
+				SpecialBorder = expandoInfo.SpecialBorder;
+				NormalBorder = expandoInfo.NormalBorder;
 
-				this.SpecialBorderColor = ThemeManager.ConvertColorToString(expandoInfo.SpecialBorderColor);
-				this.NormalBorderColor = ThemeManager.ConvertColorToString(expandoInfo.NormalBorderColor);
+				SpecialBorderColor = ThemeManager.ConvertColorToString(expandoInfo.SpecialBorderColor);
+				NormalBorderColor = ThemeManager.ConvertColorToString(expandoInfo.NormalBorderColor);
 
-				this.SpecialPadding = expandoInfo.SpecialPadding;
-				this.NormalPadding = expandoInfo.NormalPadding;
+				SpecialPadding = expandoInfo.SpecialPadding;
+				NormalPadding = expandoInfo.NormalPadding;
 
-				this.SpecialBackImage = ThemeManager.ConvertImageToByteArray(expandoInfo.SpecialBackImage);
-				this.NormalBackImage = ThemeManager.ConvertImageToByteArray(expandoInfo.NormalBackImage);
+				SpecialBackImage = ThemeManager.ConvertImageToByteArray(expandoInfo.SpecialBackImage);
+				NormalBackImage = ThemeManager.ConvertImageToByteArray(expandoInfo.NormalBackImage);
 
-				this.WatermarkAlignment = expandoInfo.WatermarkAlignment;
+				WatermarkAlignment = expandoInfo.WatermarkAlignment;
 			}
 
 
@@ -2408,22 +2406,22 @@ namespace XPExplorerBar
 			{
 				ExpandoInfo expandoInfo = new ExpandoInfo();
 
-				expandoInfo.SpecialBackColor = ThemeManager.ConvertStringToColor(this.SpecialBackColor);
-				expandoInfo.NormalBackColor = ThemeManager.ConvertStringToColor(this.NormalBackColor);
+				expandoInfo.SpecialBackColor = ThemeManager.ConvertStringToColor(SpecialBackColor);
+				expandoInfo.NormalBackColor = ThemeManager.ConvertStringToColor(NormalBackColor);
 
-				expandoInfo.SpecialBorder = this.SpecialBorder;
-				expandoInfo.NormalBorder = this.NormalBorder;
+				expandoInfo.SpecialBorder = SpecialBorder;
+				expandoInfo.NormalBorder = NormalBorder;
 
-				expandoInfo.SpecialBorderColor = ThemeManager.ConvertStringToColor(this.SpecialBorderColor);
-				expandoInfo.NormalBorderColor = ThemeManager.ConvertStringToColor(this.NormalBorderColor);
+				expandoInfo.SpecialBorderColor = ThemeManager.ConvertStringToColor(SpecialBorderColor);
+				expandoInfo.NormalBorderColor = ThemeManager.ConvertStringToColor(NormalBorderColor);
 				
-				expandoInfo.SpecialPadding = this.SpecialPadding;
-				expandoInfo.NormalPadding = this.NormalPadding;
+				expandoInfo.SpecialPadding = SpecialPadding;
+				expandoInfo.NormalPadding = NormalPadding;
 
-				expandoInfo.SpecialBackImage = ThemeManager.ConvertByteArrayToImage(this.SpecialBackImage);
-				expandoInfo.NormalBackImage = ThemeManager.ConvertByteArrayToImage(this.NormalBackImage);
+				expandoInfo.SpecialBackImage = ThemeManager.ConvertByteArrayToImage(SpecialBackImage);
+				expandoInfo.NormalBackImage = ThemeManager.ConvertByteArrayToImage(NormalBackImage);
 				
-				expandoInfo.WatermarkAlignment = this.WatermarkAlignment;
+				expandoInfo.WatermarkAlignment = WatermarkAlignment;
 				
 				return expandoInfo;
 			}
@@ -2437,24 +2435,24 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 				
-				info.AddValue("SpecialBackColor", this.SpecialBackColor);
-				info.AddValue("NormalBackColor", this.NormalBackColor);
+				info.AddValue("SpecialBackColor", SpecialBackColor);
+				info.AddValue("NormalBackColor", NormalBackColor);
 				
-				info.AddValue("SpecialBorder", this.SpecialBorder);
-				info.AddValue("NormalBorder", this.NormalBorder);
+				info.AddValue("SpecialBorder", SpecialBorder);
+				info.AddValue("NormalBorder", NormalBorder);
 				
-				info.AddValue("SpecialBorderColor", this.SpecialBorderColor);
-				info.AddValue("NormalBorderColor", this.NormalBorderColor);
+				info.AddValue("SpecialBorderColor", SpecialBorderColor);
+				info.AddValue("NormalBorderColor", NormalBorderColor);
 				
-				info.AddValue("SpecialPadding", this.SpecialPadding);
-				info.AddValue("NormalPadding", this.NormalPadding);
+				info.AddValue("SpecialPadding", SpecialPadding);
+				info.AddValue("NormalPadding", NormalPadding);
 				
-				info.AddValue("SpecialBackImage", this.SpecialBackImage);
-				info.AddValue("NormalBackImage", this.NormalBackImage);
+				info.AddValue("SpecialBackImage", SpecialBackImage);
+				info.AddValue("NormalBackImage", NormalBackImage);
 				
-				info.AddValue("WatermarkAlignment", this.WatermarkAlignment);
+				info.AddValue("WatermarkAlignment", WatermarkAlignment);
 			}
 
 
@@ -2465,26 +2463,26 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the ExpandoInfoSurrogate</param>
 			/// <param name="context">The source from which the ExpandoInfoSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected ExpandoInfoSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected ExpandoInfoSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 
-				this.SpecialBackColor = info.GetString("SpecialBackColor");
-				this.NormalBackColor = info.GetString("NormalBackColor");
+				SpecialBackColor = info.GetString("SpecialBackColor");
+				NormalBackColor = info.GetString("NormalBackColor");
 
-				this.SpecialBorder = (Border) info.GetValue("SpecialBorder", typeof(Border));
-				this.NormalBorder = (Border) info.GetValue("NormalBorder", typeof(Border));
+				SpecialBorder = (Border) info.GetValue("SpecialBorder", typeof(Border));
+				NormalBorder = (Border) info.GetValue("NormalBorder", typeof(Border));
 
-				this.SpecialBorderColor = info.GetString("SpecialBorderColor");
-				this.NormalBorderColor = info.GetString("NormalBorderColor");
+				SpecialBorderColor = info.GetString("SpecialBorderColor");
+				NormalBorderColor = info.GetString("NormalBorderColor");
 
-				this.SpecialPadding = (Padding) info.GetValue("SpecialPadding", typeof(Padding));
-				this.NormalPadding = (Padding) info.GetValue("NormalPadding", typeof(Padding));
+				SpecialPadding = (Padding) info.GetValue("SpecialPadding", typeof(Padding));
+				NormalPadding = (Padding) info.GetValue("NormalPadding", typeof(Padding));
 
-				this.SpecialBackImage = (byte[]) info.GetValue("SpecialBackImage", typeof(byte[]));
-				this.NormalBackImage = (byte[]) info.GetValue("NormalBackImage", typeof(byte[]));
+				SpecialBackImage = (byte[]) info.GetValue("SpecialBackImage", typeof(byte[]));
+				NormalBackImage = (byte[]) info.GetValue("NormalBackImage", typeof(byte[]));
 
-				this.WatermarkAlignment = (ContentAlignment) info.GetValue("WatermarkAlignment", typeof(ContentAlignment));
+				WatermarkAlignment = (ContentAlignment) info.GetValue("WatermarkAlignment", typeof(ContentAlignment));
 			}
 
 			#endregion
@@ -2794,68 +2792,68 @@ namespace XPExplorerBar
 			if (Environment.OSVersion.Version.Major >= 5)
 			{
 				// Win2k, XP, Server 2003
-				this.titleFont = new Font("Tahoma", 8.25f, FontStyle.Bold);
+				titleFont = new Font("Tahoma", 8.25f, FontStyle.Bold);
 			}
 			else
 			{
 				// Win9x, ME, NT
-				this.titleFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
+				titleFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
 			}
 
-			this.margin = 15;
+			margin = 15;
 
 			// set title colors and alignment
-			this.specialTitle = Color.Transparent;
-			this.specialTitleHot = Color.Transparent;
+			specialTitle = Color.Transparent;
+			specialTitleHot = Color.Transparent;
 			
-			this.normalTitle = Color.Transparent;
-			this.normalTitleHot = Color.Transparent;
+			normalTitle = Color.Transparent;
+			normalTitleHot = Color.Transparent;
 			
-			this.specialAlignment = ContentAlignment.MiddleLeft;
-			this.normalAlignment = ContentAlignment.MiddleLeft;
+			specialAlignment = ContentAlignment.MiddleLeft;
+			normalAlignment = ContentAlignment.MiddleLeft;
 
 			// set padding values
-			this.specialPadding = new Padding(10, 0, 1, 0);
-			this.normalPadding = new Padding(10, 0, 1, 0);
+			specialPadding = new Padding(10, 0, 1, 0);
+			normalPadding = new Padding(10, 0, 1, 0);
 
 			// set border values
-			this.specialBorder = new Border(2, 2, 2, 0);
-			this.specialBorderColor = Color.Transparent;
+			specialBorder = new Border(2, 2, 2, 0);
+			specialBorderColor = Color.Transparent;
 
-			this.normalBorder = new Border(2, 2, 2, 0);
-			this.normalBorderColor = Color.Transparent;
+			normalBorder = new Border(2, 2, 2, 0);
+			normalBorderColor = Color.Transparent;
 			
-			this.specialBackColor = Color.Transparent;
-			this.normalBackColor = Color.Transparent;
+			specialBackColor = Color.Transparent;
+			normalBackColor = Color.Transparent;
 
 			// set background image values
-			this.specialBackImage = null;
-			this.normalBackImage = null;
+			specialBackImage = null;
+			normalBackImage = null;
 
-			this.backImageWidth = -1;
-			this.backImageHeight = -1;
+			backImageWidth = -1;
+			backImageHeight = -1;
 
 			// set arrow values
-			this.specialArrowUp = null;
-			this.specialArrowUpHot = null;
-			this.specialArrowDown = null;
-			this.specialArrowDownHot = null;
+			specialArrowUp = null;
+			specialArrowUpHot = null;
+			specialArrowDown = null;
+			specialArrowDownHot = null;
 
-			this.normalArrowUp = null;
-			this.normalArrowUpHot = null;
-			this.normalArrowDown = null;
-			this.normalArrowDownHot = null;
+			normalArrowUp = null;
+			normalArrowUpHot = null;
+			normalArrowDown = null;
+			normalArrowDownHot = null;
 
-			this.useTitleGradient = false;
-			this.specialGradientStartColor = Color.White;
-			this.specialGradientEndColor = SystemColors.Highlight;
-			this.normalGradientStartColor = Color.White;
-			this.normalGradientEndColor = SystemColors.Highlight;
-			this.gradientOffset = 0.5f;
-			this.titleRadius = 5;
+			useTitleGradient = false;
+			specialGradientStartColor = Color.White;
+			specialGradientEndColor = SystemColors.Highlight;
+			normalGradientStartColor = Color.White;
+			normalGradientEndColor = SystemColors.Highlight;
+			gradientOffset = 0.5f;
+			titleRadius = 5;
 
-			this.owner = null;
-			this.rightToLeft = false;
+			owner = null;
+			rightToLeft = false;
 		}
 
 		#endregion
@@ -2872,81 +2870,81 @@ namespace XPExplorerBar
 			if (Environment.OSVersion.Version.Major >= 5)
 			{
 				// Win2k, XP, Server 2003
-				this.titleFont = new Font("Tahoma", 8.25f, FontStyle.Bold);
+				titleFont = new Font("Tahoma", 8.25f, FontStyle.Bold);
 			}
 			else
 			{
 				// Win9x, ME, NT
-				this.titleFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
+				titleFont = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Bold);
 			}
 
-			this.margin = 15;
+			margin = 15;
 
 			// set title colors and alignment
-			this.specialTitle = SystemColors.HighlightText;
-			this.specialTitleHot = SystemColors.HighlightText;
+			specialTitle = SystemColors.HighlightText;
+			specialTitleHot = SystemColors.HighlightText;
 			
-			this.normalTitle = SystemColors.ControlText;
-			this.normalTitleHot = SystemColors.ControlText;
+			normalTitle = SystemColors.ControlText;
+			normalTitleHot = SystemColors.ControlText;
 			
-			this.specialAlignment = ContentAlignment.MiddleLeft;
-			this.normalAlignment = ContentAlignment.MiddleLeft;
+			specialAlignment = ContentAlignment.MiddleLeft;
+			normalAlignment = ContentAlignment.MiddleLeft;
 
 			// set padding values
-			this.specialPadding.Left = 10;
-			this.specialPadding.Top = 0;
-			this.specialPadding.Right = 1;
-			this.specialPadding.Bottom = 0;
+			specialPadding.Left = 10;
+			specialPadding.Top = 0;
+			specialPadding.Right = 1;
+			specialPadding.Bottom = 0;
 
-			this.normalPadding.Left = 10;
-			this.normalPadding.Top = 0;
-			this.normalPadding.Right = 1;
-			this.normalPadding.Bottom = 0;
+			normalPadding.Left = 10;
+			normalPadding.Top = 0;
+			normalPadding.Right = 1;
+			normalPadding.Bottom = 0;
 
 			// set border values
-			this.specialBorder.Left = 2;
-			this.specialBorder.Top = 2;
-			this.specialBorder.Right = 2;
-			this.specialBorder.Bottom = 0;
+			specialBorder.Left = 2;
+			specialBorder.Top = 2;
+			specialBorder.Right = 2;
+			specialBorder.Bottom = 0;
 
-			this.specialBorderColor = SystemColors.Highlight;
-			this.specialBackColor = SystemColors.Highlight;
+			specialBorderColor = SystemColors.Highlight;
+			specialBackColor = SystemColors.Highlight;
 
-			this.normalBorder.Left = 2;
-			this.normalBorder.Top = 2;
-			this.normalBorder.Right = 2;
-			this.normalBorder.Bottom = 0;
+			normalBorder.Left = 2;
+			normalBorder.Top = 2;
+			normalBorder.Right = 2;
+			normalBorder.Bottom = 0;
 
-			this.normalBorderColor = SystemColors.Control;
-			this.normalBackColor = SystemColors.Control;
+			normalBorderColor = SystemColors.Control;
+			normalBackColor = SystemColors.Control;
 
 			// set background image values
-			this.specialBackImage = null;
-			this.normalBackImage = null;
+			specialBackImage = null;
+			normalBackImage = null;
 
-			this.backImageWidth = 186;
-			this.backImageHeight = 25;
+			backImageWidth = 186;
+			backImageHeight = 25;
 
 			// set arrow values
-			this.specialArrowUp = null;
-			this.specialArrowUpHot = null;
-			this.specialArrowDown = null;
-			this.specialArrowDownHot = null;
+			specialArrowUp = null;
+			specialArrowUpHot = null;
+			specialArrowDown = null;
+			specialArrowDownHot = null;
 
-			this.normalArrowUp = null;
-			this.normalArrowUpHot = null;
-			this.normalArrowDown = null;
-			this.normalArrowDownHot = null;
+			normalArrowUp = null;
+			normalArrowUpHot = null;
+			normalArrowDown = null;
+			normalArrowDownHot = null;
 
-			this.useTitleGradient = false;
-			this.specialGradientStartColor = Color.White;
-			this.specialGradientEndColor = SystemColors.Highlight;
-			this.normalGradientStartColor = Color.White;
-			this.normalGradientEndColor = SystemColors.Highlight;
-			this.gradientOffset = 0.5f;
-			this.titleRadius = 2;
+			useTitleGradient = false;
+			specialGradientStartColor = Color.White;
+			specialGradientEndColor = SystemColors.Highlight;
+			normalGradientStartColor = Color.White;
+			normalGradientEndColor = SystemColors.Highlight;
+			gradientOffset = 0.5f;
+			titleRadius = 2;
 
-			this.rightToLeft = false;
+			rightToLeft = false;
 		}
 		
 
@@ -2956,60 +2954,60 @@ namespace XPExplorerBar
 		public void SetDefaultEmptyValues()
 		{
 			// work out the default font name for the user's os
-			this.titleFont = null;
+			titleFont = null;
 
-			this.margin = 15;
+			margin = 15;
 
 			// set title colors and alignment
-			this.specialTitle = Color.Empty;
-			this.specialTitleHot = Color.Empty;
+			specialTitle = Color.Empty;
+			specialTitleHot = Color.Empty;
 			
-			this.normalTitle = Color.Empty;
-			this.normalTitleHot = Color.Empty;
+			normalTitle = Color.Empty;
+			normalTitleHot = Color.Empty;
 			
-			this.specialAlignment = ContentAlignment.MiddleLeft;
-			this.normalAlignment = ContentAlignment.MiddleLeft;
+			specialAlignment = ContentAlignment.MiddleLeft;
+			normalAlignment = ContentAlignment.MiddleLeft;
 
 			// set padding values
-			this.specialPadding = Padding.Empty;
-			this.normalPadding = Padding.Empty;
+			specialPadding = Padding.Empty;
+			normalPadding = Padding.Empty;
 
 			// set border values
-			this.specialBorder = Border.Empty;
-			this.specialBorderColor = Color.Empty;
-			this.specialBackColor = Color.Empty;
+			specialBorder = Border.Empty;
+			specialBorderColor = Color.Empty;
+			specialBackColor = Color.Empty;
 
-			this.normalBorder = Border.Empty;
-			this.normalBorderColor = Color.Empty;
-			this.normalBackColor = Color.Empty;
+			normalBorder = Border.Empty;
+			normalBorderColor = Color.Empty;
+			normalBackColor = Color.Empty;
 
 			// set background image values
-			this.specialBackImage = null;
-			this.normalBackImage = null;
+			specialBackImage = null;
+			normalBackImage = null;
 
-			this.backImageWidth = 186;
-			this.backImageHeight = 25;
+			backImageWidth = 186;
+			backImageHeight = 25;
 
 			// set arrow values
-			this.specialArrowUp = null;
-			this.specialArrowUpHot = null;
-			this.specialArrowDown = null;
-			this.specialArrowDownHot = null;
+			specialArrowUp = null;
+			specialArrowUpHot = null;
+			specialArrowDown = null;
+			specialArrowDownHot = null;
 
-			this.normalArrowUp = null;
-			this.normalArrowUpHot = null;
-			this.normalArrowDown = null;
-			this.normalArrowDownHot = null;
+			normalArrowUp = null;
+			normalArrowUpHot = null;
+			normalArrowDown = null;
+			normalArrowDownHot = null;
 
-			this.useTitleGradient = false;
-			this.specialGradientStartColor = Color.Empty;
-			this.specialGradientEndColor = Color.Empty;
-			this.normalGradientStartColor = Color.Empty;
-			this.normalGradientEndColor = Color.Empty;
-			this.gradientOffset = 0.5f;
-			this.titleRadius = 2;
+			useTitleGradient = false;
+			specialGradientStartColor = Color.Empty;
+			specialGradientEndColor = Color.Empty;
+			normalGradientStartColor = Color.Empty;
+			normalGradientEndColor = Color.Empty;
+			gradientOffset = 0.5f;
+			titleRadius = 2;
 
-			this.rightToLeft = false;
+			rightToLeft = false;
 		}
 
 
@@ -3018,65 +3016,65 @@ namespace XPExplorerBar
 		/// </summary>
 		public void Dispose()
 		{
-			if (this.specialBackImage != null)
+			if (specialBackImage != null)
 			{
-				this.specialBackImage.Dispose();
-				this.specialBackImage = null;
+				specialBackImage.Dispose();
+				specialBackImage = null;
 			}
 
-			if (this.normalBackImage != null)
+			if (normalBackImage != null)
 			{
-				this.normalBackImage.Dispose();
-				this.normalBackImage = null;
+				normalBackImage.Dispose();
+				normalBackImage = null;
 			}
 
 
-			if (this.specialArrowUp != null)
+			if (specialArrowUp != null)
 			{
-				this.specialArrowUp.Dispose();
-				this.specialArrowUp = null;
+				specialArrowUp.Dispose();
+				specialArrowUp = null;
 			}
 
-			if (this.specialArrowUpHot != null)
+			if (specialArrowUpHot != null)
 			{
-				this.specialArrowUpHot.Dispose();
-				this.specialArrowUpHot = null;
+				specialArrowUpHot.Dispose();
+				specialArrowUpHot = null;
 			}
 
-			if (this.specialArrowDown != null)
+			if (specialArrowDown != null)
 			{
-				this.specialArrowDown.Dispose();
-				this.specialArrowDown = null;
+				specialArrowDown.Dispose();
+				specialArrowDown = null;
 			}
 
-			if (this.specialArrowDownHot != null)
+			if (specialArrowDownHot != null)
 			{
-				this.specialArrowDownHot.Dispose();
-				this.specialArrowDownHot = null;
+				specialArrowDownHot.Dispose();
+				specialArrowDownHot = null;
 			}
 			
-			if (this.normalArrowUp != null)
+			if (normalArrowUp != null)
 			{
-				this.normalArrowUp.Dispose();
-				this.normalArrowUp = null;
+				normalArrowUp.Dispose();
+				normalArrowUp = null;
 			}
 
-			if (this.normalArrowUpHot != null)
+			if (normalArrowUpHot != null)
 			{
-				this.normalArrowUpHot.Dispose();
-				this.normalArrowUpHot = null;
+				normalArrowUpHot.Dispose();
+				normalArrowUpHot = null;
 			}
 
-			if (this.normalArrowDown != null)
+			if (normalArrowDown != null)
 			{
-				this.normalArrowDown.Dispose();
-				this.normalArrowDown = null;
+				normalArrowDown.Dispose();
+				normalArrowDown = null;
 			}
 
-			if (this.normalArrowDownHot != null)
+			if (normalArrowDownHot != null)
 			{
-				this.normalArrowDownHot.Dispose();
-				this.normalArrowDownHot = null;
+				normalArrowDownHot.Dispose();
+				normalArrowDownHot = null;
 			}
 		}
 
@@ -3095,18 +3093,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBorder;
+				return specialBorder;
 			}
 
 			set
 			{
-				if (this.specialBorder != value)
+				if (specialBorder != value)
 				{
-					this.specialBorder = value;
+					specialBorder = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3121,7 +3119,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialBorder()
 		{
-			return this.SpecialBorder != Border.Empty;
+			return SpecialBorder != Border.Empty;
 		}
 
 
@@ -3133,18 +3131,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBorderColor;
+				return specialBorderColor;
 			}
 
 			set
 			{
-				if (this.specialBorderColor != value)
+				if (specialBorderColor != value)
 				{
-					this.specialBorderColor = value;
+					specialBorderColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3159,7 +3157,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialBorderColor()
 		{
-			return this.SpecialBorderColor != Color.Empty;
+			return SpecialBorderColor != Color.Empty;
 		}
 
 
@@ -3171,18 +3169,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBackColor;
+				return specialBackColor;
 			}
 
 			set
 			{
-				if (this.specialBackColor != value)
+				if (specialBackColor != value)
 				{
-					this.specialBackColor = value;
+					specialBackColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3197,7 +3195,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialBackColor()
 		{
-			return this.SpecialBackColor != Color.Empty;
+			return SpecialBackColor != Color.Empty;
 		}
 
 
@@ -3209,18 +3207,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBorder;
+				return normalBorder;
 			}
 
 			set
 			{
-				if (this.normalBorder != value)
+				if (normalBorder != value)
 				{
-					this.normalBorder = value;
+					normalBorder = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3235,7 +3233,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalBorder()
 		{
-			return this.NormalBorder != Border.Empty;
+			return NormalBorder != Border.Empty;
 		}
 
 
@@ -3247,18 +3245,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBorderColor;
+				return normalBorderColor;
 			}
 
 			set
 			{
-				if (this.normalBorderColor != value)
+				if (normalBorderColor != value)
 				{
-					this.normalBorderColor = value;
+					normalBorderColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3273,7 +3271,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalBorderColor()
 		{
-			return this.NormalBorderColor != Color.Empty;
+			return NormalBorderColor != Color.Empty;
 		}
 
 
@@ -3285,18 +3283,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBackColor;
+				return normalBackColor;
 			}
 
 			set
 			{
-				if (this.normalBackColor != value)
+				if (normalBackColor != value)
 				{
-					this.normalBackColor = value;
+					normalBackColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3311,7 +3309,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalBackColor()
 		{
-			return this.NormalBackColor != Color.Empty;
+			return NormalBackColor != Color.Empty;
 		}
 
 		#endregion
@@ -3327,18 +3325,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.titleFont;
+				return titleFont;
 			}
 
 			set
 			{
-				if (this.titleFont != value)
+				if (titleFont != value)
 				{
-					this.titleFont = value;
+					titleFont = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3352,12 +3350,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.TitleFont.Name;
+				return TitleFont.Name;
 			}
 
 			set
 			{
-				this.TitleFont = new Font(value, this.TitleFont.SizeInPoints, this.TitleFont.Style);
+				TitleFont = new Font(value, TitleFont.SizeInPoints, TitleFont.Style);
 			}
 		}
 
@@ -3369,12 +3367,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.TitleFont.SizeInPoints;
+				return TitleFont.SizeInPoints;
 			}
 
 			set
 			{
-				this.TitleFont = new Font(this.TitleFont.Name, value, this.TitleFont.Style);
+				TitleFont = new Font(TitleFont.Name, value, TitleFont.Style);
 			}
 		}
 
@@ -3386,14 +3384,14 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.TitleFont.Style;
+				return TitleFont.Style;
 			}
 
 			set
 			{
-				value |= this.TitleFont.Style;
+				value |= TitleFont.Style;
 				
-				this.TitleFont = new Font(this.TitleFont.Name, this.TitleFont.SizeInPoints, value);
+				TitleFont = new Font(TitleFont.Name, TitleFont.SizeInPoints, value);
 			}
 		}
 		
@@ -3405,14 +3403,14 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.TitleFont.Style;
+				return TitleFont.Style;
 			}
 
 			set
 			{
-				value |= this.TitleFont.Style;
+				value |= TitleFont.Style;
 				
-				this.TitleFont = new Font(this.TitleFont.Name, this.TitleFont.SizeInPoints, value);
+				TitleFont = new Font(TitleFont.Name, TitleFont.SizeInPoints, value);
 			}
 		}
 
@@ -3429,24 +3427,24 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialBackImage;
+				return specialBackImage;
 			}
 
 			set
 			{
-				if (this.specialBackImage != value)
+				if (specialBackImage != value)
 				{
-					this.specialBackImage = value;
+					specialBackImage = value;
 
 					if (value!= null)
 					{
-						this.backImageWidth = value.Width;
-						this.backImageHeight = value.Height;
+						backImageWidth = value.Width;
+						backImageHeight = value.Height;
 					}
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3462,24 +3460,24 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalBackImage;
+				return normalBackImage;
 			}
 
 			set
 			{
-				if (this.normalBackImage != value)
+				if (normalBackImage != value)
 				{
-					this.normalBackImage = value;
+					normalBackImage = value;
 
 					if (value!= null)
 					{
-						this.backImageWidth = value.Width;
-						this.backImageHeight = value.Height;
+						backImageWidth = value.Width;
+						backImageHeight = value.Height;
 					}
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3493,17 +3491,17 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.backImageWidth == -1)
+				if (backImageWidth == -1)
 				{
 					return 186;
 				}
 				
-				return this.backImageWidth;
+				return backImageWidth;
 			}
 
 			set
 			{
-				this.backImageWidth = value;
+				backImageWidth = value;
 			}
 		}
 
@@ -3515,17 +3513,17 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.backImageHeight < 23)
+				if (backImageHeight < 23)
 				{
 					return 23;
 				}
 				
-				return this.backImageHeight;
+				return backImageHeight;
 			}
 
 			set
 			{
-				this.backImageHeight = value;
+				backImageHeight = value;
 			}
 		}
 		
@@ -3539,18 +3537,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialArrowUp;
+				return specialArrowUp;
 			}
 
 			set
 			{
-				if (this.specialArrowUp != value)
+				if (specialArrowUp != value)
 				{
-					this.specialArrowUp = value;
+					specialArrowUp = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3566,18 +3564,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialArrowUpHot;
+				return specialArrowUpHot;
 			}
 
 			set
 			{
-				if (this.specialArrowUpHot != value)
+				if (specialArrowUpHot != value)
 				{
-					this.specialArrowUpHot = value;
+					specialArrowUpHot = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3593,18 +3591,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialArrowDown;
+				return specialArrowDown;
 			}
 
 			set
 			{
-				if (this.specialArrowDown != value)
+				if (specialArrowDown != value)
 				{
-					this.specialArrowDown = value;
+					specialArrowDown = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3620,18 +3618,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialArrowDownHot;
+				return specialArrowDownHot;
 			}
 
 			set
 			{
-				if (this.specialArrowDownHot != value)
+				if (specialArrowDownHot != value)
 				{
-					this.specialArrowDownHot = value;
+					specialArrowDownHot = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3647,18 +3645,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalArrowUp;
+				return normalArrowUp;
 			}
 
 			set
 			{
-				if (this.normalArrowUp != value)
+				if (normalArrowUp != value)
 				{
-					this.normalArrowUp = value;
+					normalArrowUp = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3674,18 +3672,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalArrowUpHot;
+				return normalArrowUpHot;
 			}
 
 			set
 			{
-				if (this.normalArrowUpHot != value)
+				if (normalArrowUpHot != value)
 				{
-					this.normalArrowUpHot = value;
+					normalArrowUpHot = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3701,18 +3699,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalArrowDown;
+				return normalArrowDown;
 			}
 
 			set
 			{
-				if (this.normalArrowDown != value)
+				if (normalArrowDown != value)
 				{
-					this.normalArrowDown = value;
+					normalArrowDown = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3728,18 +3726,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalArrowDownHot;
+				return normalArrowDownHot;
 			}
 
 			set
 			{
-				if (this.normalArrowDownHot != value)
+				if (normalArrowDownHot != value)
 				{
-					this.normalArrowDownHot = value;
+					normalArrowDownHot = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3752,20 +3750,20 @@ namespace XPExplorerBar
 		internal void SetUnthemedArrowImages()
 		{
 			// get the arrow images resource
-			System.Reflection.Assembly myAssembly;
-			myAssembly = this.GetType().Assembly;
+			Assembly myAssembly;
+			myAssembly = GetType().Assembly;
 			ResourceManager myManager = new ResourceManager("XPExplorerBar.ExpandoArrows", myAssembly);
 				
 			// set the arrow images
-			this.specialArrowDown = new Bitmap((Image) myManager.GetObject("SPECIALGROUPEXPAND"));
-			this.specialArrowDownHot = new Bitmap((Image) myManager.GetObject("SPECIALGROUPEXPANDHOT"));
-			this.specialArrowUp = new Bitmap((Image) myManager.GetObject("SPECIALGROUPCOLLAPSE"));
-			this.specialArrowUpHot = new Bitmap((Image) myManager.GetObject("SPECIALGROUPCOLLAPSEHOT"));
+			specialArrowDown = new Bitmap((Image) myManager.GetObject("SPECIALGROUPEXPAND"));
+			specialArrowDownHot = new Bitmap((Image) myManager.GetObject("SPECIALGROUPEXPANDHOT"));
+			specialArrowUp = new Bitmap((Image) myManager.GetObject("SPECIALGROUPCOLLAPSE"));
+			specialArrowUpHot = new Bitmap((Image) myManager.GetObject("SPECIALGROUPCOLLAPSEHOT"));
 				
-			this.normalArrowDown = new Bitmap((Image) myManager.GetObject("NORMALGROUPEXPAND"));
-			this.normalArrowDownHot = new Bitmap((Image) myManager.GetObject("NORMALGROUPEXPANDHOT"));
-			this.normalArrowUp = new Bitmap((Image) myManager.GetObject("NORMALGROUPCOLLAPSE"));
-			this.normalArrowUpHot = new Bitmap((Image) myManager.GetObject("NORMALGROUPCOLLAPSEHOT"));
+			normalArrowDown = new Bitmap((Image) myManager.GetObject("NORMALGROUPEXPAND"));
+			normalArrowDownHot = new Bitmap((Image) myManager.GetObject("NORMALGROUPEXPANDHOT"));
+			normalArrowUp = new Bitmap((Image) myManager.GetObject("NORMALGROUPCOLLAPSE"));
+			normalArrowUpHot = new Bitmap((Image) myManager.GetObject("NORMALGROUPCOLLAPSEHOT"));
 		}
 
 		#endregion
@@ -3781,18 +3779,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.margin;
+				return margin;
 			}
 
 			set
 			{
-				if (this.margin != value)
+				if (margin != value)
 				{
-					this.margin = value;
+					margin = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3810,18 +3808,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialPadding;
+				return specialPadding;
 			}
 
 			set
 			{
-				if (this.specialPadding != value)
+				if (specialPadding != value)
 				{
-					this.specialPadding = value;
+					specialPadding = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3836,7 +3834,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialPadding()
 		{
-			return this.SpecialPadding != Padding.Empty;
+			return SpecialPadding != Padding.Empty;
 		}
 
 
@@ -3848,18 +3846,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalPadding;
+				return normalPadding;
 			}
 
 			set
 			{
-				if (this.normalPadding != value)
+				if (normalPadding != value)
 				{
-					this.normalPadding = value;
+					normalPadding = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3874,7 +3872,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalPadding()
 		{
-			return this.NormalPadding != Padding.Empty;
+			return NormalPadding != Padding.Empty;
 		}
 
 		#endregion
@@ -3890,25 +3888,25 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialTitle;
+				return specialTitle;
 			}
 
 			set
 			{
-				if (this.specialTitle != value)
+				if (specialTitle != value)
 				{
-					this.specialTitle = value;
+					specialTitle = value;
 
 					// set the SpecialTitleHotColor as well just in case
 					// it isn't/wasn't set during UIFILE parsing
-					if (this.SpecialTitleHotColor == Color.Transparent)
+					if (SpecialTitleHotColor == Color.Transparent)
 					{
-						this.SpecialTitleHotColor = value;
+						SpecialTitleHotColor = value;
 					}
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3923,7 +3921,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialTitleColor()
 		{
-			return this.SpecialTitleColor != Color.Empty;
+			return SpecialTitleColor != Color.Empty;
 		}
 
 
@@ -3936,18 +3934,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialTitleHot;
+				return specialTitleHot;
 			}
 
 			set
 			{
-				if (this.specialTitleHot != value)
+				if (specialTitleHot != value)
 				{
-					this.specialTitleHot = value;
+					specialTitleHot = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -3962,7 +3960,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialTitleHotColor()
 		{
-			return this.SpecialTitleHotColor != Color.Empty;
+			return SpecialTitleHotColor != Color.Empty;
 		}
 
 
@@ -3975,25 +3973,25 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalTitle;
+				return normalTitle;
 			}
 
 			set
 			{
-				if (this.normalTitle != value)
+				if (normalTitle != value)
 				{
-					this.normalTitle = value;
+					normalTitle = value;
 
 					// set the NormalTitleHotColor as well just in case
 					// it isn't/wasn't set during UIFILE parsing
-					if (this.NormalTitleHotColor == Color.Transparent)
+					if (NormalTitleHotColor == Color.Transparent)
 					{
-						this.NormalTitleHotColor = value;
+						NormalTitleHotColor = value;
 					}
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4008,7 +4006,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalTitleColor()
 		{
-			return this.NormalTitleColor != Color.Empty;
+			return NormalTitleColor != Color.Empty;
 		}
 
 
@@ -4021,18 +4019,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalTitleHot;
+				return normalTitleHot;
 			}
 
 			set
 			{
-				if (this.normalTitleHot != value)
+				if (normalTitleHot != value)
 				{
-					this.normalTitleHot = value;
+					normalTitleHot = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4047,7 +4045,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalTitleHotColor()
 		{
-			return this.NormalTitleHotColor != Color.Empty;
+			return NormalTitleHotColor != Color.Empty;
 		}
 
 
@@ -4060,7 +4058,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialAlignment;
+				return specialAlignment;
 			}
 
 			set
@@ -4070,13 +4068,13 @@ namespace XPExplorerBar
 					throw new InvalidEnumArgumentException("value", (int) value, typeof(ContentAlignment));
 				}
 
-				if (this.specialAlignment != value)
+				if (specialAlignment != value)
 				{
-					this.specialAlignment = value;
+					specialAlignment = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4092,7 +4090,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalAlignment;
+				return normalAlignment;
 			}
 
 			set
@@ -4102,13 +4100,13 @@ namespace XPExplorerBar
 					throw new InvalidEnumArgumentException("value", (int) value, typeof(ContentAlignment));
 				}
 
-				if (this.normalAlignment != value)
+				if (normalAlignment != value)
 				{
-					this.normalAlignment = value;
+					normalAlignment = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4124,18 +4122,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.useTitleGradient;
+				return useTitleGradient;
 			}
 
 			set
 			{
-				if (this.useTitleGradient != value)
+				if (useTitleGradient != value)
 				{
-					this.useTitleGradient = value;
+					useTitleGradient = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4151,18 +4149,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialGradientStartColor;
+				return specialGradientStartColor;
 			}
 
 			set
 			{
-				if (this.specialGradientStartColor != value)
+				if (specialGradientStartColor != value)
 				{
-					this.specialGradientStartColor = value;
+					specialGradientStartColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4177,7 +4175,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialGradientStartColor()
 		{
-			return this.SpecialGradientStartColor != Color.Empty;
+			return SpecialGradientStartColor != Color.Empty;
 		}
 
 
@@ -4190,18 +4188,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialGradientEndColor;
+				return specialGradientEndColor;
 			}
 
 			set
 			{
-				if (this.specialGradientEndColor != value)
+				if (specialGradientEndColor != value)
 				{
-					this.specialGradientEndColor = value;
+					specialGradientEndColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4216,7 +4214,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSpecialGradientEndColor()
 		{
-			return this.SpecialGradientEndColor != Color.Empty;
+			return SpecialGradientEndColor != Color.Empty;
 		}
 
 
@@ -4229,18 +4227,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalGradientStartColor;
+				return normalGradientStartColor;
 			}
 
 			set
 			{
-				if (this.normalGradientStartColor != value)
+				if (normalGradientStartColor != value)
 				{
-					this.normalGradientStartColor = value;
+					normalGradientStartColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4255,7 +4253,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalGradientStartColor()
 		{
-			return this.NormalGradientStartColor != Color.Empty;
+			return NormalGradientStartColor != Color.Empty;
 		}
 
 
@@ -4268,18 +4266,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.normalGradientEndColor;
+				return normalGradientEndColor;
 			}
 
 			set
 			{
-				if (this.normalGradientEndColor != value)
+				if (normalGradientEndColor != value)
 				{
-					this.normalGradientEndColor = value;
+					normalGradientEndColor = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4294,7 +4292,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeNormalGradientEndColor()
 		{
-			return this.NormalGradientEndColor != Color.Empty;
+			return NormalGradientEndColor != Color.Empty;
 		}
 
 
@@ -4307,7 +4305,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.gradientOffset;
+				return gradientOffset;
 			}
 
 			set
@@ -4321,13 +4319,13 @@ namespace XPExplorerBar
 					value = 1f;
 				}
 				
-				if (this.gradientOffset != value)
+				if (gradientOffset != value)
 				{
-					this.gradientOffset = value;
+					gradientOffset = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4343,7 +4341,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.titleRadius;
+				return titleRadius;
 			}
 
 			set
@@ -4352,18 +4350,18 @@ namespace XPExplorerBar
 				{
 					value = 0;
 				}
-				else if (value > this.BackImageHeight)
+				else if (value > BackImageHeight)
 				{
-					value = this.BackImageHeight;
+					value = BackImageHeight;
 				}
 				
-				if (this.titleRadius != value)
+				if (titleRadius != value)
 				{
-					this.titleRadius = value;
+					titleRadius = value;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.FireCustomSettingsChanged(EventArgs.Empty);
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
 					}
 				}
 			}
@@ -4380,12 +4378,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.owner;
+				return owner;
 			}
 
 			set
 			{
-				this.owner = value;
+				owner = value;
 			}
 		}
 
@@ -4397,12 +4395,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.rightToLeft;
+				return rightToLeft;
 			}
 
 			set
 			{
-				this.rightToLeft = value;
+				rightToLeft = value;
 			}
 		}
 
@@ -4417,7 +4415,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of a HeaderInfo (as 
 		/// HeaderInfos contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable()]
+		[Serializable]
 			public class HeaderInfoSurrogate : ISerializable
 		{
 			#region Class Data
@@ -4658,48 +4656,48 @@ namespace XPExplorerBar
 			/// </summary>
 			public HeaderInfoSurrogate()
 			{
-				this.FontName = null;
-				this.FontSize = 8.25f;
-				this.FontStyle = FontStyle.Regular;
-				this.Margin = 15;
+				FontName = null;
+				FontSize = 8.25f;
+				FontStyle = FontStyle.Regular;
+				Margin = 15;
 
-				this.SpecialBackImage = new byte[0];
-				this.NormalBackImage = new byte[0];
+				SpecialBackImage = new byte[0];
+				NormalBackImage = new byte[0];
 
-				this.SpecialTitle = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalTitle = ThemeManager.ConvertColorToString(Color.Empty);
-				this.SpecialTitleHot = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalTitleHot = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialTitle = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalTitle = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialTitleHot = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalTitleHot = ThemeManager.ConvertColorToString(Color.Empty);
 
-				this.SpecialAlignment = ContentAlignment.MiddleLeft;
-				this.NormalAlignment = ContentAlignment.MiddleLeft;
+				SpecialAlignment = ContentAlignment.MiddleLeft;
+				NormalAlignment = ContentAlignment.MiddleLeft;
 
-				this.SpecialPadding = Padding.Empty;
-				this.NormalPadding = Padding.Empty;
+				SpecialPadding = Padding.Empty;
+				NormalPadding = Padding.Empty;
 
-				this.SpecialBorder = Border.Empty;
-				this.NormalBorder = Border.Empty;
-				this.SpecialBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialBorder = Border.Empty;
+				NormalBorder = Border.Empty;
+				SpecialBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalBorderColor = ThemeManager.ConvertColorToString(Color.Empty);
 				
-				this.SpecialBackColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalBackColor = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialBackColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalBackColor = ThemeManager.ConvertColorToString(Color.Empty);
 
-				this.SpecialArrowUp = new byte[0];
-				this.SpecialArrowUpHot = new byte[0];
-				this.SpecialArrowDown = new byte[0];
-				this.SpecialArrowDownHot = new byte[0];
-				this.NormalArrowUp = new byte[0];
-				this.NormalArrowUpHot = new byte[0];
-				this.NormalArrowDown = new byte[0];
-				this.NormalArrowDownHot = new byte[0];
+				SpecialArrowUp = new byte[0];
+				SpecialArrowUpHot = new byte[0];
+				SpecialArrowDown = new byte[0];
+				SpecialArrowDownHot = new byte[0];
+				NormalArrowUp = new byte[0];
+				NormalArrowUpHot = new byte[0];
+				NormalArrowDown = new byte[0];
+				NormalArrowDownHot = new byte[0];
 
-				this.TitleGradient = false;
-				this.SpecialGradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.SpecialGradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalGradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.NormalGradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
-				this.GradientOffset = 0.5f;
+				TitleGradient = false;
+				SpecialGradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialGradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalGradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalGradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
+				GradientOffset = 0.5f;
 			}
 
 			#endregion
@@ -4717,50 +4715,50 @@ namespace XPExplorerBar
 			{
 				if (headerInfo.TitleFont != null)
 				{
-					this.FontName = headerInfo.TitleFont.Name;
-					this.FontSize = headerInfo.TitleFont.SizeInPoints;
-					this.FontStyle = headerInfo.TitleFont.Style;
+					FontName = headerInfo.TitleFont.Name;
+					FontSize = headerInfo.TitleFont.SizeInPoints;
+					FontStyle = headerInfo.TitleFont.Style;
 				}
 
-				this.Margin = headerInfo.Margin;
+				Margin = headerInfo.Margin;
 
-				this.SpecialBackImage = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialBackImage);
-				this.NormalBackImage = ThemeManager.ConvertImageToByteArray(headerInfo.NormalBackImage);
+				SpecialBackImage = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialBackImage);
+				NormalBackImage = ThemeManager.ConvertImageToByteArray(headerInfo.NormalBackImage);
 
-				this.SpecialTitle = ThemeManager.ConvertColorToString(headerInfo.SpecialTitleColor);
-				this.NormalTitle = ThemeManager.ConvertColorToString(headerInfo.NormalTitleColor);
-				this.SpecialTitleHot = ThemeManager.ConvertColorToString(headerInfo.SpecialTitleHotColor);
-				this.NormalTitleHot = ThemeManager.ConvertColorToString(headerInfo.NormalTitleHotColor);
+				SpecialTitle = ThemeManager.ConvertColorToString(headerInfo.SpecialTitleColor);
+				NormalTitle = ThemeManager.ConvertColorToString(headerInfo.NormalTitleColor);
+				SpecialTitleHot = ThemeManager.ConvertColorToString(headerInfo.SpecialTitleHotColor);
+				NormalTitleHot = ThemeManager.ConvertColorToString(headerInfo.NormalTitleHotColor);
 
-				this.SpecialAlignment = headerInfo.SpecialAlignment;
-				this.NormalAlignment = headerInfo.NormalAlignment;
+				SpecialAlignment = headerInfo.SpecialAlignment;
+				NormalAlignment = headerInfo.NormalAlignment;
 
-				this.SpecialPadding = headerInfo.SpecialPadding;
-				this.NormalPadding = headerInfo.NormalPadding;
+				SpecialPadding = headerInfo.SpecialPadding;
+				NormalPadding = headerInfo.NormalPadding;
 
-				this.SpecialBorder = headerInfo.SpecialBorder;
-				this.NormalBorder = headerInfo.NormalBorder;
-				this.SpecialBorderColor = ThemeManager.ConvertColorToString(headerInfo.SpecialBorderColor);
-				this.NormalBorderColor = ThemeManager.ConvertColorToString(headerInfo.NormalBorderColor);
+				SpecialBorder = headerInfo.SpecialBorder;
+				NormalBorder = headerInfo.NormalBorder;
+				SpecialBorderColor = ThemeManager.ConvertColorToString(headerInfo.SpecialBorderColor);
+				NormalBorderColor = ThemeManager.ConvertColorToString(headerInfo.NormalBorderColor);
 				
-				this.SpecialBackColor = ThemeManager.ConvertColorToString(headerInfo.SpecialBackColor);
-				this.NormalBackColor = ThemeManager.ConvertColorToString(headerInfo.NormalBackColor);
+				SpecialBackColor = ThemeManager.ConvertColorToString(headerInfo.SpecialBackColor);
+				NormalBackColor = ThemeManager.ConvertColorToString(headerInfo.NormalBackColor);
 
-				this.SpecialArrowUp = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowUp);
-				this.SpecialArrowUpHot = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowUpHot);
-				this.SpecialArrowDown = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowDown);
-				this.SpecialArrowDownHot = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowDownHot);
-				this.NormalArrowUp = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowUp);
-				this.NormalArrowUpHot = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowUpHot);
-				this.NormalArrowDown = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowDown);
-				this.NormalArrowDownHot = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowDownHot);
+				SpecialArrowUp = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowUp);
+				SpecialArrowUpHot = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowUpHot);
+				SpecialArrowDown = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowDown);
+				SpecialArrowDownHot = ThemeManager.ConvertImageToByteArray(headerInfo.SpecialArrowDownHot);
+				NormalArrowUp = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowUp);
+				NormalArrowUpHot = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowUpHot);
+				NormalArrowDown = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowDown);
+				NormalArrowDownHot = ThemeManager.ConvertImageToByteArray(headerInfo.NormalArrowDownHot);
 
-				this.TitleGradient = headerInfo.TitleGradient;
-				this.SpecialGradientStartColor = ThemeManager.ConvertColorToString(headerInfo.SpecialGradientStartColor);
-				this.SpecialGradientEndColor = ThemeManager.ConvertColorToString(headerInfo.SpecialGradientEndColor);
-				this.NormalGradientStartColor = ThemeManager.ConvertColorToString(headerInfo.NormalGradientStartColor);
-				this.NormalGradientEndColor = ThemeManager.ConvertColorToString(headerInfo.NormalGradientEndColor);
-				this.GradientOffset = headerInfo.GradientOffset;
+				TitleGradient = headerInfo.TitleGradient;
+				SpecialGradientStartColor = ThemeManager.ConvertColorToString(headerInfo.SpecialGradientStartColor);
+				SpecialGradientEndColor = ThemeManager.ConvertColorToString(headerInfo.SpecialGradientEndColor);
+				NormalGradientStartColor = ThemeManager.ConvertColorToString(headerInfo.NormalGradientStartColor);
+				NormalGradientEndColor = ThemeManager.ConvertColorToString(headerInfo.NormalGradientEndColor);
+				GradientOffset = headerInfo.GradientOffset;
 			}
 
 
@@ -4772,50 +4770,50 @@ namespace XPExplorerBar
 			{
 				HeaderInfo headerInfo = new HeaderInfo();
 
-				if (this.FontName != null)
+				if (FontName != null)
 				{
-					headerInfo.TitleFont = new Font(this.FontName, this.FontSize, this.FontStyle);
+					headerInfo.TitleFont = new Font(FontName, FontSize, FontStyle);
 				}
 
-				headerInfo.Margin = this.Margin;
+				headerInfo.Margin = Margin;
 
-				headerInfo.SpecialBackImage = ThemeManager.ConvertByteArrayToImage(this.SpecialBackImage);
-				headerInfo.NormalBackImage = ThemeManager.ConvertByteArrayToImage(this.NormalBackImage);
+				headerInfo.SpecialBackImage = ThemeManager.ConvertByteArrayToImage(SpecialBackImage);
+				headerInfo.NormalBackImage = ThemeManager.ConvertByteArrayToImage(NormalBackImage);
 
-				headerInfo.SpecialTitleColor = ThemeManager.ConvertStringToColor(this.SpecialTitle);
-				headerInfo.NormalTitleColor = ThemeManager.ConvertStringToColor(this.NormalTitle);
-				headerInfo.SpecialTitleHotColor = ThemeManager.ConvertStringToColor(this.SpecialTitleHot);
-				headerInfo.NormalTitleHotColor = ThemeManager.ConvertStringToColor(this.NormalTitleHot);
+				headerInfo.SpecialTitleColor = ThemeManager.ConvertStringToColor(SpecialTitle);
+				headerInfo.NormalTitleColor = ThemeManager.ConvertStringToColor(NormalTitle);
+				headerInfo.SpecialTitleHotColor = ThemeManager.ConvertStringToColor(SpecialTitleHot);
+				headerInfo.NormalTitleHotColor = ThemeManager.ConvertStringToColor(NormalTitleHot);
 
-				headerInfo.SpecialAlignment = this.SpecialAlignment;
-				headerInfo.NormalAlignment = this.NormalAlignment;
+				headerInfo.SpecialAlignment = SpecialAlignment;
+				headerInfo.NormalAlignment = NormalAlignment;
 				
-				headerInfo.SpecialPadding = this.SpecialPadding;
-				headerInfo.NormalPadding = this.NormalPadding;
+				headerInfo.SpecialPadding = SpecialPadding;
+				headerInfo.NormalPadding = NormalPadding;
 
-				headerInfo.SpecialBorder = this.SpecialBorder;
-				headerInfo.NormalBorder = this.NormalBorder;
-				headerInfo.SpecialBorderColor = ThemeManager.ConvertStringToColor(this.SpecialBorderColor);
-				headerInfo.NormalBorderColor = ThemeManager.ConvertStringToColor(this.NormalBorderColor);
+				headerInfo.SpecialBorder = SpecialBorder;
+				headerInfo.NormalBorder = NormalBorder;
+				headerInfo.SpecialBorderColor = ThemeManager.ConvertStringToColor(SpecialBorderColor);
+				headerInfo.NormalBorderColor = ThemeManager.ConvertStringToColor(NormalBorderColor);
 
-				headerInfo.SpecialBackColor = ThemeManager.ConvertStringToColor(this.SpecialBackColor);
-				headerInfo.NormalBackColor = ThemeManager.ConvertStringToColor(this.NormalBackColor);
+				headerInfo.SpecialBackColor = ThemeManager.ConvertStringToColor(SpecialBackColor);
+				headerInfo.NormalBackColor = ThemeManager.ConvertStringToColor(NormalBackColor);
 
-				headerInfo.SpecialArrowUp = ThemeManager.ConvertByteArrayToImage(this.SpecialArrowUp);
-				headerInfo.SpecialArrowUpHot = ThemeManager.ConvertByteArrayToImage(this.SpecialArrowUpHot);
-				headerInfo.SpecialArrowDown = ThemeManager.ConvertByteArrayToImage(this.SpecialArrowDown);
-				headerInfo.SpecialArrowDownHot = ThemeManager.ConvertByteArrayToImage(this.SpecialArrowDownHot);
-				headerInfo.NormalArrowUp = ThemeManager.ConvertByteArrayToImage(this.NormalArrowUp);
-				headerInfo.NormalArrowUpHot = ThemeManager.ConvertByteArrayToImage(this.NormalArrowUpHot);
-				headerInfo.NormalArrowDown = ThemeManager.ConvertByteArrayToImage(this.NormalArrowDown);
-				headerInfo.NormalArrowDownHot = ThemeManager.ConvertByteArrayToImage(this.NormalArrowDownHot);
+				headerInfo.SpecialArrowUp = ThemeManager.ConvertByteArrayToImage(SpecialArrowUp);
+				headerInfo.SpecialArrowUpHot = ThemeManager.ConvertByteArrayToImage(SpecialArrowUpHot);
+				headerInfo.SpecialArrowDown = ThemeManager.ConvertByteArrayToImage(SpecialArrowDown);
+				headerInfo.SpecialArrowDownHot = ThemeManager.ConvertByteArrayToImage(SpecialArrowDownHot);
+				headerInfo.NormalArrowUp = ThemeManager.ConvertByteArrayToImage(NormalArrowUp);
+				headerInfo.NormalArrowUpHot = ThemeManager.ConvertByteArrayToImage(NormalArrowUpHot);
+				headerInfo.NormalArrowDown = ThemeManager.ConvertByteArrayToImage(NormalArrowDown);
+				headerInfo.NormalArrowDownHot = ThemeManager.ConvertByteArrayToImage(NormalArrowDownHot);
 
-				headerInfo.TitleGradient = this.TitleGradient;
-				headerInfo.SpecialGradientStartColor = ThemeManager.ConvertStringToColor(this.SpecialGradientStartColor);
-				headerInfo.SpecialGradientEndColor = ThemeManager.ConvertStringToColor(this.SpecialGradientEndColor);
-				headerInfo.NormalGradientStartColor = ThemeManager.ConvertStringToColor(this.NormalGradientStartColor);
-				headerInfo.NormalGradientEndColor = ThemeManager.ConvertStringToColor(this.NormalGradientEndColor);
-				headerInfo.GradientOffset = this.GradientOffset;
+				headerInfo.TitleGradient = TitleGradient;
+				headerInfo.SpecialGradientStartColor = ThemeManager.ConvertStringToColor(SpecialGradientStartColor);
+				headerInfo.SpecialGradientEndColor = ThemeManager.ConvertStringToColor(SpecialGradientEndColor);
+				headerInfo.NormalGradientStartColor = ThemeManager.ConvertStringToColor(NormalGradientStartColor);
+				headerInfo.NormalGradientEndColor = ThemeManager.ConvertStringToColor(NormalGradientEndColor);
+				headerInfo.GradientOffset = GradientOffset;
 				
 				return headerInfo;
 			}
@@ -4829,51 +4827,51 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 
-				info.AddValue("FontName", this.FontName);
-				info.AddValue("FontSize", this.FontSize);
-				info.AddValue("FontStyle", this.FontStyle);
+				info.AddValue("FontName", FontName);
+				info.AddValue("FontSize", FontSize);
+				info.AddValue("FontStyle", FontStyle);
 
-				info.AddValue("Margin", this.Margin);
+				info.AddValue("Margin", Margin);
 
-				info.AddValue("SpecialBackImage", this.SpecialBackImage);
-				info.AddValue("NormalBackImage", this.NormalBackImage);
+				info.AddValue("SpecialBackImage", SpecialBackImage);
+				info.AddValue("NormalBackImage", NormalBackImage);
 
-				info.AddValue("SpecialTitle", this.SpecialTitle);
-				info.AddValue("NormalTitle", this.NormalTitle);
-				info.AddValue("SpecialTitleHot", this.SpecialTitleHot);
-				info.AddValue("NormalTitleHot", this.NormalTitleHot);
+				info.AddValue("SpecialTitle", SpecialTitle);
+				info.AddValue("NormalTitle", NormalTitle);
+				info.AddValue("SpecialTitleHot", SpecialTitleHot);
+				info.AddValue("NormalTitleHot", NormalTitleHot);
 
-				info.AddValue("SpecialAlignment", this.SpecialAlignment);
-				info.AddValue("NormalAlignment", this.NormalAlignment);
+				info.AddValue("SpecialAlignment", SpecialAlignment);
+				info.AddValue("NormalAlignment", NormalAlignment);
 
-				info.AddValue("SpecialPadding", this.SpecialPadding);
-				info.AddValue("NormalPadding", this.NormalPadding);
+				info.AddValue("SpecialPadding", SpecialPadding);
+				info.AddValue("NormalPadding", NormalPadding);
 
-				info.AddValue("SpecialBorder", this.SpecialBorder);
-				info.AddValue("NormalBorder", this.NormalBorder);
-				info.AddValue("SpecialBorderColor", this.SpecialBorderColor);
-				info.AddValue("NormalBorderColor", this.NormalBorderColor);
+				info.AddValue("SpecialBorder", SpecialBorder);
+				info.AddValue("NormalBorder", NormalBorder);
+				info.AddValue("SpecialBorderColor", SpecialBorderColor);
+				info.AddValue("NormalBorderColor", NormalBorderColor);
 
-				info.AddValue("SpecialBackColor", this.SpecialBackColor);
-				info.AddValue("NormalBackColor", this.NormalBackColor);
+				info.AddValue("SpecialBackColor", SpecialBackColor);
+				info.AddValue("NormalBackColor", NormalBackColor);
 
-				info.AddValue("SpecialArrowUp", this.SpecialArrowUp);
-				info.AddValue("SpecialArrowUpHot", this.SpecialArrowUpHot);
-				info.AddValue("SpecialArrowDown", this.SpecialArrowDown);
-				info.AddValue("SpecialArrowDownHot", this.SpecialArrowDownHot);
-				info.AddValue("NormalArrowUp", this.NormalArrowUp);
-				info.AddValue("NormalArrowUpHot", this.NormalArrowUpHot);
-				info.AddValue("NormalArrowDown", this.NormalArrowDown);
-				info.AddValue("NormalArrowDownHot", this.NormalArrowDownHot);
+				info.AddValue("SpecialArrowUp", SpecialArrowUp);
+				info.AddValue("SpecialArrowUpHot", SpecialArrowUpHot);
+				info.AddValue("SpecialArrowDown", SpecialArrowDown);
+				info.AddValue("SpecialArrowDownHot", SpecialArrowDownHot);
+				info.AddValue("NormalArrowUp", NormalArrowUp);
+				info.AddValue("NormalArrowUpHot", NormalArrowUpHot);
+				info.AddValue("NormalArrowDown", NormalArrowDown);
+				info.AddValue("NormalArrowDownHot", NormalArrowDownHot);
 
-				info.AddValue("TitleGradient", this.TitleGradient);
-				info.AddValue("SpecialGradientStartColor", this.SpecialGradientStartColor);
-				info.AddValue("SpecialGradientEndColor", this.SpecialGradientEndColor);
-				info.AddValue("NormalGradientStartColor", this.NormalGradientStartColor);
-				info.AddValue("NormalGradientEndColor", this.NormalGradientEndColor);
-				info.AddValue("GradientOffset", this.GradientOffset);
+				info.AddValue("TitleGradient", TitleGradient);
+				info.AddValue("SpecialGradientStartColor", SpecialGradientStartColor);
+				info.AddValue("SpecialGradientEndColor", SpecialGradientEndColor);
+				info.AddValue("NormalGradientStartColor", NormalGradientStartColor);
+				info.AddValue("NormalGradientEndColor", NormalGradientEndColor);
+				info.AddValue("GradientOffset", GradientOffset);
 			}
 
 
@@ -4884,53 +4882,53 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the HeaderInfoSurrogate</param>
 			/// <param name="context">The source from which the HeaderInfoSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected HeaderInfoSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected HeaderInfoSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 				
-				this.FontName = info.GetString("FontName");
-				this.FontSize = info.GetSingle("FontSize");
-				this.FontStyle = (FontStyle) info.GetValue("FontStyle", typeof(FontStyle));
+				FontName = info.GetString("FontName");
+				FontSize = info.GetSingle("FontSize");
+				FontStyle = (FontStyle) info.GetValue("FontStyle", typeof(FontStyle));
 
-				this.Margin = info.GetInt32("Margin");
+				Margin = info.GetInt32("Margin");
 				
-				this.SpecialBackImage = (byte[]) info.GetValue("SpecialBackImage", typeof(byte[]));
-				this.NormalBackImage = (byte[]) info.GetValue("NormalBackImage", typeof(byte[]));
+				SpecialBackImage = (byte[]) info.GetValue("SpecialBackImage", typeof(byte[]));
+				NormalBackImage = (byte[]) info.GetValue("NormalBackImage", typeof(byte[]));
 				
-				this.SpecialTitle = info.GetString("SpecialTitle");
-				this.NormalTitle = info.GetString("NormalTitle");
-				this.SpecialTitleHot = info.GetString("SpecialTitleHot");
-				this.NormalTitleHot = info.GetString("NormalTitleHot");
+				SpecialTitle = info.GetString("SpecialTitle");
+				NormalTitle = info.GetString("NormalTitle");
+				SpecialTitleHot = info.GetString("SpecialTitleHot");
+				NormalTitleHot = info.GetString("NormalTitleHot");
 				
-				this.SpecialAlignment = (ContentAlignment) info.GetValue("SpecialAlignment", typeof(ContentAlignment));
-				this.NormalAlignment = (ContentAlignment) info.GetValue("NormalAlignment", typeof(ContentAlignment));
+				SpecialAlignment = (ContentAlignment) info.GetValue("SpecialAlignment", typeof(ContentAlignment));
+				NormalAlignment = (ContentAlignment) info.GetValue("NormalAlignment", typeof(ContentAlignment));
 
-				this.SpecialPadding = (Padding) info.GetValue("SpecialPadding", typeof(Padding));
-				this.NormalPadding = (Padding) info.GetValue("NormalPadding", typeof(Padding));
+				SpecialPadding = (Padding) info.GetValue("SpecialPadding", typeof(Padding));
+				NormalPadding = (Padding) info.GetValue("NormalPadding", typeof(Padding));
 				
-				this.SpecialBorder = (Border) info.GetValue("SpecialBorder", typeof(Border));
-				this.NormalBorder = (Border) info.GetValue("NormalBorder", typeof(Border));
-				this.SpecialBorderColor = info.GetString("SpecialBorderColor");
-				this.NormalBorderColor = info.GetString("NormalBorderColor");
+				SpecialBorder = (Border) info.GetValue("SpecialBorder", typeof(Border));
+				NormalBorder = (Border) info.GetValue("NormalBorder", typeof(Border));
+				SpecialBorderColor = info.GetString("SpecialBorderColor");
+				NormalBorderColor = info.GetString("NormalBorderColor");
 				
-				this.SpecialBackColor = info.GetString("SpecialBackColor");
-				this.NormalBackColor = info.GetString("NormalBackColor");
+				SpecialBackColor = info.GetString("SpecialBackColor");
+				NormalBackColor = info.GetString("NormalBackColor");
 				
-				this.SpecialArrowUp = (byte[]) info.GetValue("SpecialArrowUp", typeof(byte[]));
-				this.SpecialArrowUpHot = (byte[]) info.GetValue("SpecialArrowUpHot", typeof(byte[]));
-				this.SpecialArrowDown = (byte[]) info.GetValue("SpecialArrowDown", typeof(byte[]));
-				this.SpecialArrowDownHot = (byte[]) info.GetValue("SpecialArrowDownHot", typeof(byte[]));
-				this.NormalArrowUp = (byte[]) info.GetValue("NormalArrowUp", typeof(byte[]));
-				this.NormalArrowUpHot = (byte[]) info.GetValue("NormalArrowUpHot", typeof(byte[]));
-				this.NormalArrowDown = (byte[]) info.GetValue("NormalArrowDown", typeof(byte[]));
-				this.NormalArrowDownHot = (byte[]) info.GetValue("NormalArrowDownHot", typeof(byte[]));
+				SpecialArrowUp = (byte[]) info.GetValue("SpecialArrowUp", typeof(byte[]));
+				SpecialArrowUpHot = (byte[]) info.GetValue("SpecialArrowUpHot", typeof(byte[]));
+				SpecialArrowDown = (byte[]) info.GetValue("SpecialArrowDown", typeof(byte[]));
+				SpecialArrowDownHot = (byte[]) info.GetValue("SpecialArrowDownHot", typeof(byte[]));
+				NormalArrowUp = (byte[]) info.GetValue("NormalArrowUp", typeof(byte[]));
+				NormalArrowUpHot = (byte[]) info.GetValue("NormalArrowUpHot", typeof(byte[]));
+				NormalArrowDown = (byte[]) info.GetValue("NormalArrowDown", typeof(byte[]));
+				NormalArrowDownHot = (byte[]) info.GetValue("NormalArrowDownHot", typeof(byte[]));
 				
-				this.TitleGradient = info.GetBoolean("TitleGradient");
-				this.SpecialGradientStartColor = info.GetString("SpecialGradientStartColor");
-				this.SpecialGradientEndColor = info.GetString("SpecialGradientEndColor");
-				this.NormalGradientStartColor = info.GetString("NormalGradientStartColor");
-				this.NormalGradientEndColor = info.GetString("NormalGradientEndColor");
-				this.GradientOffset = info.GetSingle("GradientOffset");
+				TitleGradient = info.GetBoolean("TitleGradient");
+				SpecialGradientStartColor = info.GetString("SpecialGradientStartColor");
+				SpecialGradientEndColor = info.GetString("SpecialGradientEndColor");
+				NormalGradientStartColor = info.GetString("NormalGradientStartColor");
+				NormalGradientEndColor = info.GetString("NormalGradientEndColor");
+				GradientOffset = info.GetSingle("GradientOffset");
 			}
 
 			#endregion
@@ -5040,7 +5038,7 @@ namespace XPExplorerBar
 	/// <summary>
 	/// Specifies the width of the border along each edge of an object
 	/// </summary>
-	[Serializable(),  
+	[Serializable,  
 	TypeConverter(typeof(BorderConverter))]
 	public class Border
 	{
@@ -5050,7 +5048,7 @@ namespace XPExplorerBar
 		/// Represents a Border structure with its properties 
 		/// left uninitialized
 		/// </summary>
-		[NonSerialized()]
+		[NonSerialized]
 		public static readonly Border Empty = new Border(0, 0, 0, 0);
 		
 		/// <summary>
@@ -5125,9 +5123,9 @@ namespace XPExplorerBar
 
 			Border border = (Border) obj;
 
-			if (((border.Left == this.Left) && (border.Top == this.Top)) && (border.Right == this.Right))
+			if (((border.Left == Left) && (border.Top == Top)) && (border.Right == Right))
 			{
-				return (border.Bottom == this.Bottom);
+				return (border.Bottom == Bottom);
 			}
 
 			return false;
@@ -5141,7 +5139,7 @@ namespace XPExplorerBar
 		/// border</returns>
 		public override int GetHashCode()
 		{
-			return (((this.Left ^ ((this.Top << 13) | (this.Top >> 0x13))) ^ ((this.Right << 0x1a) | (this.Right >> 6))) ^ ((this.Bottom << 7) | (this.Bottom >> 0x19)));
+			return (((Left ^ ((Top << 13) | (Top >> 0x13))) ^ ((Right << 0x1a) | (Right >> 6))) ^ ((Bottom << 7) | (Bottom >> 0x19)));
 		}
 
 		#endregion
@@ -5156,7 +5154,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.left;
+				return left;
 			}
 
 			set
@@ -5166,7 +5164,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.left = value;
+				left = value;
 			}
 		}
 
@@ -5178,7 +5176,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.right;
+				return right;
 			}
 
 			set
@@ -5188,7 +5186,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.right = value;
+				right = value;
 			}
 		}
 
@@ -5200,7 +5198,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.top;
+				return top;
 			}
 
 			set
@@ -5210,7 +5208,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.top = value;
+				top = value;
 			}
 		}
 
@@ -5222,7 +5220,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.bottom;
+				return bottom;
 			}
 
 			set
@@ -5232,7 +5230,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.bottom = value;
+				bottom = value;
 			}
 		}
 
@@ -5246,9 +5244,9 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (((this.Left == 0) && (this.Top == 0)) && (this.Right == 0))
+				if (((Left == 0) && (Top == 0)) && (Right == 0))
 				{
-					return (this.Bottom == 0);
+					return (Bottom == 0);
 				}
 
 				return false;
@@ -5360,7 +5358,7 @@ namespace XPExplorerBar
 		/// <param name="culture">The CultureInfo to use as the current culture</param>
 		/// <param name="value">The Object to convert</param>
 		/// <returns>An Object that represents the converted value</returns>
-		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			if (value is string)
 			{
@@ -5470,7 +5468,7 @@ namespace XPExplorerBar
 		/// <param name="propertyValues">An IDictionary of new property values</param>
 		/// <returns>An Object representing the given IDictionary, or a null 
 		/// reference if the object cannot be created</returns>
-		public override object CreateInstance(ITypeDescriptorContext context, System.Collections.IDictionary propertyValues)
+		public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
 		{
 			return new Border((int) propertyValues["Left"], 
 				(int) propertyValues["Top"], 
@@ -5553,7 +5551,7 @@ namespace XPExplorerBar
 		/// Represents a Padding structure with its properties 
 		/// left uninitialized
 		/// </summary>
-		[NonSerialized()]
+		[NonSerialized]
 		public static readonly Padding Empty = new Padding(0, 0, 0, 0);
 		
 		/// <summary>
@@ -5628,9 +5626,9 @@ namespace XPExplorerBar
 
 			Padding padding = (Padding) obj;
 
-			if (((padding.Left == this.Left) && (padding.Top == this.Top)) && (padding.Right == this.Right))
+			if (((padding.Left == Left) && (padding.Top == Top)) && (padding.Right == Right))
 			{
-				return (padding.Bottom == this.Bottom);
+				return (padding.Bottom == Bottom);
 			}
 
 			return false;
@@ -5644,7 +5642,7 @@ namespace XPExplorerBar
 		/// padding</returns>
 		public override int GetHashCode()
 		{
-			return (((this.Left ^ ((this.Top << 13) | (this.Top >> 0x13))) ^ ((this.Right << 0x1a) | (this.Right >> 6))) ^ ((this.Bottom << 7) | (this.Bottom >> 0x19)));
+			return (((Left ^ ((Top << 13) | (Top >> 0x13))) ^ ((Right << 0x1a) | (Right >> 6))) ^ ((Bottom << 7) | (Bottom >> 0x19)));
 		}
 
 		#endregion
@@ -5659,7 +5657,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.left;
+				return left;
 			}
 
 			set
@@ -5669,7 +5667,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.left = value;
+				left = value;
 			}
 		}
 
@@ -5681,7 +5679,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.right;
+				return right;
 			}
 
 			set
@@ -5691,7 +5689,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.right = value;
+				right = value;
 			}
 		}
 
@@ -5703,7 +5701,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.top;
+				return top;
 			}
 
 			set
@@ -5713,7 +5711,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.top = value;
+				top = value;
 			}
 		}
 
@@ -5725,7 +5723,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.bottom;
+				return bottom;
 			}
 
 			set
@@ -5735,7 +5733,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.bottom = value;
+				bottom = value;
 			}
 		}
 
@@ -5749,9 +5747,9 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (((this.Left == 0) && (this.Top == 0)) && (this.Right == 0))
+				if (((Left == 0) && (Top == 0)) && (Right == 0))
 				{
-					return (this.Bottom == 0);
+					return (Bottom == 0);
 				}
 
 				return false;
@@ -5863,7 +5861,7 @@ namespace XPExplorerBar
 		/// <param name="culture">The CultureInfo to use as the current culture</param>
 		/// <param name="value">The Object to convert</param>
 		/// <returns>An Object that represents the converted value</returns>
-		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			if (value is string)
 			{
@@ -5973,7 +5971,7 @@ namespace XPExplorerBar
 		/// <param name="propertyValues">An IDictionary of new property values</param>
 		/// <returns>An Object representing the given IDictionary, or a null 
 		/// reference if the object cannot be created</returns>
-		public override object CreateInstance(ITypeDescriptorContext context, System.Collections.IDictionary propertyValues)
+		public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
 		{
 			return new Padding((int) propertyValues["Left"], 
 				(int) propertyValues["Top"], 
@@ -6055,7 +6053,7 @@ namespace XPExplorerBar
 		/// Represents a Margin structure with its properties 
 		/// left uninitialized
 		/// </summary>
-		[NonSerialized()]
+		[NonSerialized]
 		public static readonly Margin Empty = new Margin(0, 0, 0, 0);
 		
 		/// <summary>
@@ -6130,9 +6128,9 @@ namespace XPExplorerBar
 
 			Margin margin = (Margin) obj;
 
-			if (((margin.Left == this.Left) && (margin.Top == this.Top)) && (margin.Right == this.Right))
+			if (((margin.Left == Left) && (margin.Top == Top)) && (margin.Right == Right))
 			{
-				return (margin.Bottom == this.Bottom);
+				return (margin.Bottom == Bottom);
 			}
 
 			return false;
@@ -6146,7 +6144,7 @@ namespace XPExplorerBar
 		/// margin</returns>
 		public override int GetHashCode()
 		{
-			return (((this.Left ^ ((this.Top << 13) | (this.Top >> 0x13))) ^ ((this.Right << 0x1a) | (this.Right >> 6))) ^ ((this.Bottom << 7) | (this.Bottom >> 0x19)));
+			return (((Left ^ ((Top << 13) | (Top >> 0x13))) ^ ((Right << 0x1a) | (Right >> 6))) ^ ((Bottom << 7) | (Bottom >> 0x19)));
 		}
 
 		#endregion
@@ -6161,7 +6159,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.left;
+				return left;
 			}
 
 			set
@@ -6171,7 +6169,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.left = value;
+				left = value;
 			}
 		}
 
@@ -6183,7 +6181,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.right;
+				return right;
 			}
 
 			set
@@ -6193,7 +6191,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.right = value;
+				right = value;
 			}
 		}
 
@@ -6205,7 +6203,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.top;
+				return top;
 			}
 
 			set
@@ -6215,7 +6213,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.top = value;
+				top = value;
 			}
 		}
 
@@ -6227,7 +6225,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.bottom;
+				return bottom;
 			}
 
 			set
@@ -6237,7 +6235,7 @@ namespace XPExplorerBar
 					value = 0;
 				}
 
-				this.bottom = value;
+				bottom = value;
 			}
 		}
 
@@ -6251,9 +6249,9 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (((this.Left == 0) && (this.Top == 0)) && (this.Right == 0))
+				if (((Left == 0) && (Top == 0)) && (Right == 0))
 				{
-					return (this.Bottom == 0);
+					return (Bottom == 0);
 				}
 
 				return false;
@@ -6365,7 +6363,7 @@ namespace XPExplorerBar
 		/// <param name="culture">The CultureInfo to use as the current culture</param>
 		/// <param name="value">The Object to convert</param>
 		/// <returns>An Object that represents the converted value</returns>
-		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			if (value is string)
 			{
@@ -6475,7 +6473,7 @@ namespace XPExplorerBar
 		/// <param name="propertyValues">An IDictionary of new property values</param>
 		/// <returns>An Object representing the given IDictionary, or a null 
 		/// reference if the object cannot be created</returns>
-		public override object CreateInstance(ITypeDescriptorContext context, System.Collections.IDictionary propertyValues)
+		public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
 		{
 			return new Margin((int) propertyValues["Left"], 
 				(int) propertyValues["Top"], 

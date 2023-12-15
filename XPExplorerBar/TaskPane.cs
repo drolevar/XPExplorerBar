@@ -2,25 +2,25 @@
  * Copyright © 2004-2005, Mathew Hall
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
- *    - Redistributions of source code must retain the above copyright notice, 
+ *    - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * 
- *    - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ *
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
 
@@ -32,13 +32,11 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Xml.Serialization;
-
 
 namespace XPExplorerBar
 {
@@ -76,12 +74,12 @@ namespace XPExplorerBar
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components;
 
 		/// <summary>
 		/// Internal list of Expandos contained in the TaskPane
 		/// </summary>
-		private TaskPane.ExpandoCollection expandoCollection;
+		private ExpandoCollection expandoCollection;
 		
 		/// <summary>
 		/// System defined settings for the TaskBar
@@ -152,53 +150,53 @@ namespace XPExplorerBar
 		public TaskPane()
 		{
 			// This call is required by the Windows.Forms Form Designer.
-			components = new System.ComponentModel.Container();
+			components = new Container();
 
 			// set control styles
-			this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			this.SetStyle(ControlStyles.UserPaint, true);
-			this.SetStyle(ControlStyles.ResizeRedraw, true);
-			this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.UserPaint, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-			this.expandoCollection = new TaskPane.ExpandoCollection(this);
+			expandoCollection = new ExpandoCollection(this);
 
 			// get the system theme settings
-			this.systemSettings = ThemeManager.GetSystemExplorerBarSettings();
+			systemSettings = ThemeManager.GetSystemExplorerBarSettings();
 
-			this.customSettings = new TaskPaneInfo();
-			this.customSettings.TaskPane = this;
-			this.customSettings.SetDefaultEmptyValues();
+			customSettings = new TaskPaneInfo();
+			customSettings.TaskPane = this;
+			customSettings.SetDefaultEmptyValues();
 
-			this.BackColor = this.systemSettings.TaskPane.GradientStartColor;
-			this.BackgroundImage = this.BackImage;
+			BackColor = systemSettings.TaskPane.GradientStartColor;
+			BackgroundImage = BackImage;
 
-			this.classicTheme = false;
-			this.customTheme = false;
+			classicTheme = false;
+			customTheme = false;
 
 			// size
-			int width = (this.systemSettings.TaskPane.Padding.Left + 
-				this.systemSettings.TaskPane.Padding.Right + 
-				this.systemSettings.Header.BackImageWidth);
+			int width = (systemSettings.TaskPane.Padding.Left + 
+				systemSettings.TaskPane.Padding.Right + 
+				systemSettings.Header.BackImageWidth);
 			int height = width;
-			this.Size = new Size(width, height);
+			Size = new Size(width, height);
 
 			// setup sutoscrolling
-			this.AutoScroll = false;
-			this.AutoScrollMargin = new Size(this.systemSettings.TaskPane.Padding.Right, 
-				this.systemSettings.TaskPane.Padding.Bottom);
+			AutoScroll = false;
+			AutoScrollMargin = new Size(systemSettings.TaskPane.Padding.Right, 
+				systemSettings.TaskPane.Padding.Bottom);
 
 			// Listen for changes to the parent
-			this.ParentChanged += new EventHandler(this.OnParentChanged);
+			ParentChanged += OnParentChanged;
 
-			this.allowExpandoDragging = false;
-			this.dropPoint = Point.Empty;
-			this.dropIndicatorColor = Color.Red;
+			allowExpandoDragging = false;
+			dropPoint = Point.Empty;
+			dropIndicatorColor = Color.Red;
 
-			this.beginUpdateCount = 0;
+			beginUpdateCount = 0;
 
-			this.initialising = false;
-			this.layout = false;
+			initialising = false;
+			layout = false;
 		}
 
 		#endregion
@@ -214,15 +212,15 @@ namespace XPExplorerBar
 		/// </summary>
 		public void UseClassicTheme()
 		{
-			this.classicTheme = true;
-			this.customTheme = false;
+			classicTheme = true;
+			customTheme = false;
 			
 			ExplorerBarInfo settings = ThemeManager.GetSystemExplorerBarSettings(true);
 
-			this.systemSettings.Dispose();
-			this.systemSettings = null;
+			systemSettings.Dispose();
+			systemSettings = null;
 
-			this.SystemSettings = settings;
+			SystemSettings = settings;
 		}
 
 
@@ -234,15 +232,35 @@ namespace XPExplorerBar
 		/// shellstyle.dll to use</param>
 		public void UseCustomTheme(string stylePath)
 		{
-			this.customTheme = true;
-			this.classicTheme = false;
+			customTheme = true;
+			classicTheme = false;
 			
 			ExplorerBarInfo settings = ThemeManager.GetSystemExplorerBarSettings(stylePath);
 			
-			this.systemSettings.Dispose();
-			this.systemSettings = null;
+			systemSettings.Dispose();
+			systemSettings = null;
 
-			this.SystemSettings = settings;
+			SystemSettings = settings;
+		}
+
+
+		/// <summary>
+		/// Forces the TaskPane and all it's Expandos to use the 
+		/// specified theme
+		/// </summary>
+		/// <param name="stylePath">The path to the custom 
+		/// shellstyle.dll to use</param>
+		public void UseCustomTheme(Theme theme)
+		{
+			customTheme = true;
+			classicTheme = false;
+			
+			ExplorerBarInfo settings = ThemeManager.GetSystemExplorerBarSettings(theme);
+			
+			systemSettings.Dispose();
+			systemSettings = null;
+
+			SystemSettings = settings;
 		}
 
 
@@ -252,15 +270,15 @@ namespace XPExplorerBar
 		/// </summary>
 		public void UseDefaultTheme()
 		{
-			this.customTheme = false;
-			this.classicTheme = false;
+			customTheme = false;
+			classicTheme = false;
 			
 			ExplorerBarInfo settings = ThemeManager.GetSystemExplorerBarSettings();
 
-			this.systemSettings.Dispose();
-			this.systemSettings = null;
+			systemSettings.Dispose();
+			systemSettings = null;
 
-			this.SystemSettings = settings;
+			SystemSettings = settings;
 		}
 
 		#endregion
@@ -282,9 +300,9 @@ namespace XPExplorerBar
 					components.Dispose();
 				}
 
-				if (this.systemSettings != null)
+				if (systemSettings != null)
 				{
-					this.systemSettings.Dispose();
+					systemSettings.Dispose();
 				}
 			}
 
@@ -303,7 +321,7 @@ namespace XPExplorerBar
 		//               v1.1
 		public void CollapseAll()
 		{
-			foreach (Expando expando in this.Expandos)
+			foreach (Expando expando in Expandos)
 			{
 				expando.Collapsed = true;
 			}
@@ -318,7 +336,7 @@ namespace XPExplorerBar
 		//               v1.1
 		public void ExpandAll()
 		{
-			foreach (Expando expando in this.Expandos)
+			foreach (Expando expando in Expandos)
 			{
 				expando.Collapsed = false;
 			}
@@ -335,7 +353,7 @@ namespace XPExplorerBar
 		//               v1.1
 		public void CollapseAllButOne(Expando expando)
 		{
-			foreach (Expando e in this.Expandos)
+			foreach (Expando e in Expandos)
 			{
 				if (e != expando)
 				{
@@ -357,44 +375,44 @@ namespace XPExplorerBar
 		/// co-ordinates</param>
 		internal void UpdateDropPoint(Point point)
 		{
-			Point p = this.PointToClient(point);
+			Point p = PointToClient(point);
 			
-			if (this.ClientRectangle.Contains(p))
+			if (ClientRectangle.Contains(p))
 			{
-				if (p.Y <= this.Expandos[0].Top)
+				if (p.Y <= Expandos[0].Top)
 				{
-					this.dropPoint.Y = this.Padding.Top / 2;
+					dropPoint.Y = Padding.Top / 2;
 				}
-				else if (p.Y >= this.Expandos[this.Expandos.Count - 1].Bottom)
+				else if (p.Y >= Expandos[Expandos.Count - 1].Bottom)
 				{
-					this.dropPoint.Y = this.Expandos[this.Expandos.Count - 1].Bottom + (this.Padding.Top / 2);
+					dropPoint.Y = Expandos[Expandos.Count - 1].Bottom + (Padding.Top / 2);
 				}
 				else
 				{
-					for (int i=0; i<this.Expandos.Count; i++)
+					for (int i=0; i<Expandos.Count; i++)
 					{
-						if (p.Y >= this.Expandos[i].Top && p.Y <= this.Expandos[i].Bottom)
+						if (p.Y >= Expandos[i].Top && p.Y <= Expandos[i].Bottom)
 						{
-							if (p.Y <= this.Expandos[i].Top + (this.Expandos[i].Height / 2))
+							if (p.Y <= Expandos[i].Top + (Expandos[i].Height / 2))
 							{
 								if (i == 0)
 								{
-									this.dropPoint.Y = this.Padding.Top / 2;
+									dropPoint.Y = Padding.Top / 2;
 								}
 								else
 								{
-									this.dropPoint.Y = this.Expandos[i].Top - ((this.Expandos[i].Top - this.Expandos[i-1].Bottom) / 2);
+									dropPoint.Y = Expandos[i].Top - ((Expandos[i].Top - Expandos[i-1].Bottom) / 2);
 								}
 							}
 							else
 							{	
-								if (i == this.Expandos.Count - 1)
+								if (i == Expandos.Count - 1)
 								{
-									this.dropPoint.Y = this.Expandos[this.Expandos.Count - 1].Bottom + (this.Padding.Top / 2);
+									dropPoint.Y = Expandos[Expandos.Count - 1].Bottom + (Padding.Top / 2);
 								}
 								else
 								{
-									this.dropPoint.Y = this.Expandos[i].Bottom + ((this.Expandos[i+1].Top - this.Expandos[i].Bottom) / 2);
+									dropPoint.Y = Expandos[i].Bottom + ((Expandos[i+1].Top - Expandos[i].Bottom) / 2);
 								}
 							}
 
@@ -405,10 +423,10 @@ namespace XPExplorerBar
 			}
 			else
 			{
-				this.dropPoint = Point.Empty;
+				dropPoint = Point.Empty;
 			}
 
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 
 
@@ -418,7 +436,7 @@ namespace XPExplorerBar
 		/// <param name="expando">The Expando to be "dropped"</param>
 		internal void DropExpando(Expando expando)
 		{
-			if (this.dropPoint == Point.Empty)
+			if (dropPoint == Point.Empty)
 			{
 				return;
 			}
@@ -426,34 +444,34 @@ namespace XPExplorerBar
 			if (expando != null && expando.TaskPane == this)
 			{
 				int i = 0;
-				int expandoIndex = this.Expandos.IndexOf(expando);
+				int expandoIndex = Expandos.IndexOf(expando);
 				
-				for (; i<this.Expandos.Count; i++)
+				for (; i<Expandos.Count; i++)
 				{
-					if (this.dropPoint.Y <= this.Expandos[i].Top)
+					if (dropPoint.Y <= Expandos[i].Top)
 					{
 						if (i > expandoIndex)
 						{
-							this.Expandos.Move(expando, i-1);
+							Expandos.Move(expando, i-1);
 						}
 						else if (i < expandoIndex)
 						{
-							this.Expandos.Move(expando, i);
+							Expandos.Move(expando, i);
 						}
 
 						break;
 					}
 				}
 
-				if (i == this.Expandos.Count)
+				if (i == Expandos.Count)
 				{
-					this.Expandos.Move(expando, i);
+					Expandos.Move(expando, i);
 				}
 			}
 
-			this.dropPoint = Point.Empty;
+			dropPoint = Point.Empty;
 
-			this.Invalidate(false);
+			Invalidate(false);
 		}
 
 		#endregion
@@ -465,7 +483,7 @@ namespace XPExplorerBar
 		/// </summary>
 		public void BeginInit()
 		{
-			this.initialising = true;
+			initialising = true;
 		}
 
 
@@ -474,9 +492,9 @@ namespace XPExplorerBar
 		/// </summary>
 		public void EndInit()
 		{
-			this.initialising = false;
+			initialising = false;
 
-			this.DoLayout();
+			DoLayout();
 		}
 
 
@@ -488,7 +506,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.initialising;
+				return initialising;
 			}
 		}
 
@@ -507,7 +525,7 @@ namespace XPExplorerBar
 		/// </summary>
 		public void BeginUpdate()
 		{
-			this.beginUpdateCount++;
+			beginUpdateCount++;
 		}
 
 
@@ -517,11 +535,11 @@ namespace XPExplorerBar
 		/// </summary>
 		public void EndUpdate()
 		{
-			this.beginUpdateCount = Math.Max(this.beginUpdateCount--, 0);
+			beginUpdateCount = Math.Max(beginUpdateCount--, 0);
 
 			if (beginUpdateCount == 0)
 			{
-				this.DoLayout(true);
+				DoLayout(true);
 			}
 		}
 
@@ -532,7 +550,7 @@ namespace XPExplorerBar
 		/// </summary>
 		public void DoLayout()
 		{
-			this.DoLayout(false);
+			DoLayout(false);
 		}
 
 
@@ -555,28 +573,28 @@ namespace XPExplorerBar
 			//      22/12/2004
 			//      v3.0
 			//if (this.layout)
-			if (this.layout || this.beginUpdateCount > 0)
+			if (layout || beginUpdateCount > 0)
 			{
 				return;
 			}
 
-			this.layout = true;
+			layout = true;
 			
 			// stop the layout engine
-			this.SuspendLayout();
+			SuspendLayout();
 			
 			Expando e;
 			Point p;
 			
 			// work out how wide to make the controls, and where
 			// the top of the first control should be
-			int y = this.DisplayRectangle.Y + this.Padding.Top;
-			int width = this.ClientSize.Width - this.Padding.Left - this.Padding.Right;
+			int y = DisplayRectangle.Y + Padding.Top;
+			int width = ClientSize.Width - Padding.Left - Padding.Right;
 
 			// for each control in our list...
-			for (int i=0; i<this.Expandos.Count; i++)
+			for (int i=0; i<Expandos.Count; i++)
 			{
-				e = this.Expandos[i];
+				e = Expandos[i];
 
 				// go to the next expando if this one is invisible and 
 				// it's parent is visible
@@ -585,20 +603,20 @@ namespace XPExplorerBar
 					continue;
 				}
 
-				p = new Point(this.Padding.Left, y);
+				p = new Point(Padding.Left, y);
 
 				// set the width and location of the control
 				e.Location = p;
 				e.Width = width;
 
 				// update the next starting point
-				y += e.Height + this.Padding.Bottom;
+				y += e.Height + Padding.Bottom;
 			}
 
 			// restart the layout engine
-			this.ResumeLayout(performRealLayout);
+			ResumeLayout(performRealLayout);
 
-			this.layout = false;
+			layout = false;
 		}
 
 
@@ -614,28 +632,28 @@ namespace XPExplorerBar
 				throw new ArgumentNullException("target");
 			}
 
-			int targetIndex = this.Expandos.IndexOf(target);
+			int targetIndex = Expandos.IndexOf(target);
 
 			Expando e;
 			Point p;
 			
-			int y = this.DisplayRectangle.Y + this.Padding.Top;
-			int width = this.ClientSize.Width - this.Padding.Left - this.Padding.Right;
+			int y = DisplayRectangle.Y + Padding.Top;
+			int width = ClientSize.Width - Padding.Left - Padding.Right;
 
 			for (int i=0; i<targetIndex; i++)
 			{
-				e = this.Expandos[i];
+				e = Expandos[i];
 
 				if (!e.Visible)
 				{
 					continue;
 				}
 
-				p = new Point(this.Padding.Left, y);
-				y += e.Height + this.Padding.Bottom;
+				p = new Point(Padding.Left, y);
+				y += e.Height + Padding.Bottom;
 			}
 			
-			return new Point(this.Padding.Left, y);
+			return new Point(Padding.Left, y);
 		}
 
 
@@ -645,27 +663,27 @@ namespace XPExplorerBar
 		/// </summary>
 		internal void UpdateExpandos()
 		{
-			if (this.Expandos.Count == this.Controls.Count)
+			if (Expandos.Count == Controls.Count)
 			{
 				// make sure the the expandos index in the ControlCollection 
 				// are the same as in the ExpandoCollection (indexes in the 
 				// ExpandoCollection may have changed due to the user moving 
 				// them around in the editor)
-				this.MatchControlCollToExpandoColl();				
+				MatchControlCollToExpandoColl();				
 				
 				return;
 			}
 
 			// were any expandos added
-			if (this.Expandos.Count > this.Controls.Count)
+			if (Expandos.Count > Controls.Count)
 			{
 				// add any extra expandos in the ExpandoCollection to the 
 				// ControlCollection
-				for (int i=0; i<this.Expandos.Count; i++)
+				for (int i=0; i<Expandos.Count; i++)
 				{
-					if (!this.Controls.Contains(this.Expandos[i]))
+					if (!Controls.Contains(Expandos[i]))
 					{
-						this.OnExpandoAdded(new ExpandoEventArgs(this.Expandos[i]));
+						OnExpandoAdded(new ExpandoEventArgs(Expandos[i]));
 					}
 				}
 			}
@@ -676,13 +694,13 @@ namespace XPExplorerBar
 				Expando expando;
 
 				// remove any extra expandos from the ControlCollection
-				while (i < this.Controls.Count)
+				while (i < Controls.Count)
 				{
-					expando = (Expando) this.Controls[i];
+					expando = (Expando) Controls[i];
 					
-					if (!this.Expandos.Contains(expando))
+					if (!Expandos.Contains(expando))
 					{
-						this.OnExpandoRemoved(new ExpandoEventArgs(expando));
+						OnExpandoRemoved(new ExpandoEventArgs(expando));
 					}
 					else
 					{
@@ -701,18 +719,18 @@ namespace XPExplorerBar
 		/// </summary>
 		internal void MatchControlCollToExpandoColl()
 		{
-			this.SuspendLayout();
+			SuspendLayout();
 				
-			for (int i=0; i<this.Expandos.Count; i++)
+			for (int i=0; i<Expandos.Count; i++)
 			{
-				this.Controls.SetChildIndex(this.Expandos[i], i);
+				Controls.SetChildIndex(Expandos[i], i);
 			}
 
-			this.ResumeLayout(false);
+			ResumeLayout(false);
 				
-			this.DoLayout(true);
+			DoLayout(true);
 
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 
 		#endregion
@@ -732,12 +750,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.GradientStartColor != Color.Empty)
+				if (CustomSettings.GradientStartColor != Color.Empty)
 				{
-					return this.CustomSettings.GradientStartColor;
+					return CustomSettings.GradientStartColor;
 				}
 
-				return this.systemSettings.TaskPane.GradientStartColor;
+				return systemSettings.TaskPane.GradientStartColor;
 			}
 		}
 
@@ -750,12 +768,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.GradientEndColor != Color.Empty)
+				if (CustomSettings.GradientEndColor != Color.Empty)
 				{
-					return this.CustomSettings.GradientEndColor;
+					return CustomSettings.GradientEndColor;
 				}
 
-				return this.systemSettings.TaskPane.GradientEndColor;
+				return systemSettings.TaskPane.GradientEndColor;
 			}
 		}
 
@@ -768,13 +786,13 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.GradientStartColor != Color.Empty && 
-					this.CustomSettings.GradientEndColor != Color.Empty)
+				if (CustomSettings.GradientStartColor != Color.Empty && 
+					CustomSettings.GradientEndColor != Color.Empty)
 				{
-					return this.CustomSettings.GradientDirection;
+					return CustomSettings.GradientDirection;
 				}
 
-				return this.systemSettings.TaskPane.GradientDirection;
+				return systemSettings.TaskPane.GradientDirection;
 			}
 		}
 
@@ -791,11 +809,11 @@ namespace XPExplorerBar
 		Description("The Expandos contained in the TaskPane"), 
 		DesignerSerializationVisibility(DesignerSerializationVisibility.Content), 
 		Editor(typeof(ExpandoCollectionEditor), typeof(UITypeEditor))]
-		public TaskPane.ExpandoCollection Expandos
+		public ExpandoCollection Expandos
 		{
 			get
 			{
-				return this.expandoCollection;
+				return expandoCollection;
 			}
 		}
 
@@ -805,7 +823,7 @@ namespace XPExplorerBar
 		/// controls contained within the control
 		/// </summary>
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public new Control.ControlCollection Controls
+		public new ControlCollection Controls
 		{
 			get
 			{
@@ -824,12 +842,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.allowExpandoDragging;
+				return allowExpandoDragging;
 			}
 
 			set
 			{
-				this.allowExpandoDragging = value;
+				allowExpandoDragging = value;
 			}
 		}
 
@@ -843,12 +861,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.dropIndicatorColor;
+				return dropIndicatorColor;
 			}
 
 			set
 			{
-				this.dropIndicatorColor = value;
+				dropIndicatorColor = value;
 			}
 		}
 
@@ -864,12 +882,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.BackImage != null)
+				if (CustomSettings.BackImage != null)
 				{
-					return this.CustomSettings.BackImage;
+					return CustomSettings.BackImage;
 				}
 
-				return this.systemSettings.TaskPane.BackImage;
+				return systemSettings.TaskPane.BackImage;
 			}
 		}
 
@@ -882,12 +900,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.BackImage != null)
+				if (CustomSettings.BackImage != null)
 				{
-					return this.CustomSettings.StretchMode;
+					return CustomSettings.StretchMode;
 				}
 
-				return this.systemSettings.TaskPane.StretchMode;
+				return systemSettings.TaskPane.StretchMode;
 			}
 		}
 
@@ -901,12 +919,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.Watermark != null)
+				if (CustomSettings.Watermark != null)
 				{
-					return this.CustomSettings.Watermark;
+					return CustomSettings.Watermark;
 				}
 
-				return this.systemSettings.TaskPane.Watermark;
+				return systemSettings.TaskPane.Watermark;
 			}
 		}
 
@@ -919,12 +937,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.Watermark != null)
+				if (CustomSettings.Watermark != null)
 				{
-					return this.CustomSettings.WatermarkAlignment;
+					return CustomSettings.WatermarkAlignment;
 				}
 
-				return this.systemSettings.TaskPane.WatermarkAlignment;
+				return systemSettings.TaskPane.WatermarkAlignment;
 			}
 		}
 
@@ -941,12 +959,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.Padding != Padding.Empty)
+				if (CustomSettings.Padding != Padding.Empty)
 				{
-					return this.CustomSettings.Padding;
+					return CustomSettings.Padding;
 				}
 
-				return this.systemSettings.TaskPane.Padding;
+				return systemSettings.TaskPane.Padding;
 			}
 		}
 
@@ -961,7 +979,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.systemSettings;
+				return systemSettings;
 			}
 
 			set
@@ -972,33 +990,33 @@ namespace XPExplorerBar
 					return;
 				}
 				
-				if (this.systemSettings != value)
+				if (systemSettings != value)
 				{
-					this.SuspendLayout();
+					SuspendLayout();
 					
-					if (this.systemSettings != null)
+					if (systemSettings != null)
 					{
-						this.systemSettings.Dispose();
-						this.systemSettings = null;
+						systemSettings.Dispose();
+						systemSettings = null;
 					}
 
-					this.watermarkRect = Rectangle.Empty;
+					watermarkRect = Rectangle.Empty;
 
-					this.systemSettings = value;
-					this.BackColor = this.GradientStartColor;
-					this.BackgroundImage = this.BackImage;
+					systemSettings = value;
+					BackColor = GradientStartColor;
+					BackgroundImage = BackImage;
 
-					foreach (Expando expando in this.Expandos)
+					foreach (Expando expando in Expandos)
 					{
-						expando.SystemSettings = this.systemSettings;
+						expando.SystemSettings = systemSettings;
 						expando.DoLayout();
 					}
 
-					this.DoLayout();
+					DoLayout();
 
-					this.ResumeLayout(true);
+					ResumeLayout(true);
 
-					this.Invalidate(true);
+					Invalidate(true);
 				}
 			}
 		}
@@ -1015,12 +1033,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.customSettings;
+				return customSettings;
 			}
 
 			set
 			{
-				this.customSettings = value;
+				customSettings = value;
 			}
 		}
 
@@ -1030,9 +1048,9 @@ namespace XPExplorerBar
 		/// </summary>
 		public void ResetCustomSettings()
 		{
-			this.CustomSettings.SetDefaultEmptyValues();
+			CustomSettings.SetDefaultEmptyValues();
 
-			this.FireCustomSettingsChanged(EventArgs.Empty);
+			FireCustomSettingsChanged(EventArgs.Empty);
 		}
 
 		#endregion
@@ -1054,7 +1072,7 @@ namespace XPExplorerBar
 			if ((e.Control as Expando) == null)
 			{
 				// remove the control
-				this.Controls.Remove(e.Control);
+				Controls.Remove(e.Control);
 
 				// throw a hissy fit
 				throw new InvalidCastException("Only Expando's can be added to the TaskPane");
@@ -1063,9 +1081,9 @@ namespace XPExplorerBar
 			base.OnControlAdded(e);
 
 			// add the expando to the ExpandoCollection if necessary
-			if (!this.Expandos.Contains((Expando) e.Control))
+			if (!Expandos.Contains((Expando) e.Control))
 			{
-				this.Expandos.Add((Expando) e.Control);
+				Expandos.Add((Expando) e.Control);
 			}
 		}
 
@@ -1079,13 +1097,13 @@ namespace XPExplorerBar
 			base.OnControlRemoved (e);
 
 			// remove the control from the itemList
-			if (this.Expandos.Contains(e.Control))
+			if (Expandos.Contains(e.Control))
 			{
-				this.Expandos.Remove((Expando) e.Control);
+				Expandos.Remove((Expando) e.Control);
 			}
 
 			// update the layout of the controls
-			this.DoLayout();
+			DoLayout();
 		}
 
 		#endregion
@@ -1098,14 +1116,14 @@ namespace XPExplorerBar
 		/// <param name="e">An EventArgs that contains the event data</param>
 		internal void FireCustomSettingsChanged(EventArgs e)
 		{
-			this.BackColor = this.GradientStartColor;
-			this.BackgroundImage = this.BackImage;
+			BackColor = GradientStartColor;
+			BackgroundImage = BackImage;
 				
-			this.DoLayout();
+			DoLayout();
 
-			this.Invalidate(true);
+			Invalidate(true);
 
-			this.OnCustomSettingsChanged(e);
+			OnCustomSettingsChanged(e);
 		}
 
 
@@ -1132,7 +1150,7 @@ namespace XPExplorerBar
 		/// <param name="e">An ExpandoEventArgs that contains the event data</param>
 		private void expando_StateChanged(object sender, ExpandoEventArgs e)
 		{
-			this.OnExpandoStateChanged(e);
+			OnExpandoStateChanged(e);
 		}
 
 
@@ -1142,7 +1160,7 @@ namespace XPExplorerBar
 		/// <param name="e">An ExpandoEventArgs that contains the event data</param>
 		protected virtual void OnExpandoStateChanged(ExpandoEventArgs e)
 		{
-			this.DoLayout(true);
+			DoLayout(true);
 		}
 
 
@@ -1153,9 +1171,9 @@ namespace XPExplorerBar
 		protected virtual void OnExpandoAdded(ExpandoEventArgs e)
 		{
 			// add the expando to the ControlCollection if it hasn't already
-			if (!this.Controls.Contains(e.Expando))
+			if (!Controls.Contains(e.Expando))
 			{
-				this.Controls.Add(e.Expando);
+				Controls.Add(e.Expando);
 			}
 
 			// set anchor styles
@@ -1163,13 +1181,13 @@ namespace XPExplorerBar
 			
 			// tell the Expando who's its daddy...
 			e.Expando.TaskPane = this;
-			e.Expando.SystemSettings = this.systemSettings;
+			e.Expando.SystemSettings = systemSettings;
 
 			// listen for collapse/expand events
-			e.Expando.StateChanged += new ExpandoEventHandler(this.expando_StateChanged);
+			e.Expando.StateChanged += expando_StateChanged;
 
 			// update the layout of the controls
-			this.DoLayout();
+			DoLayout();
 
 			//
 			if (ExpandoAdded != null)
@@ -1186,16 +1204,16 @@ namespace XPExplorerBar
 		protected virtual void OnExpandoRemoved(ExpandoEventArgs e)
 		{
 			// remove the control from the ControlCollection if it hasn't already
-			if (this.Controls.Contains(e.Expando))
+			if (Controls.Contains(e.Expando))
 			{
-				this.Controls.Remove(e.Expando);
+				Controls.Remove(e.Expando);
 			}
 
 			// remove the StateChanged listener
-			e.Expando.StateChanged -= new ExpandoEventHandler(this.expando_StateChanged);
+			e.Expando.StateChanged -= expando_StateChanged;
 
 			// update the layout of the controls
-			this.DoLayout();
+			DoLayout();
 
 			//
 			if (ExpandoRemoved != null)
@@ -1215,57 +1233,57 @@ namespace XPExplorerBar
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			// paint background
-			if (this.BackImage != null)
+			if (BackImage != null)
 			{
 				//base.OnPaintBackground(e);
 
 				WrapMode wrap = WrapMode.Clamp;
 				
-				if ((this.StretchMode == ImageStretchMode.Tile) || (this.StretchMode == ImageStretchMode.Horizontal))
+				if ((StretchMode == ImageStretchMode.Tile) || (StretchMode == ImageStretchMode.Horizontal))
 				{
 					wrap = WrapMode.Tile;
 				}
 
-				using (TextureBrush brush = new TextureBrush(this.BackImage, wrap))
+				using (TextureBrush brush = new TextureBrush(BackImage, wrap))
 				{
-					e.Graphics.FillRectangle(brush, this.DisplayRectangle);
+					e.Graphics.FillRectangle(brush, DisplayRectangle);
 				}
 			}
 			else
 			{
-				if (this.GradientStartColor != this.GradientEndColor)
+				if (GradientStartColor != GradientEndColor)
 				{
-					using (LinearGradientBrush brush = new LinearGradientBrush(this.DisplayRectangle, 
-							   this.GradientStartColor, 
-							   this.GradientEndColor, 
-							   this.GradientDirection))
+					using (LinearGradientBrush brush = new LinearGradientBrush(DisplayRectangle, 
+							   GradientStartColor, 
+							   GradientEndColor, 
+							   GradientDirection))
 					{
-						e.Graphics.FillRectangle(brush, this.DisplayRectangle);
+						e.Graphics.FillRectangle(brush, DisplayRectangle);
 					}
 				}
 				else
 				{
-					using (SolidBrush brush = new SolidBrush(this.GradientStartColor))
+					using (SolidBrush brush = new SolidBrush(GradientStartColor))
 					{
-						e.Graphics.FillRectangle(brush, this.ClientRectangle);
+						e.Graphics.FillRectangle(brush, ClientRectangle);
 					}
 				}
 			}
 
 			// draw the watermark if we have one
-			if (this.Watermark != null)
+			if (Watermark != null)
 			{
-				Rectangle rect = new Rectangle(0, 0, this.Watermark.Width, this.Watermark.Height);
+				Rectangle rect = new Rectangle(0, 0, Watermark.Width, Watermark.Height);
 
 				// work out a rough location of where the watermark should go
 
-				switch (this.WatermarkAlignment)
+				switch (WatermarkAlignment)
 				{
 					case ContentAlignment.BottomCenter:
 					case ContentAlignment.BottomLeft:
 					case ContentAlignment.BottomRight:
 					{
-						rect.Y = this.DisplayRectangle.Bottom - this.Watermark.Height;
+						rect.Y = DisplayRectangle.Bottom - Watermark.Height;
 						
 						break;
 					}
@@ -1274,19 +1292,19 @@ namespace XPExplorerBar
 					case ContentAlignment.MiddleLeft:
 					case ContentAlignment.MiddleRight:
 					{
-						rect.Y = this.DisplayRectangle.Top + ((this.DisplayRectangle.Height - this.Watermark.Height) / 2);
+						rect.Y = DisplayRectangle.Top + ((DisplayRectangle.Height - Watermark.Height) / 2);
 						
 						break;
 					}
 				}
 
-				switch (this.WatermarkAlignment)
+				switch (WatermarkAlignment)
 				{
 					case ContentAlignment.BottomRight:
 					case ContentAlignment.MiddleRight:
 					case ContentAlignment.TopRight:
 					{
-						rect.X = this.ClientRectangle.Right - this.Watermark.Width;
+						rect.X = ClientRectangle.Right - Watermark.Width;
 						
 						break;
 					}
@@ -1295,7 +1313,7 @@ namespace XPExplorerBar
 					case ContentAlignment.MiddleCenter:
 					case ContentAlignment.TopCenter:
 					{
-						rect.X = this.ClientRectangle.Left + ((this.ClientRectangle.Width - this.Watermark.Width) / 2);
+						rect.X = ClientRectangle.Left + ((ClientRectangle.Width - Watermark.Width) / 2);
 						
 						break;
 					}
@@ -1309,23 +1327,23 @@ namespace XPExplorerBar
 					rect.X = 0;
 				}
 
-				if (rect.Width > this.ClientRectangle.Width)
+				if (rect.Width > ClientRectangle.Width)
 				{
-					rect.Width = this.ClientRectangle.Width;
+					rect.Width = ClientRectangle.Width;
 				}
 
-				if (rect.Y < this.DisplayRectangle.Top)
+				if (rect.Y < DisplayRectangle.Top)
 				{
-					rect.Y = this.DisplayRectangle.Top;
+					rect.Y = DisplayRectangle.Top;
 				}
 
-				if (rect.Height > this.DisplayRectangle.Height)
+				if (rect.Height > DisplayRectangle.Height)
 				{
-					rect.Height = this.DisplayRectangle.Height;
+					rect.Height = DisplayRectangle.Height;
 				}
 
 				// draw the watermark
-				e.Graphics.DrawImage(this.Watermark, rect);
+				e.Graphics.DrawImage(Watermark, rect);
 			}
 		}
 
@@ -1338,21 +1356,21 @@ namespace XPExplorerBar
 		{
 			base.OnPaint(e);
 
-			if (this.dropPoint != Point.Empty)
+			if (dropPoint != Point.Empty)
 			{
-				int width = this.ClientSize.Width - this.Padding.Left - this.Padding.Right;
+				int width = ClientSize.Width - Padding.Left - Padding.Right;
 
-				using (Brush brush = new SolidBrush(this.ExpandoDropIndicatorColor))
+				using (Brush brush = new SolidBrush(ExpandoDropIndicatorColor))
 				{
-					e.Graphics.FillRectangle(brush, this.Padding.Left, this.dropPoint.Y, width, 1);
+					e.Graphics.FillRectangle(brush, Padding.Left, dropPoint.Y, width, 1);
 
-					e.Graphics.FillPolygon(brush, new Point[] { new Point(this.Padding.Left, this.dropPoint.Y - 4), 
-																  new Point(this.Padding.Left + 4, this.dropPoint.Y), 
-																  new Point(this.Padding.Left, this.dropPoint.Y + 4)});
+					e.Graphics.FillPolygon(brush, new[] { new Point(Padding.Left, dropPoint.Y - 4), 
+																  new Point(Padding.Left + 4, dropPoint.Y), 
+																  new Point(Padding.Left, dropPoint.Y + 4)});
 
-					e.Graphics.FillPolygon(brush, new Point[] { new Point(this.Width - this.Padding.Right, this.dropPoint.Y - 4), 
-																  new Point(this.Width - this.Padding.Right - 4, this.dropPoint.Y), 
-																  new Point(this.Width - this.Padding.Right, this.dropPoint.Y + 4)});
+					e.Graphics.FillPolygon(brush, new[] { new Point(Width - Padding.Right, dropPoint.Y - 4), 
+																  new Point(Width - Padding.Right - 4, dropPoint.Y), 
+																  new Point(Width - Padding.Right, dropPoint.Y + 4)});
 				}
 			}
 		}
@@ -1374,9 +1392,9 @@ namespace XPExplorerBar
 		/// <param name="e">An EventArgs that contains the event data</param>
 		private void OnParentChanged(object sender, EventArgs e)
 		{
-			if (this.Parent != null)
+			if (Parent != null)
 			{
-				this.Parent.VisibleChanged += new EventHandler(this.OnParentVisibleChanged);
+				Parent.VisibleChanged += OnParentVisibleChanged;
 			}
 		}
 
@@ -1388,16 +1406,16 @@ namespace XPExplorerBar
 		/// <param name="e">An EventArgs that contains the event data</param>
 		private void OnParentVisibleChanged(object sender, EventArgs e)
 		{
-			if (sender != this.Parent)
+			if (sender != Parent)
 			{
-				((Control) sender).VisibleChanged -= new EventHandler(this.OnParentVisibleChanged);
+				((Control) sender).VisibleChanged -= OnParentVisibleChanged;
 				
 				return;
 			}
 
-			if (this.Parent.Visible)
+			if (Parent.Visible)
 			{
-				this.DoLayout();
+				DoLayout();
 			}
 		}
 
@@ -1415,38 +1433,38 @@ namespace XPExplorerBar
 
 			// don't go any further if we are explicitly using
 			// the classic or a custom theme
-			if (this.classicTheme || this.customTheme)
+			if (classicTheme || customTheme)
 			{
 				return;
 			}
 
-			this.SuspendLayout();
+			SuspendLayout();
 
 			// get rid of the current system theme info
-			this.systemSettings.Dispose();
-			this.systemSettings = null;
+			systemSettings.Dispose();
+			systemSettings = null;
 
 			// get a new system theme info for the new theme
-			this.systemSettings = ThemeManager.GetSystemExplorerBarSettings();
+			systemSettings = ThemeManager.GetSystemExplorerBarSettings();
 			
-			this.BackgroundImage = this.BackImage;
+			BackgroundImage = BackImage;
 
 
 			// update the system settings for each expando
-			foreach (Control control in this.Controls)
+			foreach (Control control in Controls)
 			{
 				if (control is Expando)
 				{
 					Expando expando = (Expando) control;
 					
-					expando.SystemSettings = this.systemSettings;
+					expando.SystemSettings = systemSettings;
 				}
 			}
 
 			// update the layout of the controls
-			this.DoLayout();
+			DoLayout();
 
-			this.ResumeLayout(true);
+			ResumeLayout(true);
 		}
 
 		#endregion
@@ -1461,7 +1479,7 @@ namespace XPExplorerBar
 		{
 			base.OnSizeChanged(e);
 
-			this.DoLayout();
+			DoLayout();
 		}
 
 		#endregion
@@ -1493,7 +1511,7 @@ namespace XPExplorerBar
 			/// </summary>
 			/// <param name="owner">A TaskPane representing the taskpane that owns 
 			/// the Expando collection</param>
-			public ExpandoCollection(TaskPane owner) : base()
+			public ExpandoCollection(TaskPane owner)
 			{
 				if (owner == null)
 				{
@@ -1519,10 +1537,10 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("value");
 				}
 
-				this.List.Add(value);
-				this.owner.Controls.Add(value);
+				List.Add(value);
+				owner.Controls.Add(value);
 
-				this.owner.OnExpandoAdded(new ExpandoEventArgs(value));
+				owner.OnExpandoAdded(new ExpandoEventArgs(value));
 			}
 
 
@@ -1540,7 +1558,7 @@ namespace XPExplorerBar
 
 				for (int i=0; i<expandos.Length; i++)
 				{
-					this.Add(expandos[i]);
+					Add(expandos[i]);
 				}
 			}
 			
@@ -1550,9 +1568,9 @@ namespace XPExplorerBar
 			/// </summary>
 			public new void Clear()
 			{
-				while (this.Count > 0)
+				while (Count > 0)
 				{
-					this.RemoveAt(0);
+					RemoveAt(0);
 				}
 			}
 
@@ -1571,7 +1589,7 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("expando");
 				}
 
-				return (this.IndexOf(expando) != -1);
+				return (IndexOf(expando) != -1);
 			}
 
 
@@ -1589,7 +1607,7 @@ namespace XPExplorerBar
 					return false;
 				}
 
-				return this.Contains((Expando) control);
+				return Contains((Expando) control);
 			}
 
 
@@ -1607,7 +1625,7 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("expando");
 				}
 				
-				for (int i=0; i<this.Count; i++)
+				for (int i=0; i<Count; i++)
 				{
 					if (this[i] == expando)
 					{
@@ -1631,11 +1649,11 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("value");
 				}
 
-				this.List.Remove(value);
+				List.Remove(value);
 
-				this.owner.Controls.Remove(value);
+				owner.Controls.Remove(value);
 
-				this.owner.OnExpandoRemoved(new ExpandoEventArgs(value));
+				owner.OnExpandoRemoved(new ExpandoEventArgs(value));
 			}
 
 			
@@ -1647,7 +1665,7 @@ namespace XPExplorerBar
 			/// remove</param>
 			public new void RemoveAt(int index)
 			{
-				this.Remove(this[index]);
+				Remove(this[index]);
 			}
 
 
@@ -1670,35 +1688,35 @@ namespace XPExplorerBar
 				{
 					index = 0;
 				}
-				else if (index > this.Count)
+				else if (index > Count)
 				{
-					index = this.Count;
+					index = Count;
 				}
 
 				// don't go any further if the expando is already 
 				// in the desired position or we don't contain it
-				if (!this.Contains(value) || this.IndexOf(value) == index)
+				if (!Contains(value) || IndexOf(value) == index)
 				{
 					return;
 				}
 
-				this.List.Remove(value);
+				List.Remove(value);
 
 				// if the index we're supposed to move the expando to
 				// is now greater to the number of expandos contained, 
 				// add it to the end of the list, otherwise insert it at 
 				// the specified index
-				if (index > this.Count)
+				if (index > Count)
 				{
-					this.List.Add(value);
+					List.Add(value);
 				}
 				else
 				{
-					this.List.Insert(index, value);
+					List.Insert(index, value);
 				}
 
 				// re-layout the controls
-				this.owner.MatchControlCollToExpandoColl();
+				owner.MatchControlCollToExpandoColl();
 			}
 
 
@@ -1708,7 +1726,7 @@ namespace XPExplorerBar
 			/// <param name="value">The expando to be moved</param>
 			public void MoveToTop(Expando value)
 			{
-				this.Move(value, 0);
+				Move(value, 0);
 			}
 
 
@@ -1718,7 +1736,7 @@ namespace XPExplorerBar
 			/// <param name="value">The expando to be moved</param>
 			public void MoveToBottom(Expando value)
 			{
-				this.Move(value, this.Count);
+				Move(value, Count);
 			}
 
 			#endregion
@@ -1736,7 +1754,7 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.List[index] as Expando;
+					return List[index] as Expando;
 				}
 			}
 
@@ -1812,7 +1830,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of a TaskPane (as 
 		/// TaskPanes contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable(),
+		[Serializable,
 			XmlRoot("TaskPaneSurrogate", Namespace="", IsNullable=false)]
 			public class TaskPaneSurrogate : ISerializable
 		{
@@ -1944,34 +1962,34 @@ namespace XPExplorerBar
 			/// </summary>
 			public TaskPaneSurrogate()
 			{
-				this.Name = null;
+				Name = null;
 
-				this.Size = Size.Empty;
-				this.Location = Point.Empty;
+				Size = Size.Empty;
+				Location = Point.Empty;
 
-				this.BackColor = ThemeManager.ConvertColorToString(SystemColors.Control);
+				BackColor = ThemeManager.ConvertColorToString(SystemColors.Control);
 
-				this.CustomSettings = null;
+				CustomSettings = null;
 
-				this.AutoScroll = false;
-				this.AutoScrollMargin = Size.Empty;
+				AutoScroll = false;
+				AutoScrollMargin = Size.Empty;
 
-				this.Enabled = true;
-				this.Visible = true;
+				Enabled = true;
+				Visible = true;
 
-				this.Anchor = AnchorStyles.None;
-				this.Dock = DockStyle.None;
+				Anchor = AnchorStyles.None;
+				Dock = DockStyle.None;
 
-				this.FontName = "Tahoma";
-				this.FontSize = 8.25f;
-				this.FontDecoration = FontStyle.Regular;
+				FontName = "Tahoma";
+				FontSize = 8.25f;
+				FontDecoration = FontStyle.Regular;
 
-				this.Tag = new byte[0];
+				Tag = new byte[0];
 
-				this.AllowExpandoDragging = false;
-				this.ExpandoDropIndicatorColor = ThemeManager.ConvertColorToString(Color.Red);
+				AllowExpandoDragging = false;
+				ExpandoDropIndicatorColor = ThemeManager.ConvertColorToString(Color.Red);
 
-				this.Expandos = new ArrayList();
+				Expandos = new ArrayList();
 			}
 
 			#endregion
@@ -1987,32 +2005,32 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(TaskPane taskPane)
 			{
-				this.Name = taskPane.Name;
-				this.Size = taskPane.Size;
-				this.Location = taskPane.Location;
+				Name = taskPane.Name;
+				Size = taskPane.Size;
+				Location = taskPane.Location;
 
-				this.BackColor = ThemeManager.ConvertColorToString(taskPane.BackColor);
+				BackColor = ThemeManager.ConvertColorToString(taskPane.BackColor);
 
-				this.CustomSettings = new TaskPaneInfo.TaskPaneInfoSurrogate();
-				this.CustomSettings.Load(taskPane.CustomSettings);
+				CustomSettings = new TaskPaneInfo.TaskPaneInfoSurrogate();
+				CustomSettings.Load(taskPane.CustomSettings);
 
-				this.AutoScroll = taskPane.AutoScroll;
-				this.AutoScrollMargin = taskPane.AutoScrollMargin;
+				AutoScroll = taskPane.AutoScroll;
+				AutoScrollMargin = taskPane.AutoScrollMargin;
 
-				this.Enabled = taskPane.Enabled;
-				this.Visible = taskPane.Visible;
+				Enabled = taskPane.Enabled;
+				Visible = taskPane.Visible;
 
-				this.Anchor = taskPane.Anchor;
-				this.Dock = taskPane.Dock;
+				Anchor = taskPane.Anchor;
+				Dock = taskPane.Dock;
 
-				this.FontName = taskPane.Font.FontFamily.Name;
-				this.FontSize = taskPane.Font.SizeInPoints;
-				this.FontDecoration = taskPane.Font.Style;
+				FontName = taskPane.Font.FontFamily.Name;
+				FontSize = taskPane.Font.SizeInPoints;
+				FontDecoration = taskPane.Font.Style;
 
-				this.AllowExpandoDragging = taskPane.AllowExpandoDragging;
-				this.ExpandoDropIndicatorColor =  ThemeManager.ConvertColorToString(taskPane.ExpandoDropIndicatorColor);
+				AllowExpandoDragging = taskPane.AllowExpandoDragging;
+				ExpandoDropIndicatorColor =  ThemeManager.ConvertColorToString(taskPane.ExpandoDropIndicatorColor);
 
-				this.Tag = ThemeManager.ConvertObjectToByteArray(taskPane.Tag);
+				Tag = ThemeManager.ConvertObjectToByteArray(taskPane.Tag);
 
 				foreach (Expando expando in taskPane.Expandos)
 				{
@@ -2020,7 +2038,7 @@ namespace XPExplorerBar
 
 					es.Load(expando);
 
-					this.Expandos.Add(es);
+					Expandos.Add(es);
 				}
 			}
 
@@ -2035,32 +2053,32 @@ namespace XPExplorerBar
 				((ISupportInitialize) taskPane).BeginInit();
 				taskPane.SuspendLayout();
 
-				taskPane.Name = this.Name;
-				taskPane.Size = this.Size;
-				taskPane.Location = this.Location;
+				taskPane.Name = Name;
+				taskPane.Size = Size;
+				taskPane.Location = Location;
 
-				taskPane.BackColor = ThemeManager.ConvertStringToColor(this.BackColor);
+				taskPane.BackColor = ThemeManager.ConvertStringToColor(BackColor);
 
-				taskPane.customSettings = this.CustomSettings.Save();
+				taskPane.customSettings = CustomSettings.Save();
 				taskPane.customSettings.TaskPane = taskPane;
 
-				taskPane.AutoScroll = this.AutoScroll;
-				taskPane.AutoScrollMargin = this.AutoScrollMargin;
+				taskPane.AutoScroll = AutoScroll;
+				taskPane.AutoScrollMargin = AutoScrollMargin;
 
-				taskPane.Enabled = this.Enabled;
-				taskPane.Visible = this.Visible;
+				taskPane.Enabled = Enabled;
+				taskPane.Visible = Visible;
 
-				taskPane.Anchor = this.Anchor;
-				taskPane.Dock = this.Dock;
+				taskPane.Anchor = Anchor;
+				taskPane.Dock = Dock;
 
-				taskPane.Font = new Font(this.FontName, this.FontSize, this.FontDecoration);
+				taskPane.Font = new Font(FontName, FontSize, FontDecoration);
 
-				taskPane.Tag = ThemeManager.ConvertByteArrayToObject(this.Tag);
+				taskPane.Tag = ThemeManager.ConvertByteArrayToObject(Tag);
 
-				taskPane.AllowExpandoDragging = this.AllowExpandoDragging;
-				taskPane.ExpandoDropIndicatorColor = ThemeManager.ConvertStringToColor(this.ExpandoDropIndicatorColor);
+				taskPane.AllowExpandoDragging = AllowExpandoDragging;
+				taskPane.ExpandoDropIndicatorColor = ThemeManager.ConvertStringToColor(ExpandoDropIndicatorColor);
 
-				foreach (Object o in this.Expandos)
+				foreach (Object o in Expandos)
 				{
 					Expando e = ((Expando.ExpandoSurrogate) o).Save();
 					
@@ -2082,35 +2100,35 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 				
-				info.AddValue("Name", this.Name);
-				info.AddValue("Size", this.Size);
-				info.AddValue("Location", this.Location);
+				info.AddValue("Name", Name);
+				info.AddValue("Size", Size);
+				info.AddValue("Location", Location);
 
-				info.AddValue("BackColor", this.BackColor);
+				info.AddValue("BackColor", BackColor);
 
-				info.AddValue("CustomSettings", this.CustomSettings);
+				info.AddValue("CustomSettings", CustomSettings);
 
-				info.AddValue("AutoScroll", this.AutoScroll);
-				info.AddValue("AutoScrollMargin", this.AutoScrollMargin);
+				info.AddValue("AutoScroll", AutoScroll);
+				info.AddValue("AutoScrollMargin", AutoScrollMargin);
 
-				info.AddValue("Enabled", this.Enabled);
-				info.AddValue("Visible", this.Visible);
+				info.AddValue("Enabled", Enabled);
+				info.AddValue("Visible", Visible);
 
-				info.AddValue("Anchor", this.Anchor);
-				info.AddValue("Dock", this.Dock);
+				info.AddValue("Anchor", Anchor);
+				info.AddValue("Dock", Dock);
 				
-				info.AddValue("FontName", this.FontName);
-				info.AddValue("FontSize", this.FontSize);
-				info.AddValue("FontDecoration", this.FontDecoration);
+				info.AddValue("FontName", FontName);
+				info.AddValue("FontSize", FontSize);
+				info.AddValue("FontDecoration", FontDecoration);
 
-				info.AddValue("AllowExpandoDragging", this.AllowExpandoDragging);
-				info.AddValue("ExpandoDropIndicatorColor", this.ExpandoDropIndicatorColor);
+				info.AddValue("AllowExpandoDragging", AllowExpandoDragging);
+				info.AddValue("ExpandoDropIndicatorColor", ExpandoDropIndicatorColor);
 				
-				info.AddValue("Tag", this.Tag);
+				info.AddValue("Tag", Tag);
 				
-				info.AddValue("Expandos", this.Expandos);
+				info.AddValue("Expandos", Expandos);
 			}
 
 
@@ -2121,40 +2139,40 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the TaskPaneSurrogate</param>
 			/// <param name="context">The source from which the TaskPaneSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected TaskPaneSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected TaskPaneSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 
-				this.Name = info.GetString("Name");
-				this.Size = (Size) info.GetValue("Size", typeof(Size));
-				this.Location = (Point) info.GetValue("Location", typeof(Point));
+				Name = info.GetString("Name");
+				Size = (Size) info.GetValue("Size", typeof(Size));
+				Location = (Point) info.GetValue("Location", typeof(Point));
 
-				this.BackColor = info.GetString("BackColor");
+				BackColor = info.GetString("BackColor");
 
-				this.CustomSettings = (TaskPaneInfo.TaskPaneInfoSurrogate) info.GetValue("CustomSettings", typeof(TaskPaneInfo.TaskPaneInfoSurrogate));
+				CustomSettings = (TaskPaneInfo.TaskPaneInfoSurrogate) info.GetValue("CustomSettings", typeof(TaskPaneInfo.TaskPaneInfoSurrogate));
 
-				this.AutoScroll = info.GetBoolean("AutoScroll");
-				this.AutoScrollMargin = (Size) info.GetValue("AutoScrollMargin", typeof(Size));
+				AutoScroll = info.GetBoolean("AutoScroll");
+				AutoScrollMargin = (Size) info.GetValue("AutoScrollMargin", typeof(Size));
 
-				this.Enabled = info.GetBoolean("Enabled");
-				this.Visible = info.GetBoolean("Visible");
+				Enabled = info.GetBoolean("Enabled");
+				Visible = info.GetBoolean("Visible");
 				
-				this.Anchor = (AnchorStyles) info.GetValue("Anchor", typeof(AnchorStyles));
-				this.Dock = (DockStyle) info.GetValue("Dock", typeof(DockStyle));
+				Anchor = (AnchorStyles) info.GetValue("Anchor", typeof(AnchorStyles));
+				Dock = (DockStyle) info.GetValue("Dock", typeof(DockStyle));
 
-				this.FontName = info.GetString("FontName");
-				this.FontSize = info.GetSingle("FontSize");
-				this.FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
+				FontName = info.GetString("FontName");
+				FontSize = info.GetSingle("FontSize");
+				FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
 
 				if (version >= 3300)
 				{
-					this.AllowExpandoDragging = info.GetBoolean("AllowExpandoDragging");
-					this.ExpandoDropIndicatorColor = info.GetString("ExpandoDropIndicatorColor");
+					AllowExpandoDragging = info.GetBoolean("AllowExpandoDragging");
+					ExpandoDropIndicatorColor = info.GetString("ExpandoDropIndicatorColor");
 				}
 
-				this.Tag = (byte[]) info.GetValue("Tag", typeof(byte[]));
+				Tag = (byte[]) info.GetValue("Tag", typeof(byte[]));
 
-				this.Expandos = (ArrayList) info.GetValue("Expandos", typeof(ArrayList));
+				Expandos = (ArrayList) info.GetValue("Expandos", typeof(ArrayList));
 			}
 
 			#endregion
@@ -2178,7 +2196,7 @@ namespace XPExplorerBar
 		/// <summary>
 		/// Initializes a new instance of the TaskPaneDesigner class
 		/// </summary>
-		public TaskPaneDesigner() : base()
+		public TaskPaneDesigner()
 		{
 			
 		}
@@ -2190,7 +2208,7 @@ namespace XPExplorerBar
 		/// </summary>
 		/// <param name="properties">An IDictionary containing the properties 
 		/// for the class of the component</param>
-		protected override void PreFilterProperties(System.Collections.IDictionary properties)
+		protected override void PreFilterProperties(IDictionary properties)
 		{
 			base.PreFilterProperties(properties);
 

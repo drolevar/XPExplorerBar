@@ -1,11 +1,13 @@
-﻿namespace XPExplorerBarDemo
+﻿using System.ComponentModel;
+
+namespace XPExplorerBarDemo
 {
     partial class DemoForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.

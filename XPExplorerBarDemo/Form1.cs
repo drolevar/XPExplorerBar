@@ -2,41 +2,39 @@
  * Copyright (c) 2004, Mathew Hall
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
- *    - Redistributions of source code must retain the above copyright notice, 
+ *    - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * 
- *    - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ *
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
 
 
 using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security;
 using System.Windows.Forms;
-
 using XPExplorerBar;
-
 
 namespace XPExplorerBarDemo
 {
@@ -45,7 +43,7 @@ namespace XPExplorerBarDemo
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public partial class DemoForm : System.Windows.Forms.Form
+	public partial class DemoForm : Form
 	{
 		#region Constructor
 
@@ -65,11 +63,11 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		private void InitialiseDescriptors()
 		{
-			this.customTaskPaneDescriptor = new TaskPaneDescriptor(this.customTaskPane);
-			this.customExpandoDescriptor = new ExpandoDescriptor(this.customExpando);
-			this.customTaskItem1Descriptor = new TaskItemDescriptor(this.customTaskItem1);
-			this.customTaskItem2Descriptor = new TaskItemDescriptor(this.customTaskItem2);
-			this.customTaskItem3Descriptor = new TaskItemDescriptor(this.customTaskItem3);
+			customTaskPaneDescriptor = new TaskPaneDescriptor(customTaskPane);
+			customExpandoDescriptor = new ExpandoDescriptor(customExpando);
+			customTaskItem1Descriptor = new TaskItemDescriptor(customTaskItem1);
+			customTaskItem2Descriptor = new TaskItemDescriptor(customTaskItem2);
+			customTaskItem3Descriptor = new TaskItemDescriptor(customTaskItem3);
 		}
 
 		#endregion
@@ -98,7 +96,7 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void exitMenuItem_Click(object sender, System.EventArgs e)
+		private void exitMenuItem_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
 		}
@@ -109,14 +107,14 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void animateMenuItem_Click(object sender, System.EventArgs e)
+		private void animateMenuItem_Click(object sender, EventArgs e)
 		{
-			this.animateMenuItem.Checked = !this.animateMenuItem.Checked;
+			animateMenuItem.Checked = !animateMenuItem.Checked;
 
-			this.pictureTasksExpando.Animate = this.animateMenuItem.Checked;
-			this.fileAndFolderTasksExpando.Animate = this.animateMenuItem.Checked;
-			this.otherPlacesExpando.Animate = this.animateMenuItem.Checked;
-			this.detailsExpando.Animate = this.animateMenuItem.Checked;
+			pictureTasksExpando.Animate = animateMenuItem.Checked;
+			fileAndFolderTasksExpando.Animate = animateMenuItem.Checked;
+			otherPlacesExpando.Animate = animateMenuItem.Checked;
+			detailsExpando.Animate = animateMenuItem.Checked;
 		}
 
 
@@ -125,9 +123,9 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void cycleMenuItem_Click(object sender, System.EventArgs e)
+		private void cycleMenuItem_Click(object sender, EventArgs e)
 		{
-			this.systemTaskPane.Expandos.MoveToBottom(this.systemTaskPane.Expandos[0]);
+			systemTaskPane.Expandos.MoveToBottom(systemTaskPane.Expandos[0]);
 		}
 
 
@@ -136,11 +134,11 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void expandoDraggingMenuItem_Click(object sender, System.EventArgs e)
+		private void expandoDraggingMenuItem_Click(object sender, EventArgs e)
 		{
-			this.expandoDraggingMenuItem.Checked = !this.expandoDraggingMenuItem.Checked;
+			expandoDraggingMenuItem.Checked = !expandoDraggingMenuItem.Checked;
 
-			this.systemTaskPane.AllowExpandoDragging = this.expandoDraggingMenuItem.Checked;
+			systemTaskPane.AllowExpandoDragging = expandoDraggingMenuItem.Checked;
 		}
 
 
@@ -149,18 +147,18 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void classicMenuItem_Click(object sender, System.EventArgs e)
+		private void classicMenuItem_Click(object sender, EventArgs e)
 		{
-			this.classicMenuItem.Checked = true;
-			this.blueMenuItem.Checked = false;
-			this.itunesMenuItem.Checked = false;
-			this.pantherMenuItem.Checked = false;
-			this.bwMenuItem.Checked = false;
-			this.xboxMenuItem.Checked = false;
-			this.defaultMenuItem.Checked = false;
+			classicMenuItem.Checked = true;
+			blueMenuItem.Checked = false;
+			itunesMenuItem.Checked = false;
+			pantherMenuItem.Checked = false;
+			bwMenuItem.Checked = false;
+			xboxMenuItem.Checked = false;
+			defaultMenuItem.Checked = false;
 
-			this.systemTaskPane.UseClassicTheme();
-			this.customTaskPane.UseClassicTheme();
+			systemTaskPane.UseClassicTheme();
+			customTaskPane.UseClassicTheme();
 		}
 
 
@@ -169,15 +167,15 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void blueMenuItem_Click(object sender, System.EventArgs e)
+		private void blueMenuItem_Click(object sender, EventArgs e)
 		{
-			this.classicMenuItem.Checked = false;
-			this.blueMenuItem.Checked = true;
-			this.itunesMenuItem.Checked = false;
-			this.pantherMenuItem.Checked = false;
-			this.bwMenuItem.Checked = false;
-			this.xboxMenuItem.Checked = false;
-			this.defaultMenuItem.Checked = false;
+			classicMenuItem.Checked = false;
+			blueMenuItem.Checked = true;
+			itunesMenuItem.Checked = false;
+			pantherMenuItem.Checked = false;
+			bwMenuItem.Checked = false;
+			xboxMenuItem.Checked = false;
+			defaultMenuItem.Checked = false;
 
 			// foreverblue.dll is a cut down version of the the 
 			// forever blue theme. do not attempt to use this as 
@@ -185,8 +183,8 @@ namespace XPExplorerBarDemo
 			// several images being removed from the dll to keep
 			// file sizes down.  the original forever blue theme 
 			// can be found at http://www.themexp.org/
-			this.systemTaskPane.UseCustomTheme("foreverblue.dll");
-			this.customTaskPane.UseCustomTheme("foreverblue.dll");
+			systemTaskPane.UseCustomTheme(Theme.ForeverBlue);
+			customTaskPane.UseCustomTheme(Theme.ForeverBlue);
 		}
 
 		/// <summary>
@@ -194,15 +192,15 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void itunesMenuItem_Click(object sender, System.EventArgs e)
+		private void itunesMenuItem_Click(object sender, EventArgs e)
 		{
-			this.classicMenuItem.Checked = false;
-			this.blueMenuItem.Checked = false;
-			this.itunesMenuItem.Checked = true;
-			this.pantherMenuItem.Checked = false;
-			this.bwMenuItem.Checked = false;
-			this.xboxMenuItem.Checked = false;
-			this.defaultMenuItem.Checked = false;
+			classicMenuItem.Checked = false;
+			blueMenuItem.Checked = false;
+			itunesMenuItem.Checked = true;
+			pantherMenuItem.Checked = false;
+			bwMenuItem.Checked = false;
+			xboxMenuItem.Checked = false;
+			defaultMenuItem.Checked = false;
 
 			// itunes.dll is a cut down version of the the 
 			// iTunes theme. do not attempt to use this as 
@@ -210,8 +208,8 @@ namespace XPExplorerBarDemo
 			// several images being removed from the dll to keep
 			// file sizes down.  the original iTunes theme 
 			// can be found at http://www.themexp.org/
-			this.systemTaskPane.UseCustomTheme("itunes.dll");
-			this.customTaskPane.UseCustomTheme("itunes.dll");
+			systemTaskPane.UseCustomTheme(Theme.ITunes);
+			customTaskPane.UseCustomTheme(Theme.ITunes);
 		}
 
 
@@ -220,15 +218,15 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void pantherMenuItem_Click(object sender, System.EventArgs e)
+		private void pantherMenuItem_Click(object sender, EventArgs e)
 		{
-			this.classicMenuItem.Checked = false;
-			this.blueMenuItem.Checked = false;
-			this.itunesMenuItem.Checked = false;
-			this.pantherMenuItem.Checked = true;
-			this.bwMenuItem.Checked = false;
-			this.xboxMenuItem.Checked = false;
-			this.defaultMenuItem.Checked = false;
+			classicMenuItem.Checked = false;
+			blueMenuItem.Checked = false;
+			itunesMenuItem.Checked = false;
+			pantherMenuItem.Checked = true;
+			bwMenuItem.Checked = false;
+			xboxMenuItem.Checked = false;
+			defaultMenuItem.Checked = false;
 
 			// panther.dll is a cut down version of the the 
 			// OS X Panther theme. do not attempt to use this as 
@@ -236,8 +234,8 @@ namespace XPExplorerBarDemo
 			// several images being removed from the dll to keep
 			// file sizes down.  the original OS X Panther theme 
 			// can be found at http://www.themexp.org/
-			this.systemTaskPane.UseCustomTheme("panther.dll");
-			this.customTaskPane.UseCustomTheme("panther.dll");
+			systemTaskPane.UseCustomTheme(Theme.Panther);
+			customTaskPane.UseCustomTheme(Theme.Panther);
 		}
 
 
@@ -246,18 +244,18 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void bwMenuItem_Click(object sender, System.EventArgs e)
+		private void bwMenuItem_Click(object sender, EventArgs e)
 		{
-			this.classicMenuItem.Checked = false;
-			this.blueMenuItem.Checked = false;
-			this.itunesMenuItem.Checked = false;
-			this.pantherMenuItem.Checked = false;
-			this.bwMenuItem.Checked = true;
-			this.xboxMenuItem.Checked = false;
-			this.defaultMenuItem.Checked = false;
+			classicMenuItem.Checked = false;
+			blueMenuItem.Checked = false;
+			itunesMenuItem.Checked = false;
+			pantherMenuItem.Checked = false;
+			bwMenuItem.Checked = true;
+			xboxMenuItem.Checked = false;
+			defaultMenuItem.Checked = false;
 
-			this.systemTaskPane.UseCustomTheme("bw.dll");
-			this.customTaskPane.UseCustomTheme("bw.dll");
+			systemTaskPane.UseCustomTheme(Theme.BW);
+			customTaskPane.UseCustomTheme(Theme.BW);
 		}
 
 
@@ -266,15 +264,15 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void xboxMenuItem_Click(object sender, System.EventArgs e)
+		private void xboxMenuItem_Click(object sender, EventArgs e)
 		{
-			this.classicMenuItem.Checked = false;
-			this.blueMenuItem.Checked = false;
-			this.itunesMenuItem.Checked = false;
-			this.pantherMenuItem.Checked = false;
-			this.bwMenuItem.Checked = false;
-			this.xboxMenuItem.Checked = true;
-			this.defaultMenuItem.Checked = false;
+			classicMenuItem.Checked = false;
+			blueMenuItem.Checked = false;
+			itunesMenuItem.Checked = false;
+			pantherMenuItem.Checked = false;
+			bwMenuItem.Checked = false;
+			xboxMenuItem.Checked = true;
+			defaultMenuItem.Checked = false;
 
 			// xbox.dll is a cut down version of the the 
 			// XtremeXP theme. do not attempt to use this as 
@@ -282,8 +280,8 @@ namespace XPExplorerBarDemo
 			// several images being removed from the dll to keep
 			// file sizes down.  the original XtremeXP theme 
 			// can be found at http://www.themexp.org/
-			this.systemTaskPane.UseCustomTheme("xbox.dll");
-			this.customTaskPane.UseCustomTheme("xbox.dll");
+			systemTaskPane.UseCustomTheme(Theme.Xbox);
+			customTaskPane.UseCustomTheme(Theme.Xbox);
 		}
 
 
@@ -292,18 +290,18 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void defaultMenuItem_Click(object sender, System.EventArgs e)
+		private void defaultMenuItem_Click(object sender, EventArgs e)
 		{
-			this.classicMenuItem.Checked = false;
-			this.blueMenuItem.Checked = false;
-			this.itunesMenuItem.Checked = false;
-			this.pantherMenuItem.Checked = false;
-			this.bwMenuItem.Checked = false;
-			this.xboxMenuItem.Checked = false;
-			this.defaultMenuItem.Checked = true;
+			classicMenuItem.Checked = false;
+			blueMenuItem.Checked = false;
+			itunesMenuItem.Checked = false;
+			pantherMenuItem.Checked = false;
+			bwMenuItem.Checked = false;
+			xboxMenuItem.Checked = false;
+			defaultMenuItem.Checked = true;
 
-			this.systemTaskPane.UseCustomTheme("default.dll");
-			this.customTaskPane.UseCustomTheme("default.dll");
+			systemTaskPane.UseDefaultTheme();
+			customTaskPane.UseDefaultTheme();
 		}
 
 
@@ -312,22 +310,22 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void myPicturesMenuItem_Click(object sender, System.EventArgs e)
+		private void myPicturesMenuItem_Click(object sender, EventArgs e)
 		{
-			if (this.otherPlacesExpando.Collapsed)
+			if (otherPlacesExpando.Collapsed)
 			{
 				return;
 			}
 			
-			this.myPicturesMenuItem.Checked = !this.myPicturesMenuItem.Checked;
+			myPicturesMenuItem.Checked = !myPicturesMenuItem.Checked;
 			
-			if (!this.myPicturesMenuItem.Checked)
+			if (!myPicturesMenuItem.Checked)
 			{
-				this.otherPlacesExpando.HideControl(this.myPicturesTaskItem);
+				otherPlacesExpando.HideControl(myPicturesTaskItem);
 			}
 			else
 			{
-				this.otherPlacesExpando.ShowControl(this.myPicturesTaskItem);
+				otherPlacesExpando.ShowControl(myPicturesTaskItem);
 			}
 		}
 
@@ -337,22 +335,22 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void myComputerMenuItem_Click(object sender, System.EventArgs e)
+		private void myComputerMenuItem_Click(object sender, EventArgs e)
 		{
-			if (this.otherPlacesExpando.Collapsed)
+			if (otherPlacesExpando.Collapsed)
 			{
 				return;
 			}
 			
-			this.myComputerMenuItem.Checked = !this.myComputerMenuItem.Checked;
+			myComputerMenuItem.Checked = !myComputerMenuItem.Checked;
 			
-			if (!this.myComputerMenuItem.Checked)
+			if (!myComputerMenuItem.Checked)
 			{
-				this.otherPlacesExpando.HideControl(this.myComputerTaskItem);
+				otherPlacesExpando.HideControl(myComputerTaskItem);
 			}
 			else
 			{
-				this.otherPlacesExpando.ShowControl(this.myComputerTaskItem);
+				otherPlacesExpando.ShowControl(myComputerTaskItem);
 			}
 		}
 
@@ -362,22 +360,22 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void myNetworkMenuItem_Click(object sender, System.EventArgs e)
+		private void myNetworkMenuItem_Click(object sender, EventArgs e)
 		{
-			if (this.otherPlacesExpando.Collapsed)
+			if (otherPlacesExpando.Collapsed)
 			{
 				return;
 			}
 			
-			this.myNetworkMenuItem.Checked = !this.myNetworkMenuItem.Checked;
+			myNetworkMenuItem.Checked = !myNetworkMenuItem.Checked;
 			
-			if (!this.myNetworkMenuItem.Checked)
+			if (!myNetworkMenuItem.Checked)
 			{
-				this.otherPlacesExpando.HideControl(this.myNetworkPlacesTaskItem);
+				otherPlacesExpando.HideControl(myNetworkPlacesTaskItem);
 			}
 			else
 			{
-				this.otherPlacesExpando.ShowControl(this.myNetworkPlacesTaskItem);
+				otherPlacesExpando.ShowControl(myNetworkPlacesTaskItem);
 			}
 		}
 
@@ -387,29 +385,29 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void showFocusMenuItem_Click(object sender, System.EventArgs e)
+		private void showFocusMenuItem_Click(object sender, EventArgs e)
 		{
-			this.showFocusMenuItem.Checked = !this.showFocusMenuItem.Checked;
-			bool showFocus = this.showFocusMenuItem.Checked;
+			showFocusMenuItem.Checked = !showFocusMenuItem.Checked;
+			bool showFocus = showFocusMenuItem.Checked;
 
-			this.pictureTasksExpando.ShowFocusCues = showFocus;
-			this.slideShowTaskItem.ShowFocusCues = showFocus;
-			this.orderOnlineTaskItem.ShowFocusCues = showFocus;
-			this.printPicturesTaskItem.ShowFocusCues = showFocus;
-			this.copyToCDTaskItem.ShowFocusCues = showFocus;
+			pictureTasksExpando.ShowFocusCues = showFocus;
+			slideShowTaskItem.ShowFocusCues = showFocus;
+			orderOnlineTaskItem.ShowFocusCues = showFocus;
+			printPicturesTaskItem.ShowFocusCues = showFocus;
+			copyToCDTaskItem.ShowFocusCues = showFocus;
 
-			this.fileAndFolderTasksExpando.ShowFocusCues = showFocus;
-			this.newFolderTaskItem.ShowFocusCues = showFocus;
-			this.publishToWebTaskItem.ShowFocusCues = showFocus;
-			this.shareFolderTaskItem.ShowFocusCues = showFocus;
+			fileAndFolderTasksExpando.ShowFocusCues = showFocus;
+			newFolderTaskItem.ShowFocusCues = showFocus;
+			publishToWebTaskItem.ShowFocusCues = showFocus;
+			shareFolderTaskItem.ShowFocusCues = showFocus;
 
-			this.otherPlacesExpando.ShowFocusCues = showFocus;
-			this.myDocumentsTaskItem.ShowFocusCues = showFocus;
-			this.myPicturesTaskItem.ShowFocusCues = showFocus;
-			this.myComputerTaskItem.ShowFocusCues = showFocus;
-			this.myNetworkPlacesTaskItem.ShowFocusCues = showFocus;
+			otherPlacesExpando.ShowFocusCues = showFocus;
+			myDocumentsTaskItem.ShowFocusCues = showFocus;
+			myPicturesTaskItem.ShowFocusCues = showFocus;
+			myComputerTaskItem.ShowFocusCues = showFocus;
+			myNetworkPlacesTaskItem.ShowFocusCues = showFocus;
 
-			this.detailsExpando.ShowFocusCues = showFocus;
+			detailsExpando.ShowFocusCues = showFocus;
 		}
 
 		#endregion
@@ -423,25 +421,25 @@ namespace XPExplorerBarDemo
 		/// <param name="e"></param>
 		private void controlComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (this.controlComboBox.SelectedItem.ToString().Equals("TaskPane"))
+			if (controlComboBox.SelectedItem.ToString().Equals("TaskPane"))
 			{
-				this.customPropertyGrid.SelectedObject = this.customTaskPaneDescriptor;
+				customPropertyGrid.SelectedObject = customTaskPaneDescriptor;
 			}
-			else if (this.controlComboBox.SelectedItem.ToString().Equals("Expando"))
+			else if (controlComboBox.SelectedItem.ToString().Equals("Expando"))
 			{
-				this.customPropertyGrid.SelectedObject = this.customExpandoDescriptor;
+				customPropertyGrid.SelectedObject = customExpandoDescriptor;
 			}
-			else if (this.controlComboBox.SelectedItem.ToString().Equals("TaskItem1"))
+			else if (controlComboBox.SelectedItem.ToString().Equals("TaskItem1"))
 			{
-				this.customPropertyGrid.SelectedObject = this.customTaskItem1Descriptor;
+				customPropertyGrid.SelectedObject = customTaskItem1Descriptor;
 			}
-			else if (this.controlComboBox.SelectedItem.ToString().Equals("TaskItem2"))
+			else if (controlComboBox.SelectedItem.ToString().Equals("TaskItem2"))
 			{
-				this.customPropertyGrid.SelectedObject = this.customTaskItem2Descriptor;
+				customPropertyGrid.SelectedObject = customTaskItem2Descriptor;
 			}
-			else if (this.controlComboBox.SelectedItem.ToString().Equals("TaskItem3"))
+			else if (controlComboBox.SelectedItem.ToString().Equals("TaskItem3"))
 			{
-				this.customPropertyGrid.SelectedObject = this.customTaskItem3Descriptor;
+				customPropertyGrid.SelectedObject = customTaskItem3Descriptor;
 			}
 		}
 
@@ -454,7 +452,7 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void serializeFileButton_Click(object sender, System.EventArgs e)
+		private void serializeFileButton_Click(object sender, EventArgs e)
 		{
 			IFormatter formatter = new BinaryFormatter();
 			
@@ -465,7 +463,7 @@ namespace XPExplorerBarDemo
 				stream = new FileStream("Serialized XPExplorerBar.txt", FileMode.Create, FileAccess.Write, FileShare.None);
 				
 				TaskPane.TaskPaneSurrogate serializeTaskPaneSurrogate = new TaskPane.TaskPaneSurrogate(); 
-				serializeTaskPaneSurrogate.Load(this.serializeTaskPane);
+				serializeTaskPaneSurrogate.Load(serializeTaskPane);
 				
 				formatter.Serialize(stream, serializeTaskPaneSurrogate);
 
@@ -506,9 +504,9 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void deserializeFileButton_Click(object sender, System.EventArgs e)
+		private void deserializeFileButton_Click(object sender, EventArgs e)
 		{
-			if (this.serializeGroupBox.Controls.Count == 8)
+			if (serializeGroupBox.Controls.Count == 8)
 			{
 				MessageBox.Show(this, 
 					"XPExplorerBar cannot be deserialized as there is an existing deserialized XPExplorerBar.\r\nPlease remove the existing deserialized XPExplorerBar first by using the 'Remove' button", 
@@ -533,9 +531,9 @@ namespace XPExplorerBarDemo
 				taskpane.Name = "SerializedTaskPane";
 				taskpane.Location = new Point(8, 350);
 				
-				this.serializeGroupBox.Controls.Add(taskpane);
+				serializeGroupBox.Controls.Add(taskpane);
 			}
-			catch (System.Reflection.TargetInvocationException tie)
+			catch (TargetInvocationException tie)
 			{
 				MessageBox.Show(this, tie.InnerException.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
@@ -570,9 +568,9 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void serializeMemoryButton_Click(object sender, System.EventArgs e)
+		private void serializeMemoryButton_Click(object sender, EventArgs e)
 		{
-			if (this.serializeGroupBox.Controls.Count == 8)
+			if (serializeGroupBox.Controls.Count == 8)
 			{
 				MessageBox.Show(this, 
 					"XPExplorerBar cannot be serialized as there is an existing deserialized XPExplorerBar.\r\nPlease remove the existing deserialized XPExplorerBar first by using the 'Remove' button", 
@@ -595,7 +593,7 @@ namespace XPExplorerBarDemo
 				//formatter.Serialize(stream1, this.serializeTaskPane);
 
 				TaskPane.TaskPaneSurrogate serializeTaskPaneSurrogate = new TaskPane.TaskPaneSurrogate(); 
-				serializeTaskPaneSurrogate.Load(this.serializeTaskPane);
+				serializeTaskPaneSurrogate.Load(serializeTaskPane);
 				
 				formatter.Serialize(stream1, serializeTaskPaneSurrogate);
 
@@ -618,7 +616,7 @@ namespace XPExplorerBarDemo
 				taskpane.Name = "SerializedTaskPane";
 				taskpane.Location = new Point(8, 350);
 				
-				this.serializeGroupBox.Controls.Add(taskpane);
+				serializeGroupBox.Controls.Add(taskpane);
 			}
 			catch (ArgumentNullException ane)
 			{
@@ -656,13 +654,13 @@ namespace XPExplorerBarDemo
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void removeButton_Click(object sender, System.EventArgs e)
+		private void removeButton_Click(object sender, EventArgs e)
 		{
-			foreach (Control control in this.serializeGroupBox.Controls)
+			foreach (Control control in serializeGroupBox.Controls)
 			{
 				if (control is TaskPane && control.Name.Equals("SerializedTaskPane"))
 				{
-					this.serializeGroupBox.Controls.Remove(control);
+					serializeGroupBox.Controls.Remove(control);
 
 					return;
 				}
@@ -708,7 +706,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public TypeConverter GetConverter()
 		{
-			 return TypeDescriptor.GetConverter(this.owner, true);
+			 return TypeDescriptor.GetConverter(owner, true);
 		}
 
 
@@ -719,7 +717,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public EventDescriptorCollection GetEvents(Attribute[] attributes)
 		{
-			return TypeDescriptor.GetEvents(this.owner, attributes, true);
+			return TypeDescriptor.GetEvents(owner, attributes, true);
 		}
 
 
@@ -727,9 +725,9 @@ namespace XPExplorerBarDemo
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		EventDescriptorCollection System.ComponentModel.ICustomTypeDescriptor.GetEvents()
+		EventDescriptorCollection ICustomTypeDescriptor.GetEvents()
 		{
-			return TypeDescriptor.GetEvents(this.owner, true);
+			return TypeDescriptor.GetEvents(owner, true);
 		}
 
 
@@ -739,7 +737,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public string GetComponentName()
 		{
-			return TypeDescriptor.GetComponentName(this.owner, true);
+			return TypeDescriptor.GetComponentName(owner, true);
 		}
 
 
@@ -750,7 +748,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public object GetPropertyOwner(PropertyDescriptor pd)
 		{
-			return this.owner;
+			return owner;
 		}
 
 
@@ -760,7 +758,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public AttributeCollection GetAttributes()
 		{
-			return TypeDescriptor.GetAttributes(this.owner, true);
+			return TypeDescriptor.GetAttributes(owner, true);
 		}
 
 
@@ -771,7 +769,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
 		{
-			PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(this.owner, attributes, true);
+			PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(owner, attributes, true);
 			
 			PropertyDescriptor[] pd = new PropertyDescriptor[1];
 			
@@ -793,7 +791,7 @@ namespace XPExplorerBarDemo
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		PropertyDescriptorCollection System.ComponentModel.ICustomTypeDescriptor.GetProperties()
+		PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties()
 		{
 			return ((ICustomTypeDescriptor) this).GetProperties(new Attribute[0]);
 		}
@@ -806,7 +804,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public object GetEditor(Type editorBaseType)
 		{
-			return TypeDescriptor.GetEditor(this.owner, editorBaseType, true);
+			return TypeDescriptor.GetEditor(owner, editorBaseType, true);
 		}
 
 
@@ -816,7 +814,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public PropertyDescriptor GetDefaultProperty()
 		{
-			return TypeDescriptor.GetDefaultProperty(this.owner, true);
+			return TypeDescriptor.GetDefaultProperty(owner, true);
 		}
 
 
@@ -826,7 +824,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public EventDescriptor GetDefaultEvent()
 		{
-			return TypeDescriptor.GetDefaultEvent(this.owner, true);
+			return TypeDescriptor.GetDefaultEvent(owner, true);
 		}
 
 
@@ -836,7 +834,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public string GetClassName()
 		{
-			return TypeDescriptor.GetClassName(this.owner, true);
+			return TypeDescriptor.GetClassName(owner, true);
 		}
 	}
 
@@ -872,7 +870,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public TypeConverter GetConverter()
 		{
-			return TypeDescriptor.GetConverter(this.owner, true);
+			return TypeDescriptor.GetConverter(owner, true);
 		}
 
 
@@ -883,7 +881,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public EventDescriptorCollection GetEvents(Attribute[] attributes)
 		{
-			return TypeDescriptor.GetEvents(this.owner, attributes, true);
+			return TypeDescriptor.GetEvents(owner, attributes, true);
 		}
 
 
@@ -891,9 +889,9 @@ namespace XPExplorerBarDemo
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		EventDescriptorCollection System.ComponentModel.ICustomTypeDescriptor.GetEvents()
+		EventDescriptorCollection ICustomTypeDescriptor.GetEvents()
 		{
-			return TypeDescriptor.GetEvents(this.owner, true);
+			return TypeDescriptor.GetEvents(owner, true);
 		}
 
 
@@ -903,7 +901,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public string GetComponentName()
 		{
-			return TypeDescriptor.GetComponentName(this.owner, true);
+			return TypeDescriptor.GetComponentName(owner, true);
 		}
 
 
@@ -914,7 +912,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public object GetPropertyOwner(PropertyDescriptor pd)
 		{
-			return this.owner;
+			return owner;
 		}
 
 
@@ -924,7 +922,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public AttributeCollection GetAttributes()
 		{
-			return TypeDescriptor.GetAttributes(this.owner, true);
+			return TypeDescriptor.GetAttributes(owner, true);
 		}
 
 
@@ -935,7 +933,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
 		{
-			PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(this.owner, attributes, true);
+			PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(owner, attributes, true);
 			
 			PropertyDescriptor[] pd = new PropertyDescriptor[9];
 			
@@ -987,7 +985,7 @@ namespace XPExplorerBarDemo
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		PropertyDescriptorCollection System.ComponentModel.ICustomTypeDescriptor.GetProperties()
+		PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties()
 		{
 			return ((ICustomTypeDescriptor) this).GetProperties(new Attribute[0]);
 		}
@@ -1000,7 +998,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public object GetEditor(Type editorBaseType)
 		{
-			return TypeDescriptor.GetEditor(this.owner, editorBaseType, true);
+			return TypeDescriptor.GetEditor(owner, editorBaseType, true);
 		}
 
 
@@ -1010,7 +1008,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public PropertyDescriptor GetDefaultProperty()
 		{
-			return TypeDescriptor.GetDefaultProperty(this.owner, true);
+			return TypeDescriptor.GetDefaultProperty(owner, true);
 		}
 
 
@@ -1020,7 +1018,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public EventDescriptor GetDefaultEvent()
 		{
-			return TypeDescriptor.GetDefaultEvent(this.owner, true);
+			return TypeDescriptor.GetDefaultEvent(owner, true);
 		}
 
 
@@ -1030,7 +1028,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public string GetClassName()
 		{
-			return TypeDescriptor.GetClassName(this.owner, true);
+			return TypeDescriptor.GetClassName(owner, true);
 		}
 	}
 
@@ -1066,7 +1064,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public TypeConverter GetConverter()
 		{
-			return TypeDescriptor.GetConverter(this.owner, true);
+			return TypeDescriptor.GetConverter(owner, true);
 		}
 
 
@@ -1077,7 +1075,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public EventDescriptorCollection GetEvents(Attribute[] attributes)
 		{
-			return TypeDescriptor.GetEvents(this.owner, attributes, true);
+			return TypeDescriptor.GetEvents(owner, attributes, true);
 		}
 
 
@@ -1085,9 +1083,9 @@ namespace XPExplorerBarDemo
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		EventDescriptorCollection System.ComponentModel.ICustomTypeDescriptor.GetEvents()
+		EventDescriptorCollection ICustomTypeDescriptor.GetEvents()
 		{
-			return TypeDescriptor.GetEvents(this.owner, true);
+			return TypeDescriptor.GetEvents(owner, true);
 		}
 
 
@@ -1097,7 +1095,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public string GetComponentName()
 		{
-			return TypeDescriptor.GetComponentName(this.owner, true);
+			return TypeDescriptor.GetComponentName(owner, true);
 		}
 
 
@@ -1108,7 +1106,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public object GetPropertyOwner(PropertyDescriptor pd)
 		{
-			return this.owner;
+			return owner;
 		}
 
 
@@ -1118,7 +1116,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public AttributeCollection GetAttributes()
 		{
-			return TypeDescriptor.GetAttributes(this.owner, true);
+			return TypeDescriptor.GetAttributes(owner, true);
 		}
 
 
@@ -1129,7 +1127,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
 		{
-			PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(this.owner, attributes, true);
+			PropertyDescriptorCollection pdc = TypeDescriptor.GetProperties(owner, attributes, true);
 			
 			PropertyDescriptor[] pd = new PropertyDescriptor[1];
 			
@@ -1151,7 +1149,7 @@ namespace XPExplorerBarDemo
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		PropertyDescriptorCollection System.ComponentModel.ICustomTypeDescriptor.GetProperties()
+		PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties()
 		{
 			return ((ICustomTypeDescriptor) this).GetProperties(new Attribute[0]);
 		}
@@ -1164,7 +1162,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public object GetEditor(Type editorBaseType)
 		{
-			return TypeDescriptor.GetEditor(this.owner, editorBaseType, true);
+			return TypeDescriptor.GetEditor(owner, editorBaseType, true);
 		}
 
 
@@ -1174,7 +1172,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public PropertyDescriptor GetDefaultProperty()
 		{
-			return TypeDescriptor.GetDefaultProperty(this.owner, true);
+			return TypeDescriptor.GetDefaultProperty(owner, true);
 		}
 
 
@@ -1184,7 +1182,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public EventDescriptor GetDefaultEvent()
 		{
-			return TypeDescriptor.GetDefaultEvent(this.owner, true);
+			return TypeDescriptor.GetDefaultEvent(owner, true);
 		}
 
 
@@ -1194,7 +1192,7 @@ namespace XPExplorerBarDemo
 		/// <returns></returns>
 		public string GetClassName()
 		{
-			return TypeDescriptor.GetClassName(this.owner, true);
+			return TypeDescriptor.GetClassName(owner, true);
 		}
 	}
 

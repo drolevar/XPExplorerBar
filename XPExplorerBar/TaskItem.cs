@@ -2,25 +2,25 @@
  * Copyright © 2004-2005, Mathew Hall
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
- *    - Redistributions of source code must retain the above copyright notice, 
+ *    - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * 
- *    - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ *
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
 
@@ -29,14 +29,11 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Xml.Serialization;
-
 
 namespace XPExplorerBar
 {
@@ -127,42 +124,42 @@ namespace XPExplorerBar
 		/// <summary>
 		/// Initializes a new instance of the TaskItem class with default settings
 		/// </summary>
-		public TaskItem() : base()
+		public TaskItem()
 		{
 			// set control styles
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			this.SetStyle(ControlStyles.UserPaint, true);
-			this.SetStyle(ControlStyles.Selectable, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.UserPaint, true);
+			SetStyle(ControlStyles.Selectable, true);
 
-			this.TabStop = true;
+			TabStop = true;
 
-			this.BackColor = Color.Transparent;
+			BackColor = Color.Transparent;
 
 			// get the system theme settings
-			this.systemSettings = ThemeManager.GetSystemExplorerBarSettings();
+			systemSettings = ThemeManager.GetSystemExplorerBarSettings();
 
-			this.customSettings = new TaskItemInfo();
-			this.customSettings.TaskItem = this;
-			this.customSettings.SetDefaultEmptyValues();
+			customSettings = new TaskItemInfo();
+			customSettings.TaskItem = this;
+			customSettings.SetDefaultEmptyValues();
 
 			// preferred size
-			this.preferredWidth = -1;
-			this.preferredHeight = -1;
+			preferredWidth = -1;
+			preferredHeight = -1;
 
 			// unfocused item
-			this.focusState = FocusStates.None;
+			focusState = FocusStates.None;
 
-			this.Cursor = Cursors.Hand;
+			Cursor = Cursors.Hand;
 
-			this.textRect = new Rectangle();
-			this.TextAlign = ContentAlignment.TopLeft;
+			textRect = new Rectangle();
+			TextAlign = ContentAlignment.TopLeft;
 
-			this.showFocusCues = false;
-			this.useGdiText = false;
+			showFocusCues = false;
+			useGdiText = false;
 
-			this.InitStringFormat();
-			this.InitDrawTextFlags();
+			InitStringFormat();
+			InitDrawTextFlags();
 		}
 
 		#endregion
@@ -180,12 +177,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.LinkColor != Color.Empty)
+				if (CustomSettings.LinkColor != Color.Empty)
 				{
-					return this.CustomSettings.LinkColor;
+					return CustomSettings.LinkColor;
 				}
 
-				return this.systemSettings.TaskItem.LinkColor;
+				return systemSettings.TaskItem.LinkColor;
 			}
 		}
 
@@ -198,12 +195,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.HotLinkColor != Color.Empty)
+				if (CustomSettings.HotLinkColor != Color.Empty)
 				{
-					return this.CustomSettings.HotLinkColor;
+					return CustomSettings.HotLinkColor;
 				}
 
-				return this.systemSettings.TaskItem.HotLinkColor;
+				return systemSettings.TaskItem.HotLinkColor;
 			}
 		}
 
@@ -216,12 +213,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.FocusState == FocusStates.Mouse)
+				if (FocusState == FocusStates.Mouse)
 				{
-					return this.LinkHotColor;
+					return LinkHotColor;
 				}
 
-				return this.LinkColor;
+				return LinkColor;
 			}
 		}
 
@@ -238,16 +235,16 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.expando;
+				return expando;
 			}
 
 			set
 			{
-				this.expando = value;
+				expando = value;
 
 				if (value != null)
 				{
-					this.SystemSettings = this.expando.SystemSettings;
+					SystemSettings = expando.SystemSettings;
 				}
 			}
 		}
@@ -287,18 +284,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.showFocusCues;
+				return showFocusCues;
 			}
 
 			set
 			{
-				if (this.showFocusCues != value)
+				if (showFocusCues != value)
 				{
-					this.showFocusCues = value;
+					showFocusCues = value;
 
-					if (this.Focused)
+					if (Focused)
 					{
-						this.Invalidate();
+						Invalidate();
 					}
 				}
 			}
@@ -317,12 +314,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.FontDecoration != FontStyle.Underline)
+				if (CustomSettings.FontDecoration != FontStyle.Underline)
 				{
-					return this.CustomSettings.FontDecoration;
+					return CustomSettings.FontDecoration;
 				}
 
-				return this.systemSettings.TaskItem.FontDecoration;
+				return systemSettings.TaskItem.FontDecoration;
 			}
 		}
 
@@ -334,9 +331,9 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.FocusState == FocusStates.Mouse)
+				if (FocusState == FocusStates.Mouse)
 				{
-					return new Font(base.Font.Name, base.Font.SizeInPoints, this.FontDecoration);
+					return new Font(base.Font.Name, base.Font.SizeInPoints, FontDecoration);
 				}
 				
 				return base.Font;
@@ -377,18 +374,18 @@ namespace XPExplorerBar
 				}
 
 				// invalidate the preferred size cache
-				this.preferredWidth = -1;
-				this.preferredHeight = -1;
+				preferredWidth = -1;
+				preferredHeight = -1;
 
-				this.textRect.Width = 0;
-				this.textRect.Height = 0;
+				textRect.Width = 0;
+				textRect.Height = 0;
 
-				if (this.Expando != null)
+				if (Expando != null)
 				{
-					this.Expando.DoLayout();
+					Expando.DoLayout();
 				}
 
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 
@@ -430,18 +427,18 @@ namespace XPExplorerBar
 				}
 
 				// invalidate the preferred size cache
-				this.preferredWidth = -1;
-				this.preferredHeight = -1;
+				preferredWidth = -1;
+				preferredHeight = -1;
 
-				this.textRect.Width = 0;
-				this.textRect.Height = 0;
+				textRect.Width = 0;
+				textRect.Height = 0;
 
-				if (this.Expando != null)
+				if (Expando != null)
 				{
-					this.Expando.DoLayout();
+					Expando.DoLayout();
 				}
 
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 
@@ -461,18 +458,18 @@ namespace XPExplorerBar
 				base.ImageIndex = value;
 
 				// invalidate the preferred size cache
-				this.preferredWidth = -1;
-				this.preferredHeight = -1;
+				preferredWidth = -1;
+				preferredHeight = -1;
 
-				this.textRect.Width = 0;
-				this.textRect.Height = 0;
+				textRect.Width = 0;
+				textRect.Height = 0;
 
-				if (this.Expando != null)
+				if (Expando != null)
 				{
-					this.Expando.DoLayout();
+					Expando.DoLayout();
 				}
 
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 
@@ -489,12 +486,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.Margin != Margin.Empty)
+				if (CustomSettings.Margin != Margin.Empty)
 				{
-					return this.CustomSettings.Margin;
+					return CustomSettings.Margin;
 				}
 
-				return this.systemSettings.TaskItem.Margin;
+				return systemSettings.TaskItem.Margin;
 			}
 		}
 
@@ -511,12 +508,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomSettings.Padding != Padding.Empty)
+				if (CustomSettings.Padding != Padding.Empty)
 				{
-					return this.CustomSettings.Padding;
+					return CustomSettings.Padding;
 				}
 
-				return this.systemSettings.TaskItem.Padding;
+				return systemSettings.TaskItem.Padding;
 			}
 		}
 
@@ -534,32 +531,32 @@ namespace XPExplorerBar
 			get
 			{
 				//
-				if (this.preferredWidth != -1)
+				if (preferredWidth != -1)
 				{
-					return this.preferredWidth;
+					return preferredWidth;
 				}
 
 				//
-				if (this.Text.Length == 0)
+				if (Text.Length == 0)
 				{
-					this.preferredWidth = 0;
+					preferredWidth = 0;
 
 					return 0;
 				}
 
-				using (Graphics g = this.CreateGraphics())
+				using (Graphics g = CreateGraphics())
 				{
-					if (this.UseGdiText)
+					if (UseGdiText)
 					{
-						this.preferredWidth = this.CalcGdiPreferredWidth(g);
+						preferredWidth = CalcGdiPreferredWidth(g);
 					}
 					else
 					{
-						this.preferredWidth = this.CalcGdiPlusPreferredWidth(g);
+						preferredWidth = CalcGdiPlusPreferredWidth(g);
 					}
 				}
 
-				return this.preferredWidth;
+				return preferredWidth;
 			}
 		}
 
@@ -571,9 +568,9 @@ namespace XPExplorerBar
 		/// <returns>The preferred width of the TaskItem</returns>
 		protected int CalcGdiPlusPreferredWidth(Graphics g)
 		{
-			SizeF size = g.MeasureString(this.Text, this.Font, new SizeF(0, 0), this.StringFormat);
+			SizeF size = g.MeasureString(Text, Font, new SizeF(0, 0), StringFormat);
 
-			int width = (int) Math.Ceiling(size.Width) + 18 + this.Padding.Left + this.Padding.Right;
+			int width = (int) Math.Ceiling(size.Width) + 18 + Padding.Left + Padding.Right;
 
 			return width;
 		}
@@ -592,21 +589,21 @@ namespace XPExplorerBar
 
 			if (hdc != IntPtr.Zero)
 			{
-				IntPtr hFont = this.Font.ToHfont();
+				IntPtr hFont = Font.ToHfont();
 				IntPtr oldFont = NativeMethods.SelectObject(hdc, hFont);
 
 				RECT rect = new RECT();
 
-				NativeMethods.DrawText(hdc, this.Text, this.Text.Length, ref rect, DrawTextFlags.DT_CALCRECT | this.DrawTextFlags);
+				NativeMethods.DrawText(hdc, Text, Text.Length, ref rect, DrawTextFlags.DT_CALCRECT | DrawTextFlags);
 
-				width = rect.right - rect.left + 18 + this.Padding.Left + this.Padding.Right;
+				width = rect.right - rect.left + 18 + Padding.Left + Padding.Right;
 
 				NativeMethods.SelectObject(hdc, oldFont);
 				NativeMethods.DeleteObject(hFont);
 			}
 			else
 			{
-				width = this.CalcGdiPlusPreferredWidth(g);
+				width = CalcGdiPlusPreferredWidth(g);
 			}
 
 			g.ReleaseHdc(hdc);
@@ -626,42 +623,42 @@ namespace XPExplorerBar
 			get
 			{
 				//
-				if (this.preferredHeight != -1)
+				if (preferredHeight != -1)
 				{
-					return this.preferredHeight;
+					return preferredHeight;
 				}
 
 				//
-				if (this.Text.Length == 0)
+				if (Text.Length == 0)
 				{
 					return 16;
 				}
 
 				int textHeight = 0;
 
-				using (Graphics g = this.CreateGraphics())
+				using (Graphics g = CreateGraphics())
 				{
-					if (this.UseGdiText)
+					if (UseGdiText)
 					{
-						textHeight = this.CalcGdiPreferredHeight(g);
+						textHeight = CalcGdiPreferredHeight(g);
 					}
 					else
 					{
-						textHeight = this.CalcGdiPlusPreferredHeight(g);
+						textHeight = CalcGdiPlusPreferredHeight(g);
 					}
 				}
 
 				//
 				if (textHeight > 16)
 				{
-					this.preferredHeight = textHeight;
+					preferredHeight = textHeight;
 				}
 				else
 				{
-					this.preferredHeight = 16;
+					preferredHeight = 16;
 				}
 
-				return this.preferredHeight;
+				return preferredHeight;
 			}
 		}
 
@@ -674,15 +671,15 @@ namespace XPExplorerBar
 		protected int CalcGdiPlusPreferredHeight(Graphics g)
 		{
 			//
-			int width = this.Width - this.Padding.Right;
+			int width = Width - Padding.Right;
 
-			if (this.Image != null)
+			if (Image != null)
 			{
-				width -= 16 + this.Padding.Left;
+				width -= 16 + Padding.Left;
 			}
 
 			//
-			SizeF size = g.MeasureString(this.Text, this.Font, width, this.StringFormat);
+			SizeF size = g.MeasureString(Text, Font, width, StringFormat);
 
 			//
 			int height = (int) Math.Ceiling(size.Height);
@@ -704,21 +701,21 @@ namespace XPExplorerBar
 
 			if (hdc != IntPtr.Zero)
 			{
-				IntPtr hFont = this.Font.ToHfont();
+				IntPtr hFont = Font.ToHfont();
 				IntPtr oldFont = NativeMethods.SelectObject(hdc, hFont);
 
 				RECT rect = new RECT();
 
-				int width = this.Width - this.Padding.Right;
+				int width = Width - Padding.Right;
 
-				if (this.Image != null)
+				if (Image != null)
 				{
-					width -= 16 + this.Padding.Left;
+					width -= 16 + Padding.Left;
 				}
 
 				rect.right = width;
 
-				NativeMethods.DrawText(hdc, this.Text, this.Text.Length, ref rect, DrawTextFlags.DT_CALCRECT | this.DrawTextFlags);
+				NativeMethods.DrawText(hdc, Text, Text.Length, ref rect, DrawTextFlags.DT_CALCRECT | DrawTextFlags);
 
 				height = rect.bottom - rect.top;
 
@@ -727,7 +724,7 @@ namespace XPExplorerBar
 			}
 			else
 			{
-				height = this.CalcGdiPlusPreferredHeight(g);
+				height = CalcGdiPlusPreferredHeight(g);
 			}
 
 			g.ReleaseHdc(hdc);
@@ -759,16 +756,16 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.focusState;
+				return focusState;
 			}
 
 			set
 			{
-				if (this.focusState != value)
+				if (focusState != value)
 				{
-					this.focusState = value;
+					focusState = value;
 
-					this.Invalidate();
+					Invalidate();
 				}
 			}
 		}
@@ -785,23 +782,23 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.systemSettings;
+				return systemSettings;
 			}
 			
 			set
 			{
 				// make sure we have a new value
-				if (this.systemSettings != value)
+				if (systemSettings != value)
 				{
-					this.SuspendLayout();
+					SuspendLayout();
 					
 					// get rid of the old settings
-					this.systemSettings = null;
+					systemSettings = null;
 
 					// set the new settings
-					this.systemSettings = value;
+					systemSettings = value;
 
-					this.ResumeLayout(true);
+					ResumeLayout(true);
 				}
 			}
 		}
@@ -818,7 +815,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.customSettings;
+				return customSettings;
 			}
 		}
 
@@ -828,9 +825,9 @@ namespace XPExplorerBar
 		/// </summary>
 		public void ResetCustomSettings()
 		{
-			this.CustomSettings.SetDefaultEmptyValues();
+			CustomSettings.SetDefaultEmptyValues();
 
-			this.FireCustomSettingsChanged(EventArgs.Empty);
+			FireCustomSettingsChanged(EventArgs.Empty);
 		}
 
 		#endregion
@@ -852,15 +849,15 @@ namespace XPExplorerBar
 				base.Text = value;
 
 				// reset the preferred width and height
-				this.preferredHeight = -1;
-				this.preferredWidth = -1;
+				preferredHeight = -1;
+				preferredWidth = -1;
 
-				if (this.Expando != null)
+				if (Expando != null)
 				{
-					this.Expando.DoLayout();
+					Expando.DoLayout();
 				}
 
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 
@@ -875,25 +872,25 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.useGdiText;
+				return useGdiText;
 			}
 
 			set
 			{
-				if (this.useGdiText != value)
+				if (useGdiText != value)
 				{
-					this.useGdiText = value;
+					useGdiText = value;
 
 					// reset the preferred width and height
-					this.preferredHeight = -1;
-					this.preferredWidth = -1;
+					preferredHeight = -1;
+					preferredWidth = -1;
 
-					if (this.Expando != null)
+					if (Expando != null)
 					{
-						this.Expando.DoLayout();
+						Expando.DoLayout();
 					}
 
-					this.Invalidate();
+					Invalidate();
 				}
 			}
 		}
@@ -913,8 +910,8 @@ namespace XPExplorerBar
 			{
 				if (value != base.TextAlign)
 				{
-					this.InitStringFormat();
-					this.InitDrawTextFlags();
+					InitStringFormat();
+					InitDrawTextFlags();
 					
 					// should the text be aligned to the left/center/right
 					switch (value)
@@ -923,11 +920,11 @@ namespace XPExplorerBar
 						case ContentAlignment.TopLeft:
 						case ContentAlignment.BottomLeft:	
 						{
-							this.stringFormat.Alignment = StringAlignment.Near;
+							stringFormat.Alignment = StringAlignment.Near;
 
-							this.drawTextFlags &= ~DrawTextFlags.DT_CENTER;
-							this.drawTextFlags &= ~DrawTextFlags.DT_RIGHT;
-							this.drawTextFlags |= DrawTextFlags.DT_LEFT;
+							drawTextFlags &= ~DrawTextFlags.DT_CENTER;
+							drawTextFlags &= ~DrawTextFlags.DT_RIGHT;
+							drawTextFlags |= DrawTextFlags.DT_LEFT;
 
 							break;
 						}
@@ -936,11 +933,11 @@ namespace XPExplorerBar
 						case ContentAlignment.TopCenter:
 						case ContentAlignment.BottomCenter:	
 						{
-							this.stringFormat.Alignment = StringAlignment.Center;
+							stringFormat.Alignment = StringAlignment.Center;
 
-							this.drawTextFlags &= ~DrawTextFlags.DT_LEFT;
-							this.drawTextFlags &= ~DrawTextFlags.DT_RIGHT;
-							this.drawTextFlags |= DrawTextFlags.DT_CENTER;
+							drawTextFlags &= ~DrawTextFlags.DT_LEFT;
+							drawTextFlags &= ~DrawTextFlags.DT_RIGHT;
+							drawTextFlags |= DrawTextFlags.DT_CENTER;
 
 							break;
 						}
@@ -949,11 +946,11 @@ namespace XPExplorerBar
 						case ContentAlignment.TopRight:
 						case ContentAlignment.BottomRight:	
 						{
-							this.stringFormat.Alignment = StringAlignment.Far;
+							stringFormat.Alignment = StringAlignment.Far;
 
-							this.drawTextFlags &= ~DrawTextFlags.DT_LEFT;
-							this.drawTextFlags &= ~DrawTextFlags.DT_CENTER;
-							this.drawTextFlags |= DrawTextFlags.DT_RIGHT;
+							drawTextFlags &= ~DrawTextFlags.DT_LEFT;
+							drawTextFlags &= ~DrawTextFlags.DT_CENTER;
+							drawTextFlags |= DrawTextFlags.DT_RIGHT;
 
 							break;
 						}
@@ -972,7 +969,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.stringFormat;
+				return stringFormat;
 			}
 		}
 
@@ -982,11 +979,11 @@ namespace XPExplorerBar
 		/// </summary>
 		private void InitStringFormat()
 		{
-			if (this.stringFormat == null)
+			if (stringFormat == null)
 			{
-				this.stringFormat = new StringFormat();
-				this.stringFormat.LineAlignment = StringAlignment.Near;
-				this.stringFormat.Alignment = StringAlignment.Near;
+				stringFormat = new StringFormat();
+				stringFormat.LineAlignment = StringAlignment.Near;
+				stringFormat.Alignment = StringAlignment.Near;
 			}
 		}
 
@@ -998,7 +995,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.drawTextFlags;
+				return drawTextFlags;
 			}
 		}
 
@@ -1008,9 +1005,9 @@ namespace XPExplorerBar
 		/// </summary>
 		private void InitDrawTextFlags()
 		{
-			if (this.drawTextFlags == (int) 0)
+			if (drawTextFlags == 0)
 			{
-				this.drawTextFlags = (DrawTextFlags.DT_LEFT | DrawTextFlags.DT_TOP | DrawTextFlags.DT_WORDBREAK);
+				drawTextFlags = (DrawTextFlags.DT_LEFT | DrawTextFlags.DT_TOP | DrawTextFlags.DT_WORDBREAK);
 			}
 		}
 
@@ -1022,7 +1019,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.textRect;
+				return textRect;
 			}
 		}
 
@@ -1041,14 +1038,14 @@ namespace XPExplorerBar
 		/// <param name="e">An EventArgs that contains the event data</param>
 		internal void FireCustomSettingsChanged(EventArgs e)
 		{
-			if (this.Expando != null)
+			if (Expando != null)
 			{
-				this.Expando.DoLayout();
+				Expando.DoLayout();
 			}
 
-			this.Invalidate();
+			Invalidate();
 
-			this.OnCustomSettingsChanged(e);
+			OnCustomSettingsChanged(e);
 		}
 
 
@@ -1076,9 +1073,9 @@ namespace XPExplorerBar
 		{
 			// if we get focus and our expando is collapsed, give
 			// it focus instead
-			if (this.Expando != null && this.Expando.Collapsed)
+			if (Expando != null && Expando.Collapsed)
 			{
-				this.Expando.Select();
+				Expando.Select();
 			}
 			
 			base.OnGotFocus(e);
@@ -1093,9 +1090,9 @@ namespace XPExplorerBar
 		{
 			// if we become invisible and have focus, give the 
 			// focus to our expando instead
-			if (!this.Visible && this.Focused && this.Expando != null && this.Expando.Collapsed)
+			if (!Visible && Focused && Expando != null && Expando.Collapsed)
 			{
-				this.Expando.Select();
+				Expando.Select();
 			}
 			
 			base.OnVisibleChanged(e);
@@ -1113,7 +1110,7 @@ namespace XPExplorerBar
 		{
 			base.OnMouseEnter(e);
 
-			this.FocusState = FocusStates.Mouse;
+			FocusState = FocusStates.Mouse;
 		}
 
 
@@ -1125,7 +1122,7 @@ namespace XPExplorerBar
 		{
 			base.OnMouseLeave(e);
 
-			this.FocusState = FocusStates.None;
+			FocusState = FocusStates.None;
 		}
 
 		#endregion
@@ -1155,17 +1152,17 @@ namespace XPExplorerBar
 			//base.OnPaint(e);
 			
 			// do we have an image to draw
-			if (this.Image != null)
+			if (Image != null)
 			{
-				if (this.Enabled)
+				if (Enabled)
 				{
-					if (this.RightToLeft == RightToLeft.Yes)
+					if (RightToLeft == RightToLeft.Yes)
 					{
-						e.Graphics.DrawImage(this.Image, this.Width-16, 0, 16, 16);
+						e.Graphics.DrawImage(Image, Width-16, 0, 16, 16);
 					}
 					else
 					{
-						e.Graphics.DrawImage(this.Image, 0, 0, 16, 16);
+						e.Graphics.DrawImage(Image, 0, 0, 16, 16);
 					}
 				}
 				else
@@ -1176,74 +1173,74 @@ namespace XPExplorerBar
 					//      26/08/2004
 					//      v1.3
 
-					if (this.RightToLeft == RightToLeft.Yes)
+					if (RightToLeft == RightToLeft.Yes)
 					{
-						ControlPaint.DrawImageDisabled(e.Graphics, this.Image, this.Width-16, 0, this.BackColor);
+						ControlPaint.DrawImageDisabled(e.Graphics, Image, Width-16, 0, BackColor);
 					}
 					else
 					{
-						ControlPaint.DrawImageDisabled(e.Graphics, this.Image, 0, 0, this.BackColor);
+						ControlPaint.DrawImageDisabled(e.Graphics, Image, 0, 0, BackColor);
 					}
 				}
 			}
 
 			// do we have any text to draw
-			if (this.Text.Length > 0)
+			if (Text.Length > 0)
 			{
-				if (this.textRect.Width == 0 && this.textRect.Height == 0)
+				if (textRect.Width == 0 && textRect.Height == 0)
 				{
-					this.textRect.X = 0;
-					this.textRect.Y = 0;
-					this.textRect.Height = this.PreferredHeight;
+					textRect.X = 0;
+					textRect.Y = 0;
+					textRect.Height = PreferredHeight;
 					
-					if (this.RightToLeft == RightToLeft.Yes)
+					if (RightToLeft == RightToLeft.Yes)
 					{
-						this.textRect.Width = this.Width - this.Padding.Right;
+						textRect.Width = Width - Padding.Right;
 
-						if (this.Image != null)
+						if (Image != null)
 						{
-							this.textRect.Width -= 16;
+							textRect.Width -= 16;
 						}
 					}
 					else
 					{
-						if (this.Image != null)
+						if (Image != null)
 						{
-							this.textRect.X = 16 + this.Padding.Left;
+							textRect.X = 16 + Padding.Left;
 						}
 					
-						this.textRect.Width = this.Width - this.textRect.X - this.Padding.Right;
+						textRect.Width = Width - textRect.X - Padding.Right;
 					}
 				}
 				
-				if (this.RightToLeft == RightToLeft.Yes)
+				if (RightToLeft == RightToLeft.Yes)
 				{
-					this.stringFormat.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-					this.drawTextFlags |= DrawTextFlags.DT_RTLREADING;
+					stringFormat.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+					drawTextFlags |= DrawTextFlags.DT_RTLREADING;
 				}
 				else
 				{
-					this.stringFormat.FormatFlags &= ~StringFormatFlags.DirectionRightToLeft;
-					this.drawTextFlags &= ~DrawTextFlags.DT_RTLREADING;
+					stringFormat.FormatFlags &= ~StringFormatFlags.DirectionRightToLeft;
+					drawTextFlags &= ~DrawTextFlags.DT_RTLREADING;
 				}
 
-				if (this.UseGdiText)
+				if (UseGdiText)
 				{
-					this.DrawGdiText(e.Graphics);
+					DrawGdiText(e.Graphics);
 				}
 				else
 				{
-					this.DrawText(e.Graphics);
+					DrawText(e.Graphics);
 				}
 			}
 
 			// check if windows will let us show a focus rectangle 
 			// if we have focus
-			if (this.Focused && base.ShowFocusCues)
+			if (Focused && base.ShowFocusCues)
 			{
-				if (this.ShowFocusCues)
+				if (ShowFocusCues)
 				{
-					ControlPaint.DrawFocusRectangle(e.Graphics, this.ClientRectangle);
+					ControlPaint.DrawFocusRectangle(e.Graphics, ClientRectangle);
 				}
 			}
 		}
@@ -1255,17 +1252,17 @@ namespace XPExplorerBar
 		/// <param name="g"></param>
 		protected void DrawText(Graphics g)
 		{
-			if (this.Enabled)
+			if (Enabled)
 			{
-				using (SolidBrush brush = new SolidBrush(this.FocusLinkColor))
+				using (SolidBrush brush = new SolidBrush(FocusLinkColor))
 				{
-					g.DrawString(this.Text, this.Font, brush, this.TextRect, this.StringFormat);
+					g.DrawString(Text, Font, brush, TextRect, StringFormat);
 				}
 			}
 			else
 			{
 				// draw disable text the same way as a Label
-				ControlPaint.DrawStringDisabled(g, this.Text, this.Font, this.DisabledColor, (RectangleF) this.TextRect, this.StringFormat);
+				ControlPaint.DrawStringDisabled(g, Text, Font, DisabledColor, TextRect, StringFormat);
 			}
 		}
 
@@ -1280,38 +1277,38 @@ namespace XPExplorerBar
 
 			if (hdc != IntPtr.Zero)
 			{
-				IntPtr hFont = this.Font.ToHfont();
+				IntPtr hFont = Font.ToHfont();
 				IntPtr oldFont = NativeMethods.SelectObject(hdc, hFont);
 
 				int oldBkMode = NativeMethods.SetBkMode(hdc, 1);
 				
-				if (this.Enabled)
+				if (Enabled)
 				{
-					int oldColor = NativeMethods.SetTextColor(hdc, ColorTranslator.ToWin32(this.FocusLinkColor));
+					int oldColor = NativeMethods.SetTextColor(hdc, ColorTranslator.ToWin32(FocusLinkColor));
 
-					RECT rect = RECT.FromRectangle(this.TextRect);
+					RECT rect = RECT.FromRectangle(TextRect);
 				
-					NativeMethods.DrawText(hdc, this.Text, this.Text.Length, ref rect, this.DrawTextFlags);
+					NativeMethods.DrawText(hdc, Text, Text.Length, ref rect, DrawTextFlags);
 
 					NativeMethods.SetTextColor(hdc, oldColor);
 				}
 				else
 				{
-					Rectangle layoutRectangle = this.TextRect;
+					Rectangle layoutRectangle = TextRect;
 					layoutRectangle.Offset(1, 1);
 
-					Color color = ControlPaint.LightLight(this.DisabledColor);
+					Color color = ControlPaint.LightLight(DisabledColor);
 			
 					int oldColor = NativeMethods.SetTextColor(hdc, ColorTranslator.ToWin32(color));
 					RECT rect = RECT.FromRectangle(layoutRectangle);
-					NativeMethods.DrawText(hdc, this.Text, this.Text.Length, ref rect, this.DrawTextFlags);
+					NativeMethods.DrawText(hdc, Text, Text.Length, ref rect, DrawTextFlags);
 
 					layoutRectangle.Offset(-1, -1);
-					color = ControlPaint.Dark(this.DisabledColor);
+					color = ControlPaint.Dark(DisabledColor);
 
 					NativeMethods.SetTextColor(hdc, ColorTranslator.ToWin32(color));
 					rect = RECT.FromRectangle(layoutRectangle);
-					NativeMethods.DrawText(hdc, this.Text, this.Text.Length, ref rect, this.DrawTextFlags);
+					NativeMethods.DrawText(hdc, Text, Text.Length, ref rect, DrawTextFlags);
 
 					NativeMethods.SetTextColor(hdc, oldColor);
 				}
@@ -1322,7 +1319,7 @@ namespace XPExplorerBar
 			}
 			else
 			{
-				this.DrawText(g);
+				DrawText(g);
 			}
 
 			g.ReleaseHdc(hdc);
@@ -1336,14 +1333,14 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.BackColor.A != 0)
+				if (BackColor.A != 0)
 				{
-					return this.BackColor;
+					return BackColor;
 				}
 
-				Color c = this.BackColor;
+				Color c = BackColor;
 
-				for (Control control = this.Parent; (c.A == 0); control = control.Parent)
+				for (Control control = Parent; (c.A == 0); control = control.Parent)
 				{
 					if (control == null)
 					{
@@ -1370,11 +1367,11 @@ namespace XPExplorerBar
 			base.OnSizeChanged(e);
 
 			// invalidate the preferred size cache
-			this.preferredWidth = -1;
-			this.preferredHeight = -1;
+			preferredWidth = -1;
+			preferredHeight = -1;
 
-			this.textRect.Width = 0;
-			this.textRect.Height = 0;
+			textRect.Width = 0;
+			textRect.Height = 0;
 		}
 
 		#endregion
@@ -1388,7 +1385,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of a TaskItem (as 
 		/// TaskItems contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable()]
+		[Serializable]
 			public class TaskItemSurrogate : ISerializable
 		{
 			#region Class Data
@@ -1513,31 +1510,31 @@ namespace XPExplorerBar
 			/// </summary>
 			public TaskItemSurrogate()
 			{
-				this.Name = null;
+				Name = null;
 
-				this.Size = Size.Empty;
-				this.Location = Point.Empty;
+				Size = Size.Empty;
+				Location = Point.Empty;
 
-				this.BackColor = ThemeManager.ConvertColorToString(Color.Empty);
+				BackColor = ThemeManager.ConvertColorToString(Color.Empty);
 
-				this.CustomSettings = null;
+				CustomSettings = null;
 
-				this.Text = null;
-				this.ShowFocusCues = false;
-				this.Image = new byte[0];
+				Text = null;
+				ShowFocusCues = false;
+				Image = new byte[0];
 
-				this.Enabled = true;
-				this.Visible = true;
+				Enabled = true;
+				Visible = true;
 
-				this.Anchor = AnchorStyles.None;
-				this.Dock = DockStyle.None;
+				Anchor = AnchorStyles.None;
+				Dock = DockStyle.None;
 
-				this.FontName = null;
-				this.FontSize = 8.25f;
-				this.FontDecoration = FontStyle.Regular;
-				this.UseGdiText = false;
+				FontName = null;
+				FontSize = 8.25f;
+				FontDecoration = FontStyle.Regular;
+				UseGdiText = false;
 
-				this.Tag = new byte[0];
+				Tag = new byte[0];
 			}
 
 			#endregion
@@ -1553,31 +1550,31 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(TaskItem taskItem)
 			{
-				this.Name = taskItem.Name;
-				this.Size = taskItem.Size;
-				this.Location = taskItem.Location;
+				Name = taskItem.Name;
+				Size = taskItem.Size;
+				Location = taskItem.Location;
 
-				this.BackColor = ThemeManager.ConvertColorToString(taskItem.BackColor);
+				BackColor = ThemeManager.ConvertColorToString(taskItem.BackColor);
 
-				this.CustomSettings = new TaskItemInfo.TaskItemInfoSurrogate();
-				this.CustomSettings.Load(taskItem.CustomSettings);
+				CustomSettings = new TaskItemInfo.TaskItemInfoSurrogate();
+				CustomSettings.Load(taskItem.CustomSettings);
 
-				this.Text = taskItem.Text;
-				this.ShowFocusCues = taskItem.ShowFocusCues;
-				this.Image = ThemeManager.ConvertImageToByteArray(taskItem.Image);
+				Text = taskItem.Text;
+				ShowFocusCues = taskItem.ShowFocusCues;
+				Image = ThemeManager.ConvertImageToByteArray(taskItem.Image);
 
-				this.Enabled = taskItem.Enabled;
-				this.Visible = taskItem.Visible;
+				Enabled = taskItem.Enabled;
+				Visible = taskItem.Visible;
 
-				this.Anchor = taskItem.Anchor;
-				this.Dock = taskItem.Dock;
+				Anchor = taskItem.Anchor;
+				Dock = taskItem.Dock;
 
-				this.FontName = taskItem.Font.FontFamily.Name;
-				this.FontSize = taskItem.Font.SizeInPoints;
-				this.FontDecoration = taskItem.Font.Style;
-				this.UseGdiText = taskItem.UseGdiText;
+				FontName = taskItem.Font.FontFamily.Name;
+				FontSize = taskItem.Font.SizeInPoints;
+				FontDecoration = taskItem.Font.Style;
+				UseGdiText = taskItem.UseGdiText;
 
-				this.Tag = ThemeManager.ConvertObjectToByteArray(taskItem.Tag);
+				Tag = ThemeManager.ConvertObjectToByteArray(taskItem.Tag);
 			}
 
 
@@ -1589,29 +1586,29 @@ namespace XPExplorerBar
 			{
 				TaskItem taskItem = new TaskItem();
 
-				taskItem.Name = this.Name;
-				taskItem.Size = this.Size;
-				taskItem.Location = this.Location;
+				taskItem.Name = Name;
+				taskItem.Size = Size;
+				taskItem.Location = Location;
 
-				taskItem.BackColor = ThemeManager.ConvertStringToColor(this.BackColor);
+				taskItem.BackColor = ThemeManager.ConvertStringToColor(BackColor);
 
-				taskItem.customSettings = this.CustomSettings.Save();
+				taskItem.customSettings = CustomSettings.Save();
 				taskItem.customSettings.TaskItem = taskItem;
 
-				taskItem.Text = this.Text;
-				taskItem.ShowFocusCues = this.ShowFocusCues;
-				taskItem.Image = ThemeManager.ConvertByteArrayToImage(this.Image);
+				taskItem.Text = Text;
+				taskItem.ShowFocusCues = ShowFocusCues;
+				taskItem.Image = ThemeManager.ConvertByteArrayToImage(Image);
 
-				taskItem.Enabled = this.Enabled;
-				taskItem.Visible = this.Visible;
+				taskItem.Enabled = Enabled;
+				taskItem.Visible = Visible;
 
-				taskItem.Anchor = this.Anchor;
-				taskItem.Dock = this.Dock;
+				taskItem.Anchor = Anchor;
+				taskItem.Dock = Dock;
 
-				taskItem.Font = new Font(this.FontName, this.FontSize, this.FontDecoration);
-				taskItem.UseGdiText = this.UseGdiText;
+				taskItem.Font = new Font(FontName, FontSize, FontDecoration);
+				taskItem.UseGdiText = UseGdiText;
 
-				taskItem.Tag = ThemeManager.ConvertByteArrayToObject(this.Tag);
+				taskItem.Tag = ThemeManager.ConvertByteArrayToObject(Tag);
 
 				return taskItem;
 			}
@@ -1625,32 +1622,32 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 				
-				info.AddValue("Name", this.Name);
-				info.AddValue("Size", this.Size);
-				info.AddValue("Location", this.Location);
+				info.AddValue("Name", Name);
+				info.AddValue("Size", Size);
+				info.AddValue("Location", Location);
 
-				info.AddValue("BackColor", this.BackColor);
+				info.AddValue("BackColor", BackColor);
 
-				info.AddValue("CustomSettings", this.CustomSettings);
+				info.AddValue("CustomSettings", CustomSettings);
 
-				info.AddValue("Text", this.Text);
-				info.AddValue("ShowFocusCues", this.ShowFocusCues);
-				info.AddValue("Image", this.Image);
+				info.AddValue("Text", Text);
+				info.AddValue("ShowFocusCues", ShowFocusCues);
+				info.AddValue("Image", Image);
 
-				info.AddValue("Enabled", this.Enabled);
-				info.AddValue("Visible", this.Visible);
+				info.AddValue("Enabled", Enabled);
+				info.AddValue("Visible", Visible);
 
-				info.AddValue("Anchor", this.Anchor);
-				info.AddValue("Dock", this.Dock);
+				info.AddValue("Anchor", Anchor);
+				info.AddValue("Dock", Dock);
 				
-				info.AddValue("FontName", this.FontName);
-				info.AddValue("FontSize", this.FontSize);
-				info.AddValue("FontDecoration", this.FontDecoration);
-				info.AddValue("UseGdiText", this.UseGdiText);
+				info.AddValue("FontName", FontName);
+				info.AddValue("FontSize", FontSize);
+				info.AddValue("FontDecoration", FontDecoration);
+				info.AddValue("UseGdiText", UseGdiText);
 				
-				info.AddValue("Tag", this.Tag);
+				info.AddValue("Tag", Tag);
 			}
 
 
@@ -1661,38 +1658,38 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the TaskItemSurrogate</param>
 			/// <param name="context">The source from which the TaskItemSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected TaskItemSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected TaskItemSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 
-				this.Name = info.GetString("Name");
-				this.Size = (Size) info.GetValue("Size", typeof(Size));
-				this.Location = (Point) info.GetValue("Location", typeof(Point));
+				Name = info.GetString("Name");
+				Size = (Size) info.GetValue("Size", typeof(Size));
+				Location = (Point) info.GetValue("Location", typeof(Point));
 				
-				this.BackColor = info.GetString("BackColor");
+				BackColor = info.GetString("BackColor");
 
-				this.CustomSettings = (TaskItemInfo.TaskItemInfoSurrogate) info.GetValue("CustomSettings", typeof(TaskItemInfo.TaskItemInfoSurrogate));
+				CustomSettings = (TaskItemInfo.TaskItemInfoSurrogate) info.GetValue("CustomSettings", typeof(TaskItemInfo.TaskItemInfoSurrogate));
 
-				this.Text = info.GetString("Text");
-				this.ShowFocusCues = info.GetBoolean("ShowFocusCues");
-				this.Image = (byte[]) info.GetValue("Image", typeof(byte[]));
+				Text = info.GetString("Text");
+				ShowFocusCues = info.GetBoolean("ShowFocusCues");
+				Image = (byte[]) info.GetValue("Image", typeof(byte[]));
 
-				this.Enabled = info.GetBoolean("Enabled");
-				this.Visible = info.GetBoolean("Visible");
+				Enabled = info.GetBoolean("Enabled");
+				Visible = info.GetBoolean("Visible");
 				
-				this.Anchor = (AnchorStyles) info.GetValue("Anchor", typeof(AnchorStyles));
-				this.Dock = (DockStyle) info.GetValue("Dock", typeof(DockStyle));
+				Anchor = (AnchorStyles) info.GetValue("Anchor", typeof(AnchorStyles));
+				Dock = (DockStyle) info.GetValue("Dock", typeof(DockStyle));
 
-				this.FontName = info.GetString("FontName");
-				this.FontSize = info.GetSingle("FontSize");
-				this.FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
+				FontName = info.GetString("FontName");
+				FontSize = info.GetSingle("FontSize");
+				FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
 
 				if (version >= 3300)
 				{
-					this.UseGdiText = info.GetBoolean("UseGdiText");
+					UseGdiText = info.GetBoolean("UseGdiText");
 				}
 
-				this.Tag = (byte[]) info.GetValue("Tag", typeof(byte[]));
+				Tag = (byte[]) info.GetValue("Tag", typeof(byte[]));
 			}
 
 			#endregion

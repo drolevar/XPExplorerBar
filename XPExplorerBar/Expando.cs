@@ -2,25 +2,25 @@
  * Copyright © 2004-2005, Mathew Hall
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  *
- *    - Redistributions of source code must retain the above copyright notice, 
+ *    - Redistributions of source code must retain the above copyright notice,
  *      this list of conditions and the following disclaimer.
- * 
- *    - Redistributions in binary form must reproduce the above copyright notice, 
- *      this list of conditions and the following disclaimer in the documentation 
+ *
+ *    - Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
  *      and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
 
@@ -31,18 +31,16 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Design;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Xml.Serialization;
-
 
 namespace XPExplorerBar
 {
@@ -117,7 +115,7 @@ namespace XPExplorerBar
 		/// <summary>
 		/// Required designer variable
 		/// </summary>
-		private Container components = null;
+		private Container components;
 
 		/// <summary>
 		/// System settings for the Expando
@@ -248,7 +246,7 @@ namespace XPExplorerBar
 		/// Specifies whether the Expando is currently performing a 
 		/// layout operation
 		/// </summary>
-		private bool layout = false;
+		private bool layout;
 
 		/// <summary>
 		/// Specifies the custom settings for the Expando
@@ -300,97 +298,97 @@ namespace XPExplorerBar
 		/// <summary>
 		/// Initializes a new instance of the Expando class with default settings
 		/// </summary>
-		public Expando() : base()
+		public Expando()
 		{
 			// This call is required by the Windows.Forms Form Designer.
-			this.components = new System.ComponentModel.Container();
+			components = new Container();
 
 			// set control styles
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			this.SetStyle(ControlStyles.UserPaint, true);
-			this.SetStyle(ControlStyles.ResizeRedraw, true);
-			this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-			this.SetStyle(ControlStyles.Selectable, true);
-			this.TabStop = true;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			SetStyle(ControlStyles.UserPaint, true);
+			SetStyle(ControlStyles.ResizeRedraw, true);
+			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+			SetStyle(ControlStyles.Selectable, true);
+			TabStop = true;
 
 			// get the system theme settings
-			this.systemSettings = ThemeManager.GetSystemExplorerBarSettings();
+			systemSettings = ThemeManager.GetSystemExplorerBarSettings();
 
-			this.customSettings = new ExpandoInfo();
-			this.customSettings.Expando = this;
-			this.customSettings.SetDefaultEmptyValues();
+			customSettings = new ExpandoInfo();
+			customSettings.Expando = this;
+			customSettings.SetDefaultEmptyValues();
 
-			this.customHeaderSettings = new HeaderInfo();
-			this.customHeaderSettings.Expando = this;
-			this.customHeaderSettings.SetDefaultEmptyValues();
+			customHeaderSettings = new HeaderInfo();
+			customHeaderSettings.Expando = this;
+			customHeaderSettings.SetDefaultEmptyValues();
 
-			this.BackColor = this.systemSettings.Expando.NormalBackColor;
+			BackColor = systemSettings.Expando.NormalBackColor;
 
 			// the height of the Expando in the expanded state
-			this.expandedHeight = 100;
+			expandedHeight = 100;
 
 			// animation
-			this.animate = false;
-			this.animatingFade = false;
-			this.animatingSlide = false;
-			this.animationImage = null;
-			this.slideEndHeight = -1;
-			this.animationHelper = null;
-			this.fadeHeights = new int[AnimationHelper.NumAnimationFrames];
+			animate = false;
+			animatingFade = false;
+			animatingSlide = false;
+			animationImage = null;
+			slideEndHeight = -1;
+			animationHelper = null;
+			fadeHeights = new int[AnimationHelper.NumAnimationFrames];
 
 			// size
-			this.Size = new Size(this.systemSettings.Header.BackImageWidth, this.expandedHeight);
-			this.titleBarHeight = this.systemSettings.Header.BackImageHeight;
-			this.headerHeight = this.titleBarHeight;
-			this.oldWidth = this.Width;
+			Size = new Size(systemSettings.Header.BackImageWidth, expandedHeight);
+			titleBarHeight = systemSettings.Header.BackImageHeight;
+			headerHeight = titleBarHeight;
+			oldWidth = Width;
 
 			// start expanded
-			this.collapsed = false;
+			collapsed = false;
 			
 			// not a special group
-			this.specialGroup = false;
+			specialGroup = false;
 
 			// unfocused titlebar
-			this.focusState = FocusStates.None;
+			focusState = FocusStates.None;
 
 			// no title image
-			this.titleImage = null;
-			this.watermark = null;
+			titleImage = null;
+			watermark = null;
 
-			this.Font = new Font(this.TitleFont.Name, 8.25f, FontStyle.Regular);
+			Font = new Font(TitleFont.Name, 8.25f, FontStyle.Regular);
 
 			// don't get the Expando to layout its items itself
-			this.autoLayout = false;
+			autoLayout = false;
 
 			// don't know which TaskPane we belong to
-			this.taskpane = null;
+			taskpane = null;
 
 			// internal list of items
-			this.itemList = new ItemCollection(this);
-			this.hiddenControls = new ArrayList();
+			itemList = new ItemCollection(this);
+			hiddenControls = new ArrayList();
 
 			// initialise the dummyPanel
-			this.dummyPanel = new AnimationPanel();
-			this.dummyPanel.Size = this.Size;
-			this.dummyPanel.Location = new Point(-1000, 0);
+			dummyPanel = new AnimationPanel();
+			dummyPanel.Size = Size;
+			dummyPanel.Location = new Point(-1000, 0);
 
-			this.canCollapse = true;
+			canCollapse = true;
 
-			this.showFocusCues = false;
-			this.useDefaultTabHandling = true;
+			showFocusCues = false;
+			useDefaultTabHandling = true;
 
-			this.CalcAnimationHeights();
+			CalcAnimationHeights();
 
-			this.slideAnimationBatched = false;
+			slideAnimationBatched = false;
 
-			this.dragging = false;
-			this.dragStart = Point.Empty;
+			dragging = false;
+			dragStart = Point.Empty;
 
-			this.beginUpdateCount = 0;
+			beginUpdateCount = 0;
 
-			this.initialising = false;
-			this.layout = false;
+			initialising = false;
+			layout = false;
 		}
 
 		#endregion
@@ -407,17 +405,17 @@ namespace XPExplorerBar
 		/// </summary>
 		public void Collapse()
 		{
-			this.collapsed = true;
+			collapsed = true;
 			
-			if (!this.Animating && this.Height != this.HeaderHeight)
+			if (!Animating && Height != HeaderHeight)
 			{
-				this.Height = this.headerHeight;
+				Height = headerHeight;
 
 				// fix: Raise StateChanged event
 				//      Jewlin (jewlin88@hotmail.com)
 				//      22/10/2004
 				//      v3.0
-				this.OnStateChanged(new ExpandoEventArgs(this));
+				OnStateChanged(new ExpandoEventArgs(this));
 			}
 		}
 
@@ -427,17 +425,17 @@ namespace XPExplorerBar
 		/// </summary>
 		public void Expand()
 		{
-			this.collapsed = false;
+			collapsed = false;
 			
-			if (!this.Animating && this.Height != this.ExpandedHeight)
+			if (!Animating && Height != ExpandedHeight)
 			{
-				this.Height = this.ExpandedHeight;
+				Height = ExpandedHeight;
 
 				// fix: Raise StateChanged event
 				//      Jewlin (jewlin88@hotmail.com)
 				//      22/10/2004
 				//      v3.0
-				this.OnStateChanged(new ExpandoEventArgs(this));
+				OnStateChanged(new ExpandoEventArgs(this));
 			}
 		}
 
@@ -448,24 +446,24 @@ namespace XPExplorerBar
 		protected void StartFadeAnimation()
 		{
 			//
-			this.animatingFade = true;
+			animatingFade = true;
 
 			//
-			this.SuspendLayout();
+			SuspendLayout();
 
 			// get an image of the client area that we can
 			// use for alpha-blending in our animation
-			this.animationImage = this.GetFadeAnimationImage();
+			animationImage = GetFadeAnimationImage();
 
 			// set each control invisible (otherwise they
 			// appear to slide off the bottom of the group)
-			foreach (Control control in this.Controls)
+			foreach (Control control in Controls)
 			{
 				control.Visible = false;
 			}
 
 			// restart the layout engine
-			this.ResumeLayout(false);
+			ResumeLayout(false);
 		}
 
 
@@ -483,23 +481,23 @@ namespace XPExplorerBar
 			//      v3.0
 			
 			// set the height of the group
-			if (this.collapsed)
+			if (collapsed)
 			{
-				this.Height = this.fadeHeights[animationStepNum-1] + this.headerHeight;
+				Height = fadeHeights[animationStepNum-1] + headerHeight;
 			}
 			else
 			{
-				this.Height = (this.ExpandedHeight - this.HeaderHeight) - this.fadeHeights[animationStepNum-1] + this.HeaderHeight - 1;
+				Height = (ExpandedHeight - HeaderHeight) - fadeHeights[animationStepNum-1] + HeaderHeight - 1;
 			}
 
-			if (this.TaskPane != null)
+			if (TaskPane != null)
 			{
-				this.TaskPane.DoLayout();
+				TaskPane.DoLayout();
 			}
 			else
 			{
 				// draw the next frame
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 
@@ -510,38 +508,38 @@ namespace XPExplorerBar
 		protected void StopFadeAnimation()
 		{
 			//
-			this.animatingFade = false;
+			animatingFade = false;
 
 			//
-			this.SuspendLayout();
+			SuspendLayout();
 
 			// get rid of the image used for the animation
-			this.animationImage.Dispose();
-			this.animationImage = null;
+			animationImage.Dispose();
+			animationImage = null;
 
 			// set the final height of the group, depending on
 			// whether we are collapsed or expanded
-			if (this.collapsed)
+			if (collapsed)
 			{
-				this.Height = this.HeaderHeight;
+				Height = HeaderHeight;
 			}
 			else
 			{
-				this.Height = this.ExpandedHeight;
+				Height = ExpandedHeight;
 			}
 
 			// set each control visible again
-			foreach (Control control in this.Controls)
+			foreach (Control control in Controls)
 			{
-				control.Visible = !this.hiddenControls.Contains(control);
+				control.Visible = !hiddenControls.Contains(control);
 			}
 
 			//
-			this.ResumeLayout(true);
+			ResumeLayout(true);
 
-			if (this.TaskPane != null)
+			if (TaskPane != null)
 			{
-				this.TaskPane.DoLayout();
+				TaskPane.DoLayout();
 			}
 		}
 
@@ -553,14 +551,12 @@ namespace XPExplorerBar
 		/// <returns>The Image to use during the fade animation</returns>
 		protected Image GetFadeAnimationImage()
 		{
-			if (this.Height == this.ExpandedHeight)
+			if (Height == ExpandedHeight)
 			{
-				return this.GetExpandedImage();
+				return GetExpandedImage();
 			}
-			else
-			{
-				return this.GetCollapsedImage();
-			}
+
+			return GetCollapsedImage();
 		}
 
 
@@ -572,7 +568,7 @@ namespace XPExplorerBar
 		protected Image GetExpandedImage()
 		{
 			// create a new image to draw into
-			Image image = new Bitmap(this.Width, this.Height);
+			Image image = new Bitmap(Width, Height);
 
 			// get a graphics object we can draw into
 			Graphics g = Graphics.FromImage(image);
@@ -582,7 +578,7 @@ namespace XPExplorerBar
 			IntPtr flags = (IntPtr) (WmPrintFlags.PRF_CLIENT | WmPrintFlags.PRF_CHILDREN | WmPrintFlags.PRF_ERASEBKGND);
 			
 			// tell the control to draw itself
-			NativeMethods.SendMessage(this.Handle, WindowMessageFlags.WM_PRINT, hDC, flags);
+			NativeMethods.SendMessage(Handle, WindowMessageFlags.WM_PRINT, hDC, flags);
 
 			// clean up resources
 			g.ReleaseHdc(hDC);
@@ -612,8 +608,8 @@ namespace XPExplorerBar
 			//       move all our controls onto the dummyPanel and 
 			//       get the dummyPanel to print itself
 
-			int width = this.Width;
-			int height = this.ExpandedHeight;
+			int width = Width;
+			int height = ExpandedHeight;
 			
 			
 			// create a new image to draw that is the same
@@ -624,78 +620,78 @@ namespace XPExplorerBar
 			Graphics g = Graphics.FromImage(backImage);
 
 			// draw our parents background
-			this.PaintTransparentBackground(g, new Rectangle(0, 0, width, height));
+			PaintTransparentBackground(g, new Rectangle(0, 0, width, height));
 
 			// don't need to draw the titlebar as it is ignored 
 			// when we paint with the animation image, but we do 
 			// need to draw the borders and "client area"
 
-			this.OnPaintTitleBarBackground(g);
-			this.OnPaintTitleBar(g);
+			OnPaintTitleBarBackground(g);
+			OnPaintTitleBar(g);
 
 			// borders
-			using (SolidBrush brush = new SolidBrush(this.BorderColor))
+			using (SolidBrush brush = new SolidBrush(BorderColor))
 			{
 				// top border
 				g.FillRectangle(brush, 
-					this.Border.Left, 
-					this.HeaderHeight, 
-					width - this.Border.Left - this.Border.Right, 
-					this.Border.Top); 
+					Border.Left, 
+					HeaderHeight, 
+					width - Border.Left - Border.Right, 
+					Border.Top); 
 				
 				// left border
 				g.FillRectangle(brush, 
 					0, 
-					this.HeaderHeight, 
-					this.Border.Left, 
-					height - this.HeaderHeight); 
+					HeaderHeight, 
+					Border.Left, 
+					height - HeaderHeight); 
 				
 				// right border
 				g.FillRectangle(brush, 
-					width - this.Border.Right, 
-					this.HeaderHeight, 
-					this.Border.Right, 
-					height - this.HeaderHeight); 
+					width - Border.Right, 
+					HeaderHeight, 
+					Border.Right, 
+					height - HeaderHeight); 
 				
 				// bottom border
 				g.FillRectangle(brush, 
-					this.Border.Left, 
-					height - this.Border.Bottom, 
-					width - this.Border.Left - this.Border.Right, 
-					this.Border.Bottom); 
+					Border.Left, 
+					height - Border.Bottom, 
+					width - Border.Left - Border.Right, 
+					Border.Bottom); 
 			}
 
 			// "client area"
-			using (SolidBrush brush = new SolidBrush(this.BackColor))
+			using (SolidBrush brush = new SolidBrush(BackColor))
 			{
 				g.FillRectangle(brush, 
-					this.Border.Left, 
-					this.HeaderHeight, 
-					width - this.Border.Left - this.Border.Right,
-					height - this.HeaderHeight - this.Border.Bottom - this.Border.Top);
+					Border.Left, 
+					HeaderHeight, 
+					width - Border.Left - Border.Right,
+					height - HeaderHeight - Border.Bottom - Border.Top);
 			}
 			
 			// check if we have a background image
-			if (this.BackImage != null)
+			if (BackImage != null)
 			{
 				// tile the backImage
-				using (TextureBrush brush = new TextureBrush(this.BackImage, WrapMode.Tile))
+				using (TextureBrush brush = new TextureBrush(BackImage, WrapMode.Tile))
 				{
 					g.FillRectangle(brush, 
-						this.Border.Left, 
-						this.HeaderHeight, 
-						width - this.Border.Left - this.Border.Right,
-						height - this.HeaderHeight - this.Border.Bottom - this.Border.Top);
+						Border.Left, 
+						HeaderHeight, 
+						width - Border.Left - Border.Right,
+						height - HeaderHeight - Border.Bottom - Border.Top);
 				}
 			}
 
 			// watermark
-			if (this.Watermark != null)
+			if (Watermark != null)
 			{
 				// work out a rough location of where the watermark should go
-				Rectangle rect = new Rectangle(0, 0, this.Watermark.Width, this.Watermark.Height);
-				rect.X = width - this.Border.Right - this.Watermark.Width;
-				rect.Y = height - this.Border.Bottom - this.Watermark.Height;
+				Rectangle rect = new Rectangle(0, 0, Watermark.Width, Watermark.Height);
+				rect.X = width - Border.Right - Watermark.Width;
+				rect.Y = height - Border.Bottom - Watermark.Height;
 
 				// shrink the destination rect if necesary so that we
 				// can see all of the image
@@ -705,23 +701,23 @@ namespace XPExplorerBar
 					rect.X = 0;
 				}
 
-				if (rect.Width > this.ClientRectangle.Width)
+				if (rect.Width > ClientRectangle.Width)
 				{
-					rect.Width = this.ClientRectangle.Width;
+					rect.Width = ClientRectangle.Width;
 				}
 
-				if (rect.Y < this.DisplayRectangle.Top)
+				if (rect.Y < DisplayRectangle.Top)
 				{
-					rect.Y = this.DisplayRectangle.Top;
+					rect.Y = DisplayRectangle.Top;
 				}
 
-				if (rect.Height > this.DisplayRectangle.Height)
+				if (rect.Height > DisplayRectangle.Height)
 				{
-					rect.Height = this.DisplayRectangle.Height;
+					rect.Height = DisplayRectangle.Height;
 				}
 
 				// draw the watermark
-				g.DrawImage(this.Watermark, rect);
+				g.DrawImage(Watermark, rect);
 			}
 
 			// cleanup resources;
@@ -730,25 +726,25 @@ namespace XPExplorerBar
 
 			// make sure the dummyPanel is the same size as our image
 			// (we don't want any tiling of the image)
-			this.dummyPanel.Size = new Size(width, height);
-			this.dummyPanel.HeaderHeight = this.HeaderHeight;
-			this.dummyPanel.Border = this.Border;
+			dummyPanel.Size = new Size(width, height);
+			dummyPanel.HeaderHeight = HeaderHeight;
+			dummyPanel.Border = Border;
 			
 			// set the image as the dummyPanels background
-			this.dummyPanel.BackImage = backImage;
+			dummyPanel.BackImage = backImage;
 
 			// move all our controls to the dummyPanel, and then add
 			// the dummyPanel to us
-			while (this.Controls.Count > 0)
+			while (Controls.Count > 0)
 			{
-				Control control = this.Controls[0];
+				Control control = Controls[0];
 
-				this.Controls.RemoveAt(0);
-				this.dummyPanel.Controls.Add(control);
+				Controls.RemoveAt(0);
+				dummyPanel.Controls.Add(control);
 
-				control.Visible = !this.hiddenControls.Contains(control);
+				control.Visible = !hiddenControls.Contains(control);
 			}
-			this.Controls.Add(this.dummyPanel);
+			Controls.Add(dummyPanel);
 
 
 			// create a new image for the dummyPanel to draw itself into
@@ -762,27 +758,27 @@ namespace XPExplorerBar
 			IntPtr flags = (IntPtr) (WmPrintFlags.PRF_CLIENT | WmPrintFlags.PRF_CHILDREN);
 			
 			// tell the control to draw itself
-			NativeMethods.SendMessage(this.dummyPanel.Handle, WindowMessageFlags.WM_PRINT, hDC, flags);
+			NativeMethods.SendMessage(dummyPanel.Handle, WindowMessageFlags.WM_PRINT, hDC, flags);
 
 			// clean up resources
 			g.ReleaseHdc(hDC);
 			g.Dispose();
 
-			this.Controls.Remove(this.dummyPanel);
+			Controls.Remove(dummyPanel);
 
 			// get our controls back
-			while (this.dummyPanel.Controls.Count > 0)
+			while (dummyPanel.Controls.Count > 0)
 			{
-				Control control = this.dummyPanel.Controls[0];
+				Control control = dummyPanel.Controls[0];
 
 				control.Visible = false;
 				
-				this.dummyPanel.Controls.RemoveAt(0);
-				this.Controls.Add(control);
+				dummyPanel.Controls.RemoveAt(0);
+				Controls.Add(control);
 			}
 
 			// dispose of the background image
-			this.dummyPanel.BackImage = null;
+			dummyPanel.BackImage = null;
 			backImage.Dispose();
 
 			return image;
@@ -838,7 +834,7 @@ namespace XPExplorerBar
 			//
 			// I hope that helps ;)
 			
-			using (Bitmap bitmap = new Bitmap(this.fadeHeights.Length, this.ExpandedHeight - this.HeaderHeight))
+			using (Bitmap bitmap = new Bitmap(fadeHeights.Length, ExpandedHeight - HeaderHeight))
 			{
 				// draw the bezier curve
 				using (Graphics g = Graphics.FromImage(bitmap))
@@ -868,7 +864,7 @@ namespace XPExplorerBar
 						}
 					}
 
-					this.fadeHeights[i] = j;
+					fadeHeights[i] = j;
 				}
 			}
 		}
@@ -882,9 +878,9 @@ namespace XPExplorerBar
 		/// </summary>
 		protected internal void StartSlideAnimation()
 		{
-			this.animatingSlide = true;
+			animatingSlide = true;
 			
-			this.slideEndHeight = this.CalcHeightAndLayout();
+			slideEndHeight = CalcHeightAndLayout();
 		}
 
 
@@ -901,19 +897,19 @@ namespace XPExplorerBar
 			//                 Paolo Messina (ppescher@hotmail.com)
 			//                 05/06/2004
 			//                 v1.1
-			double step = (1.0 - Math.Cos(Math.PI * (double) animationStepNum / (double) numAnimationSteps)) / 2.0;
+			double step = (1.0 - Math.Cos(Math.PI * animationStepNum / numAnimationSteps)) / 2.0;
 			
 			// set the height of the group
-			this.Height = this.expandedHeight + (int) ((this.slideEndHeight - this.expandedHeight) * step);
+			Height = expandedHeight + (int) ((slideEndHeight - expandedHeight) * step);
 
-			if (this.TaskPane != null)
+			if (TaskPane != null)
 			{
-				this.TaskPane.DoLayout();
+				TaskPane.DoLayout();
 			}
 			else
 			{
 				// draw the next frame
-				this.Invalidate();
+				Invalidate();
 			}
 		}
 
@@ -923,13 +919,13 @@ namespace XPExplorerBar
 		/// </summary>
 		protected internal void StopSlideAnimation()
 		{
-			this.animatingSlide = false;
+			animatingSlide = false;
 
 			// make sure we're the right height
-			this.Height = this.slideEndHeight;
-			this.slideEndHeight = -1;
+			Height = slideEndHeight;
+			slideEndHeight = -1;
 
-			this.DoLayout();
+			DoLayout();
 		}
 
 		#endregion
@@ -944,7 +940,7 @@ namespace XPExplorerBar
 		/// <param name="control">The Control to hide</param>
 		public void HideControl(Control control)
 		{
-			this.HideControl(new Control[] {control});
+			HideControl(new[] {control});
 		}
 
 
@@ -955,12 +951,12 @@ namespace XPExplorerBar
 		public void HideControl(Control[] controls)
 		{
 			// don't bother if we are animating
-			if (this.Animating || this.Collapsed)
+			if (Animating || Collapsed)
 			{
 				return;
 			}
 			
-			this.SuspendLayout();
+			SuspendLayout();
 			
 			// flag to check if we actually hid any controls
 			bool anyHidden = false;
@@ -968,16 +964,16 @@ namespace XPExplorerBar
 			foreach (Control control in controls)
 			{
 				// hide the control if we own it and it is not already hidden
-				if (this.Controls.Contains(control) && !this.hiddenControls.Contains(control))
+				if (Controls.Contains(control) && !hiddenControls.Contains(control))
 				{
 					anyHidden = true;
 
 					control.Visible = false;
-					this.hiddenControls.Add(control);
+					hiddenControls.Add(control);
 				}
 			}
 
-			this.ResumeLayout(false);
+			ResumeLayout(false);
 
 			// if we didn't hide any, get out of here
 			if (!anyHidden)
@@ -986,30 +982,30 @@ namespace XPExplorerBar
 			}
 
 			//
-			if (this.beginUpdateCount > 0)
+			if (beginUpdateCount > 0)
 			{
-				this.slideAnimationBatched = true;
+				slideAnimationBatched = true;
 				
 				return;
 			}
 			
 			// are we able to animate?
-			if (!this.AutoLayout || !this.Animate)
+			if (!AutoLayout || !Animate)
 			{
 				// guess not
-				this.DoLayout();
+				DoLayout();
 			}
 			else
 			{
-				if (this.animationHelper != null)
+				if (animationHelper != null)
 				{
-					this.animationHelper.Dispose();
-					this.animationHelper = null;
+					animationHelper.Dispose();
+					animationHelper = null;
 				}
 
-				this.animationHelper = new AnimationHelper(this, AnimationHelper.SlideAnimation);
+				animationHelper = new AnimationHelper(this, AnimationHelper.SlideAnimation);
 
-				this.animationHelper.StartAnimation();
+				animationHelper.StartAnimation();
 			}
 		}
 
@@ -1020,7 +1016,7 @@ namespace XPExplorerBar
 		/// <param name="control">The Control to show</param>
 		public void ShowControl(Control control)
 		{
-			this.ShowControl(new Control[] {control});
+			ShowControl(new[] {control});
 		}
 
 
@@ -1031,12 +1027,12 @@ namespace XPExplorerBar
 		public void ShowControl(Control[] controls)
 		{
 			// don't bother if we are animating
-			if (this.Animating || this.Collapsed)
+			if (Animating || Collapsed)
 			{
 				return;
 			}
 			
-			this.SuspendLayout();
+			SuspendLayout();
 			
 			// flag to check if any controls were shown
 			bool anyHidden = false;
@@ -1044,16 +1040,16 @@ namespace XPExplorerBar
 			foreach (Control control in controls)
 			{
 				// show the control if we own it and it is not already shown
-				if (this.Controls.Contains(control) && this.hiddenControls.Contains(control))
+				if (Controls.Contains(control) && hiddenControls.Contains(control))
 				{
 					anyHidden = true;
 
 					control.Visible = true;
-					this.hiddenControls.Remove(control);
+					hiddenControls.Remove(control);
 				}
 			}
 
-			this.ResumeLayout(false);
+			ResumeLayout(false);
 
 			// if we didn't show any, get out of here
 			if (!anyHidden)
@@ -1062,30 +1058,30 @@ namespace XPExplorerBar
 			}
 
 			//
-			if (this.beginUpdateCount > 0)
+			if (beginUpdateCount > 0)
 			{
-				this.slideAnimationBatched = true;
+				slideAnimationBatched = true;
 				
 				return;
 			}
 
 			// are we able to animate?
-			if (!this.AutoLayout || !this.Animate)
+			if (!AutoLayout || !Animate)
 			{
 				// guess not
-				this.DoLayout();
+				DoLayout();
 			}
 			else
 			{
-				if (this.animationHelper != null)
+				if (animationHelper != null)
 				{
-					this.animationHelper.Dispose();
-					this.animationHelper = null;
+					animationHelper.Dispose();
+					animationHelper = null;
 				}
 
-				this.animationHelper = new AnimationHelper(this, AnimationHelper.SlideAnimation);
+				animationHelper = new AnimationHelper(this, AnimationHelper.SlideAnimation);
 
-				this.animationHelper.StartAnimation();
+				animationHelper.StartAnimation();
 			}
 		}
 
@@ -1108,16 +1104,16 @@ namespace XPExplorerBar
 					components.Dispose();
 				}
 
-				if (this.systemSettings != null)
+				if (systemSettings != null)
 				{
-					this.systemSettings.Dispose();
-					this.systemSettings = null;
+					systemSettings.Dispose();
+					systemSettings = null;
 				}
 
-				if (this.animationHelper != null)
+				if (animationHelper != null)
 				{
-					this.animationHelper.Dispose();
-					this.animationHelper = null;
+					animationHelper.Dispose();
+					animationHelper = null;
 				}
 			}
 
@@ -1133,7 +1129,7 @@ namespace XPExplorerBar
 		/// </summary>
 		protected void InvalidateTitleBar()
 		{
-			this.Invalidate(new Rectangle(0, 0, this.Width, this.headerHeight), false);
+			Invalidate(new Rectangle(0, 0, Width, headerHeight), false);
 		}
 
 		#endregion
@@ -1145,7 +1141,7 @@ namespace XPExplorerBar
 		/// </summary>
 		public void BeginInit()
 		{
-			this.initialising = true;
+			initialising = true;
 		}
 
 
@@ -1154,11 +1150,11 @@ namespace XPExplorerBar
 		/// </summary>
 		public void EndInit()
 		{
-			this.initialising = false;
+			initialising = false;
 
-			this.DoLayout();
+			DoLayout();
 
-			this.CalcAnimationHeights();
+			CalcAnimationHeights();
 		}
 
 
@@ -1170,7 +1166,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.initialising;
+				return initialising;
 			}
 		}
 
@@ -1187,7 +1183,7 @@ namespace XPExplorerBar
 		/// otherwise, false</returns>
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
-			if (this.UseDefaultTabHandling || this.Parent == null || !(this.Parent is TaskPane))
+			if (UseDefaultTabHandling || Parent == null || !(Parent is TaskPane))
 			{
 				return base.ProcessDialogKey(keyData);
 			}
@@ -1203,7 +1199,7 @@ namespace XPExplorerBar
 					case Keys.Right:
 					case Keys.Down:
 					{
-						if (this.ProcessArrowKey(((key == Keys.Right) ? true : (key == Keys.Down))))
+						if (ProcessArrowKey(((key == Keys.Right) ? true : (key == Keys.Down))))
 						{
 							return true;
 						}
@@ -1217,7 +1213,7 @@ namespace XPExplorerBar
 			
 			if (key == Keys.Tab)
 			{
-				if (this.ProcessTabKey(((keyData & Keys.Shift) == Keys.None)))
+				if (ProcessTabKey(((keyData & Keys.Shift) == Keys.None)))
 				{
 					return true;
 				}
@@ -1237,28 +1233,22 @@ namespace XPExplorerBar
 		{
 			if (forward)
 			{
-				if ((this.Focused && !this.Collapsed) || this.Items.Count == 0)
+				if ((Focused && !Collapsed) || Items.Count == 0)
 				{
-					return base.SelectNextControl(this, forward, true, true, false);
+					return SelectNextControl(this, forward, true, true, false);
 				}
-				else
-				{
-					return this.Parent.SelectNextControl(this.Items[this.Items.Count-1], forward, true, true, false);
-				}
+
+				return Parent.SelectNextControl(Items[Items.Count-1], forward, true, true, false);
 			}
-			else
+
+			if (Focused || Items.Count == 0 || Collapsed)
 			{
-				if (this.Focused || this.Items.Count == 0 || this.Collapsed)
-				{
-					return this.Parent.SelectNextControl(this, forward, true, true, false);
-				}
-				else
-				{
-					this.Select();
-					
-					return this.Focused;
-				}
+				return Parent.SelectNextControl(this, forward, true, true, false);
 			}
+
+			Select();
+					
+			return Focused;
 		}
 
 
@@ -1272,53 +1262,49 @@ namespace XPExplorerBar
 		{
 			if (forward)
 			{
-				if (this.Focused && !this.Collapsed)
+				if (Focused && !Collapsed)
 				{
-					return base.SelectNextControl(this, forward, true, true, false);
+					return SelectNextControl(this, forward, true, true, false);
 				}
-				else if ((this.Items.Count > 0 && this.Items[this.Items.Count-1].Focused) || this.Collapsed)
-				{
-					int index = this.TaskPane.Expandos.IndexOf(this);
-					
-					if (index < this.TaskPane.Expandos.Count-1)
-					{
-						this.TaskPane.Expandos[index+1].Select();
 
-						return this.TaskPane.Expandos[index+1].Focused;
-					}
-					else
+				if ((Items.Count > 0 && Items[Items.Count-1].Focused) || Collapsed)
+				{
+					int index = TaskPane.Expandos.IndexOf(this);
+					
+					if (index < TaskPane.Expandos.Count-1)
 					{
-						return true;
+						TaskPane.Expandos[index+1].Select();
+
+						return TaskPane.Expandos[index+1].Focused;
 					}
+
+					return true;
 				}
 			}
 			else
 			{
-				if (this.Focused)
+				if (Focused)
 				{
-					int index = this.TaskPane.Expandos.IndexOf(this);
+					int index = TaskPane.Expandos.IndexOf(this);
 					
 					if (index > 0)
 					{
-						return this.Parent.SelectNextControl(this, forward, true, true, false);
+						return Parent.SelectNextControl(this, forward, true, true, false);
 					}
-					else
-					{
-						return true;
-					}
+
+					return true;
 				}
-				else if (this.Items.Count > 0)
+
+				if (Items.Count > 0)
 				{
-					if (this.Items[0].Focused)
+					if (Items[0].Focused)
 					{
-						this.Select();
+						Select();
 					
-						return this.Focused;
+						return Focused;
 					}
-					else
-					{
-						return this.Parent.SelectNextControl(this.FindFocusedChild(), forward, true, true, false);
-					}
+
+					return Parent.SelectNextControl(FindFocusedChild(), forward, true, true, false);
 				}
 			}
 
@@ -1333,12 +1319,12 @@ namespace XPExplorerBar
 		/// or null if no child controls have focus</returns>
 		protected Control FindFocusedChild()
 		{
-			if (this.Controls.Count == 0)
+			if (Controls.Count == 0)
 			{
 				return null;
 			}
 
-			foreach (Control control in this.Controls)
+			foreach (Control control in Controls)
 			{
 				if (control.ContainsFocus)
 				{
@@ -1358,7 +1344,7 @@ namespace XPExplorerBar
 		/// </summary>
 		public void BeginUpdate()
 		{
-			this.beginUpdateCount++;
+			beginUpdateCount++;
 		}
 
 
@@ -1368,34 +1354,34 @@ namespace XPExplorerBar
 		/// </summary>
 		public void EndUpdate()
 		{
-			this.beginUpdateCount = Math.Max(--this.beginUpdateCount, 0);
+			beginUpdateCount = Math.Max(--beginUpdateCount, 0);
 
 			if (beginUpdateCount == 0)
 			{
-				if (this.slideAnimationBatched)
+				if (slideAnimationBatched)
 				{
-					this.slideAnimationBatched = false;
+					slideAnimationBatched = false;
 
-					if (this.Animate && this.AutoLayout)
+					if (Animate && AutoLayout)
 					{
-						if (this.animationHelper != null)
+						if (animationHelper != null)
 						{
-							this.animationHelper.Dispose();
-							this.animationHelper = null;
+							animationHelper.Dispose();
+							animationHelper = null;
 						}
 
-						this.animationHelper = new AnimationHelper(this, AnimationHelper.SlideAnimation);
+						animationHelper = new AnimationHelper(this, AnimationHelper.SlideAnimation);
 
-						this.animationHelper.StartAnimation();
+						animationHelper.StartAnimation();
 					}
 					else
 					{
-						this.DoLayout(true);
+						DoLayout(true);
 					}
 				}
 				else
 				{
-					this.DoLayout(true);
+					DoLayout(true);
 				}
 			}
 		}
@@ -1407,7 +1393,7 @@ namespace XPExplorerBar
 		/// </summary>
 		public void DoLayout()
 		{
-			this.DoLayout(true);
+			DoLayout(true);
 		}
 
 
@@ -1417,44 +1403,44 @@ namespace XPExplorerBar
 		/// </summary>
 		public virtual void DoLayout(bool performRealLayout)
 		{
-			if (this.layout)
+			if (layout)
 			{
 				return;
 			}
 
-			this.layout = true;
+			layout = true;
 			
 			// stop the layout engine
-			this.SuspendLayout();
+			SuspendLayout();
 
 			// work out the height of the header section
 
 			// is there an image to display on the titlebar
-			if (this.titleImage != null)
+			if (titleImage != null)
 			{
 				// is the image bigger than the height of the titlebar
-				if (this.titleImage.Height > this.titleBarHeight)
+				if (titleImage.Height > titleBarHeight)
 				{
-					this.headerHeight = this.titleImage.Height;
+					headerHeight = titleImage.Height;
 				}
 					// is the image smaller than the height of the titlebar
-				else if (this.titleImage.Height < this.titleBarHeight)
+				else if (titleImage.Height < titleBarHeight)
 				{
-					this.headerHeight = this.titleBarHeight;
+					headerHeight = titleBarHeight;
 				}
 					// is the image smaller than the current header height
-				else if (this.titleImage.Height < this.headerHeight)
+				else if (titleImage.Height < headerHeight)
 				{
-					this.headerHeight = this.titleImage.Height;
+					headerHeight = titleImage.Height;
 				}
 			}
 			else
 			{
-				this.headerHeight = this.titleBarHeight;
+				headerHeight = titleBarHeight;
 			}
 
 			// do we need to layout our items
-			if (this.AutoLayout)
+			if (AutoLayout)
 			{
 				Control c;
 				TaskItem ti;
@@ -1462,21 +1448,21 @@ namespace XPExplorerBar
 
 				// work out how wide to make the controls, and where
 				// the top of the first control should be
-				int y = this.DisplayRectangle.Y + this.Padding.Top;
-				int width = this.PseudoClientRect.Width - this.Padding.Left - this.Padding.Right;
+				int y = DisplayRectangle.Y + Padding.Top;
+				int width = PseudoClientRect.Width - Padding.Left - Padding.Right;
 
 				// for each control in our list...
-				for (int i=0; i<this.itemList.Count; i++)
+				for (int i=0; i<itemList.Count; i++)
 				{
-					c = (Control) this.itemList[i];
+					c = itemList[i];
 
-					if (this.hiddenControls.Contains(c))
+					if (hiddenControls.Contains(c))
 					{
 						continue;
 					}
 
 					// set the starting point
-					p = new Point(this.Padding.Left, y);
+					p = new Point(Padding.Left, y);
 
 					// is the control a TaskItem?  if so, we may
 					// need to take into account the margins
@@ -1498,7 +1484,7 @@ namespace XPExplorerBar
 					}
 					else
 					{
-						y += this.systemSettings.TaskItem.Margin.Top;
+						y += systemSettings.TaskItem.Margin.Top;
 
 						p.Y = y;
 					}					
@@ -1511,7 +1497,7 @@ namespace XPExplorerBar
 
 					// is the control a TaskItem?  if so, we may
 					// need to take into account the bottom margin
-					if (i < this.itemList.Count-1)
+					if (i < itemList.Count-1)
 					{
 						if (c is TaskItem)
 						{
@@ -1521,44 +1507,44 @@ namespace XPExplorerBar
 						}
 						else
 						{
-							y += this.systemSettings.TaskItem.Margin.Bottom;
+							y += systemSettings.TaskItem.Margin.Bottom;
 						}
 					}
 				}
 
 				// workout where the bottom of the Expando should be
-				y += this.Padding.Bottom + this.Border.Bottom;
+				y += Padding.Bottom + Border.Bottom;
 
 				// adjust the ExpandedHeight if they're not the same
-				if (y != this.ExpandedHeight)
+				if (y != ExpandedHeight)
 				{
-					this.ExpandedHeight = y;
+					ExpandedHeight = y;
 
 					// if we're not collapsed then we had better change
 					// our height as well
-					if (!this.Collapsed)
+					if (!Collapsed)
 					{
-						this.Height = this.ExpandedHeight;
+						Height = ExpandedHeight;
 
 						// if we belong to a TaskPane then it needs to
 						// re-layout its Expandos
-						if (this.TaskPane != null)
+						if (TaskPane != null)
 						{
-							this.TaskPane.DoLayout(true);
+							TaskPane.DoLayout(true);
 						}
 					}
 				}
 			}
 
-			if (this.Collapsed)
+			if (Collapsed)
 			{
-				this.Height = this.HeaderHeight;
+				Height = HeaderHeight;
 			}
 
 			// restart the layout engine
-			this.ResumeLayout(performRealLayout);
+			ResumeLayout(performRealLayout);
 
-			this.layout = false;
+			layout = false;
 		}
 
 
@@ -1571,38 +1557,38 @@ namespace XPExplorerBar
 		internal int CalcHeightAndLayout()
 		{
 			// stop the layout engine
-			this.SuspendLayout();
+			SuspendLayout();
 
 			// work out the height of the header section
 
 			// is there an image to display on the titlebar
-			if (this.titleImage != null)
+			if (titleImage != null)
 			{
 				// is the image bigger than the height of the titlebar
-				if (this.titleImage.Height > this.titleBarHeight)
+				if (titleImage.Height > titleBarHeight)
 				{
-					this.headerHeight = this.titleImage.Height;
+					headerHeight = titleImage.Height;
 				}
 					// is the image smaller than the height of the titlebar
-				else if (this.titleImage.Height < this.titleBarHeight)
+				else if (titleImage.Height < titleBarHeight)
 				{
-					this.headerHeight = this.titleBarHeight;
+					headerHeight = titleBarHeight;
 				}
 					// is the image smaller than the current header height
-				else if (this.titleImage.Height < this.headerHeight)
+				else if (titleImage.Height < headerHeight)
 				{
-					this.headerHeight = this.titleImage.Height;
+					headerHeight = titleImage.Height;
 				}
 			}
 			else
 			{
-				this.headerHeight = this.titleBarHeight;
+				headerHeight = titleBarHeight;
 			}
 
 			int y = -1;
 
 			// do we need to layout our items
-			if (this.AutoLayout)
+			if (AutoLayout)
 			{
 				Control c;
 				TaskItem ti;
@@ -1610,21 +1596,21 @@ namespace XPExplorerBar
 
 				// work out how wide to make the controls, and where
 				// the top of the first control should be
-				y = this.DisplayRectangle.Y + this.Padding.Top;
-				int width = this.PseudoClientRect.Width - this.Padding.Left - this.Padding.Right;
+				y = DisplayRectangle.Y + Padding.Top;
+				int width = PseudoClientRect.Width - Padding.Left - Padding.Right;
 
 				// for each control in our list...
-				for (int i=0; i<this.itemList.Count; i++)
+				for (int i=0; i<itemList.Count; i++)
 				{
-					c = (Control) this.itemList[i];
+					c = itemList[i];
 
-					if (this.hiddenControls.Contains(c))
+					if (hiddenControls.Contains(c))
 					{
 						continue;
 					}
 
 					// set the starting point
-					p = new Point(this.Padding.Left, y);
+					p = new Point(Padding.Left, y);
 
 					// is the control a TaskItem?  if so, we may
 					// need to take into account the margins
@@ -1646,7 +1632,7 @@ namespace XPExplorerBar
 					}	
 					else
 					{
-						y += this.systemSettings.TaskItem.Margin.Top;
+						y += systemSettings.TaskItem.Margin.Top;
 
 						p.Y = y;
 					}				
@@ -1659,7 +1645,7 @@ namespace XPExplorerBar
 
 					// is the control a TaskItem?  if so, we may
 					// need to take into account the bottom margin
-					if (i < this.itemList.Count-1)
+					if (i < itemList.Count-1)
 					{
 						if (c is TaskItem)
 						{
@@ -1669,17 +1655,17 @@ namespace XPExplorerBar
 						}
 						else
 						{
-							y += this.systemSettings.TaskItem.Margin.Bottom;
+							y += systemSettings.TaskItem.Margin.Bottom;
 						}
 					}
 				}
 
 				// workout where the bottom of the Expando should be
-				y += this.Padding.Bottom + this.Border.Bottom;
+				y += Padding.Bottom + Border.Bottom;
 			}
 
 			// restart the layout engine
-			this.ResumeLayout(true);
+			ResumeLayout(true);
 
 			return y;
 		}
@@ -1691,27 +1677,27 @@ namespace XPExplorerBar
 		/// </summary>
 		internal void UpdateItems()
 		{
-			if (this.Items.Count == this.Controls.Count)
+			if (Items.Count == Controls.Count)
 			{
 				// make sure the the items index in the ControlCollection 
 				// are the same as in the ItemCollection (indexes in the 
 				// ItemCollection may have changed due to the user moving 
 				// them around in the editor)
-				this.MatchControlCollToItemColl();				
+				MatchControlCollToItemColl();				
 				
 				return;
 			}
 
 			// were any items added
-			if (this.Items.Count > this.Controls.Count)
+			if (Items.Count > Controls.Count)
 			{
 				// add any extra items in the ItemCollection to the 
 				// ControlCollection
-				for (int i=0; i<this.Items.Count; i++)
+				for (int i=0; i<Items.Count; i++)
 				{
-					if (!this.Controls.Contains(this.Items[i]))
+					if (!Controls.Contains(Items[i]))
 					{
-						this.OnItemAdded(new ControlEventArgs(this.Items[i]));
+						OnItemAdded(new ControlEventArgs(Items[i]));
 					}
 				}
 			}
@@ -1722,13 +1708,13 @@ namespace XPExplorerBar
 				Control control;
 
 				// remove any extra items from the ControlCollection
-				while (i < this.Controls.Count)
+				while (i < Controls.Count)
 				{
-					control = (Control) this.Controls[i];
+					control = Controls[i];
 					
-					if (!this.Items.Contains(control))
+					if (!Items.Contains(control))
 					{
-						this.OnItemRemoved(new ControlEventArgs(control));
+						OnItemRemoved(new ControlEventArgs(control));
 					}
 					else
 					{
@@ -1737,7 +1723,7 @@ namespace XPExplorerBar
 				}
 			}
 
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 
 
@@ -1749,18 +1735,18 @@ namespace XPExplorerBar
 		/// </summary>
 		internal void MatchControlCollToItemColl()
 		{
-			this.SuspendLayout();
+			SuspendLayout();
 				
-			for (int i=0; i<this.Items.Count; i++)
+			for (int i=0; i<Items.Count; i++)
 			{
-				this.Controls.SetChildIndex(this.Items[i], i);
+				Controls.SetChildIndex(Items[i], i);
 			}
 
-			this.ResumeLayout(false);
+			ResumeLayout(false);
 				
-			this.DoLayout();
+			DoLayout();
 
-			this.Invalidate(true);
+			Invalidate(true);
 		}
 
 
@@ -1778,7 +1764,7 @@ namespace XPExplorerBar
 
 			base.ScaleCore(dx, dy);
 
-			this.expandedHeight = (int)(expandedHeight * dy);
+			expandedHeight = (int)(expandedHeight * dy);
 		}
 
 		#endregion
@@ -1798,22 +1784,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialAlignment != ContentAlignment.MiddleLeft)
+					if (CustomHeaderSettings.SpecialAlignment != ContentAlignment.MiddleLeft)
 					{		
-						return this.CustomHeaderSettings.SpecialAlignment;
+						return CustomHeaderSettings.SpecialAlignment;
 					}
 
-					return this.SystemSettings.Header.SpecialAlignment;
+					return SystemSettings.Header.SpecialAlignment;
 				}
 				
-				if (this.CustomHeaderSettings.NormalAlignment != ContentAlignment.MiddleLeft)
+				if (CustomHeaderSettings.NormalAlignment != ContentAlignment.MiddleLeft)
 				{		
-					return this.CustomHeaderSettings.NormalAlignment;
+					return CustomHeaderSettings.NormalAlignment;
 				}
 
-				return this.SystemSettings.Header.NormalAlignment;
+				return SystemSettings.Header.NormalAlignment;
 			}
 		}
 
@@ -1831,14 +1817,14 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.animate;
+				return animate;
 			}
 
 			set
 			{
-				if (this.animate != value)
+				if (animate != value)
 				{
-					this.animate = value;
+					animate = value;
 				}
 			}
 		}
@@ -1852,7 +1838,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return (this.animatingFade || this.animatingSlide);
+				return (animatingFade || animatingSlide);
 			}
 		}
 
@@ -1864,7 +1850,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.animationImage;
+				return animationImage;
 			}
 		}
 
@@ -1877,7 +1863,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.slideEndHeight;
+				return slideEndHeight;
 			}
 		}
 
@@ -1893,22 +1879,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomSettings.SpecialBorder != Border.Empty)
+					if (CustomSettings.SpecialBorder != Border.Empty)
 					{
-						return this.CustomSettings.SpecialBorder;
+						return CustomSettings.SpecialBorder;
 					}
 
-					return this.SystemSettings.Expando.SpecialBorder;
+					return SystemSettings.Expando.SpecialBorder;
 				}
 
-				if (this.CustomSettings.NormalBorder != Border.Empty)
+				if (CustomSettings.NormalBorder != Border.Empty)
 				{
-					return this.CustomSettings.NormalBorder;
+					return CustomSettings.NormalBorder;
 				}
 
-				return this.SystemSettings.Expando.NormalBorder;
+				return SystemSettings.Expando.NormalBorder;
 			}
 		}
 
@@ -1921,22 +1907,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomSettings.SpecialBorderColor != Color.Empty)
+					if (CustomSettings.SpecialBorderColor != Color.Empty)
 					{
-						return this.CustomSettings.SpecialBorderColor;
+						return CustomSettings.SpecialBorderColor;
 					}
 
-					return this.SystemSettings.Expando.SpecialBorderColor;
+					return SystemSettings.Expando.SpecialBorderColor;
 				}
 
-				if (this.CustomSettings.NormalBorderColor != Color.Empty)
+				if (CustomSettings.NormalBorderColor != Color.Empty)
 				{
-					return this.CustomSettings.NormalBorderColor;
+					return CustomSettings.NormalBorderColor;
 				}
 
-				return this.SystemSettings.Expando.NormalBorderColor;
+				return SystemSettings.Expando.NormalBorderColor;
 			}
 		}
 
@@ -1949,22 +1935,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialBorder != Border.Empty)
+					if (CustomHeaderSettings.SpecialBorder != Border.Empty)
 					{
-						return this.CustomHeaderSettings.SpecialBorder;
+						return CustomHeaderSettings.SpecialBorder;
 					}
 
-					return this.SystemSettings.Header.SpecialBorder;
+					return SystemSettings.Header.SpecialBorder;
 				}
 
-				if (this.CustomHeaderSettings.NormalBorder != Border.Empty)
+				if (CustomHeaderSettings.NormalBorder != Border.Empty)
 				{
-					return this.CustomHeaderSettings.NormalBorder;
+					return CustomHeaderSettings.NormalBorder;
 				}
 
-				return this.SystemSettings.Header.NormalBorder;
+				return SystemSettings.Header.NormalBorder;
 			}
 		}
 
@@ -1980,42 +1966,44 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialBackColor != Color.Empty && 
-						this.CustomHeaderSettings.SpecialBackColor != Color.Transparent)
+					if (CustomHeaderSettings.SpecialBackColor != Color.Empty && 
+						CustomHeaderSettings.SpecialBackColor != Color.Transparent)
 					{
-						return this.CustomHeaderSettings.SpecialBackColor;
-					}
-					else if (this.CustomHeaderSettings.SpecialBorderColor != Color.Empty)
-					{
-						return this.CustomHeaderSettings.SpecialBorderColor;
+						return CustomHeaderSettings.SpecialBackColor;
 					}
 
-					if (this.SystemSettings.Header.SpecialBackColor != Color.Transparent)
+					if (CustomHeaderSettings.SpecialBorderColor != Color.Empty)
 					{
-						return this.systemSettings.Header.SpecialBackColor;
+						return CustomHeaderSettings.SpecialBorderColor;
+					}
+
+					if (SystemSettings.Header.SpecialBackColor != Color.Transparent)
+					{
+						return systemSettings.Header.SpecialBackColor;
 					}
 					
-					return this.SystemSettings.Header.SpecialBorderColor;
+					return SystemSettings.Header.SpecialBorderColor;
 				}
 
-				if (this.CustomHeaderSettings.NormalBackColor != Color.Empty && 
-					this.CustomHeaderSettings.NormalBackColor != Color.Transparent)
+				if (CustomHeaderSettings.NormalBackColor != Color.Empty && 
+					CustomHeaderSettings.NormalBackColor != Color.Transparent)
 				{
-					return this.CustomHeaderSettings.NormalBackColor;
-				}
-				else if (this.CustomHeaderSettings.NormalBorderColor != Color.Empty)
-				{
-					return this.CustomHeaderSettings.NormalBorderColor;
+					return CustomHeaderSettings.NormalBackColor;
 				}
 
-				if (this.SystemSettings.Header.NormalBackColor != Color.Transparent)
+				if (CustomHeaderSettings.NormalBorderColor != Color.Empty)
 				{
-					return this.systemSettings.Header.NormalBackColor;
+					return CustomHeaderSettings.NormalBorderColor;
+				}
+
+				if (SystemSettings.Header.NormalBackColor != Color.Transparent)
+				{
+					return systemSettings.Header.NormalBackColor;
 				}
 					
-				return this.SystemSettings.Header.NormalBorderColor;
+				return SystemSettings.Header.NormalBorderColor;
 			}
 		}
 
@@ -2027,24 +2015,26 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialGradientStartColor == Color.Empty)
+					if (CustomHeaderSettings.SpecialGradientStartColor == Color.Empty)
 					{
 						return true;
 					}
-					else if (this.CustomHeaderSettings.SpecialGradientEndColor == Color.Empty)
+
+					if (CustomHeaderSettings.SpecialGradientEndColor == Color.Empty)
 					{
 						return true;
 					}
 				}
 				else
 				{
-					if (this.CustomHeaderSettings.NormalGradientStartColor == Color.Empty)
+					if (CustomHeaderSettings.NormalGradientStartColor == Color.Empty)
 					{
 						return true;
 					}
-					else if (this.CustomHeaderSettings.NormalGradientEndColor == Color.Empty)
+
+					if (CustomHeaderSettings.NormalGradientEndColor == Color.Empty)
 					{
 						return true;
 					}
@@ -2068,10 +2058,10 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return new Rectangle(this.Border.Left, 
-					this.HeaderHeight + this.Border.Top,
-					this.Width - this.Border.Left - this.Border.Right,
-					this.Height - this.HeaderHeight - this.Border.Top - this.Border.Bottom);
+				return new Rectangle(Border.Left, 
+					HeaderHeight + Border.Top,
+					Width - Border.Left - Border.Right,
+					Height - HeaderHeight - Border.Top - Border.Bottom);
 			}
 		}
 
@@ -2083,7 +2073,7 @@ namespace XPExplorerBar
 		{	
 			get
 			{
-				return this.Height - this.HeaderHeight - this.Border.Top - this.Border.Bottom;
+				return Height - HeaderHeight - Border.Top - Border.Bottom;
 			}
 		}
 
@@ -2100,10 +2090,10 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return new Rectangle(this.Border.Left, 
-					this.HeaderHeight + this.Border.Top,
-					this.Width - this.Border.Left - this.Border.Right,
-					this.ExpandedHeight - this.HeaderHeight - this.Border.Top - this.Border.Bottom);
+				return new Rectangle(Border.Left, 
+					HeaderHeight + Border.Top,
+					Width - Border.Left - Border.Right,
+					ExpandedHeight - HeaderHeight - Border.Top - Border.Bottom);
 			}
 		}
 
@@ -2116,9 +2106,9 @@ namespace XPExplorerBar
 			get
 			{
 				return new Rectangle(0,
-					this.HeaderHeight - this.TitleBarHeight,
-					this.Width,
-					this.TitleBarHeight);
+					HeaderHeight - TitleBarHeight,
+					Width,
+					TitleBarHeight);
 			}
 		}
 
@@ -2137,18 +2127,18 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.showFocusCues;
+				return showFocusCues;
 			}
 
 			set
 			{
-				if (this.showFocusCues != value)
+				if (showFocusCues != value)
 				{
-					this.showFocusCues = value;
+					showFocusCues = value;
 
-					if (this.Focused)
+					if (Focused)
 					{
-						this.InvalidateTitleBar();
+						InvalidateTitleBar();
 					}
 				}
 			}
@@ -2166,12 +2156,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.useDefaultTabHandling;
+				return useDefaultTabHandling;
 			}
 
 			set
 			{
-				this.useDefaultTabHandling = value;
+				useDefaultTabHandling = value;
 			}
 		}
 
@@ -2187,22 +2177,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialTitleColor != Color.Empty)
+					if (CustomHeaderSettings.SpecialTitleColor != Color.Empty)
 					{
-						return this.CustomHeaderSettings.SpecialTitleColor;
+						return CustomHeaderSettings.SpecialTitleColor;
 					}
 
-					return this.SystemSettings.Header.SpecialTitleColor;
+					return SystemSettings.Header.SpecialTitleColor;
 				}
 
-				if (this.CustomHeaderSettings.NormalTitleColor != Color.Empty)
+				if (CustomHeaderSettings.NormalTitleColor != Color.Empty)
 				{
-					return this.CustomHeaderSettings.NormalTitleColor;
+					return CustomHeaderSettings.NormalTitleColor;
 				}
 
-				return this.SystemSettings.Header.NormalTitleColor;
+				return SystemSettings.Header.NormalTitleColor;
 			}
 		}
 
@@ -2215,22 +2205,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialTitleHotColor != Color.Empty)
+					if (CustomHeaderSettings.SpecialTitleHotColor != Color.Empty)
 					{
-						return this.CustomHeaderSettings.SpecialTitleHotColor;
+						return CustomHeaderSettings.SpecialTitleHotColor;
 					}
 
-					return this.SystemSettings.Header.SpecialTitleHotColor;
+					return SystemSettings.Header.SpecialTitleHotColor;
 				}
 
-				if (this.CustomHeaderSettings.NormalTitleHotColor != Color.Empty)
+				if (CustomHeaderSettings.NormalTitleHotColor != Color.Empty)
 				{
-					return this.CustomHeaderSettings.NormalTitleHotColor;
+					return CustomHeaderSettings.NormalTitleHotColor;
 				}
 
-				return this.SystemSettings.Header.NormalTitleHotColor;
+				return SystemSettings.Header.NormalTitleHotColor;
 			}
 		}
 
@@ -2244,12 +2234,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.FocusState == FocusStates.Mouse)
+				if (FocusState == FocusStates.Mouse)
 				{
-					return this.TitleHotForeColor;
+					return TitleHotForeColor;
 				}
 
-				return this.TitleForeColor;
+				return TitleForeColor;
 			}
 		}
 
@@ -2262,12 +2252,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.CustomHeaderSettings.TitleFont != null)
+				if (CustomHeaderSettings.TitleFont != null)
 				{
-					return this.CustomHeaderSettings.TitleFont;
+					return CustomHeaderSettings.TitleFont;
 				}
 
-				return this.SystemSettings.Header.TitleFont;
+				return SystemSettings.Header.TitleFont;
 			}
 		}
 
@@ -2290,101 +2280,87 @@ namespace XPExplorerBar
 				//      dani kenan (dani_k@netvision.net.il)
 				//      11/10/2004
 				//      v2.1
-				if(!this.CanCollapse)
+				if(!CanCollapse)
 				{
 					return null;
 				}
 				
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.collapsed)
+					if (collapsed)
 					{
-						if (this.FocusState == FocusStates.None)
+						if (FocusState == FocusStates.None)
 						{
-							if (this.CustomHeaderSettings.SpecialArrowDown != null)
+							if (CustomHeaderSettings.SpecialArrowDown != null)
 							{
-								return this.CustomHeaderSettings.SpecialArrowDown;
+								return CustomHeaderSettings.SpecialArrowDown;
 							}
 
-							return this.SystemSettings.Header.SpecialArrowDown;
+							return SystemSettings.Header.SpecialArrowDown;
 						}
-						else
-						{
-							if (this.CustomHeaderSettings.SpecialArrowDownHot != null)
-							{
-								return this.CustomHeaderSettings.SpecialArrowDownHot;
-							}
 
-							return this.SystemSettings.Header.SpecialArrowDownHot;
+						if (CustomHeaderSettings.SpecialArrowDownHot != null)
+						{
+							return CustomHeaderSettings.SpecialArrowDownHot;
 						}
+
+						return SystemSettings.Header.SpecialArrowDownHot;
 					}
-					else
+
+					if (FocusState == FocusStates.None)
 					{
-						if (this.FocusState == FocusStates.None)
+						if (CustomHeaderSettings.SpecialArrowUp != null)
 						{
-							if (this.CustomHeaderSettings.SpecialArrowUp != null)
-							{
-								return this.CustomHeaderSettings.SpecialArrowUp;
-							}
-
-							return this.SystemSettings.Header.SpecialArrowUp;
+							return CustomHeaderSettings.SpecialArrowUp;
 						}
-						else
-						{
-							if (this.CustomHeaderSettings.SpecialArrowUpHot != null)
-							{
-								return this.CustomHeaderSettings.SpecialArrowUpHot;
-							}
 
-							return this.SystemSettings.Header.SpecialArrowUpHot;
-						}
+						return SystemSettings.Header.SpecialArrowUp;
 					}
+
+					if (CustomHeaderSettings.SpecialArrowUpHot != null)
+					{
+						return CustomHeaderSettings.SpecialArrowUpHot;
+					}
+
+					return SystemSettings.Header.SpecialArrowUpHot;
 				}
-				else
+
+				if (collapsed)
 				{
-					if (this.collapsed)
+					if (FocusState == FocusStates.None)
 					{
-						if (this.FocusState == FocusStates.None)
+						if (CustomHeaderSettings.NormalArrowDown != null)
 						{
-							if (this.CustomHeaderSettings.NormalArrowDown != null)
-							{
-								return this.CustomHeaderSettings.NormalArrowDown;
-							}
-
-							return this.SystemSettings.Header.NormalArrowDown;
+							return CustomHeaderSettings.NormalArrowDown;
 						}
-						else
-						{
-							if (this.CustomHeaderSettings.NormalArrowDownHot != null)
-							{
-								return this.CustomHeaderSettings.NormalArrowDownHot;
-							}
 
-							return this.SystemSettings.Header.NormalArrowDownHot;
-						}
+						return SystemSettings.Header.NormalArrowDown;
 					}
-					else
+
+					if (CustomHeaderSettings.NormalArrowDownHot != null)
 					{
-						if (this.FocusState == FocusStates.None)
-						{
-							if (this.CustomHeaderSettings.NormalArrowUp != null)
-							{
-								return this.CustomHeaderSettings.NormalArrowUp;
-							}
-
-							return this.SystemSettings.Header.NormalArrowUp;
-						}
-						else
-						{
-							if (this.CustomHeaderSettings.NormalArrowUpHot != null)
-							{
-								return this.CustomHeaderSettings.NormalArrowUpHot;
-							}
-
-							return this.SystemSettings.Header.NormalArrowUpHot;
-						}
+						return CustomHeaderSettings.NormalArrowDownHot;
 					}
+
+					return SystemSettings.Header.NormalArrowDownHot;
 				}
+
+				if (FocusState == FocusStates.None)
+				{
+					if (CustomHeaderSettings.NormalArrowUp != null)
+					{
+						return CustomHeaderSettings.NormalArrowUp;
+					}
+
+					return SystemSettings.Header.NormalArrowUp;
+				}
+
+				if (CustomHeaderSettings.NormalArrowUpHot != null)
+				{
+					return CustomHeaderSettings.NormalArrowUpHot;
+				}
+
+				return SystemSettings.Header.NormalArrowUpHot;
 			}
 		}
 
@@ -2397,12 +2373,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.ArrowImage == null)
+				if (ArrowImage == null)
 				{
 					return 0;
 				}
 
-				return this.ArrowImage.Width;
+				return ArrowImage.Width;
 			}
 		}
 
@@ -2415,12 +2391,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.ArrowImage == null)
+				if (ArrowImage == null)
 				{
 					return 0;
 				}
 			
-				return this.ArrowImage.Height;
+				return ArrowImage.Height;
 			}
 		}
 
@@ -2433,22 +2409,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialBackImage != null)
+					if (CustomHeaderSettings.SpecialBackImage != null)
 					{
-						return this.CustomHeaderSettings.SpecialBackImage;
+						return CustomHeaderSettings.SpecialBackImage;
 					}
 
-					return this.SystemSettings.Header.SpecialBackImage;
+					return SystemSettings.Header.SpecialBackImage;
 				}
 
-				if (this.CustomHeaderSettings.NormalBackImage != null)
+				if (CustomHeaderSettings.NormalBackImage != null)
 				{
-					return this.CustomHeaderSettings.NormalBackImage;
+					return CustomHeaderSettings.NormalBackImage;
 				}
 
-				return this.SystemSettings.Header.NormalBackImage;
+				return SystemSettings.Header.NormalBackImage;
 			}
 		}
 
@@ -2460,7 +2436,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.SystemSettings.Header.BackImageHeight;
+				return SystemSettings.Header.BackImageHeight;
 			}
 		}
 
@@ -2475,16 +2451,16 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.titleImage;
+				return titleImage;
 			}
 
 			set
 			{
-				this.titleImage = value;
+				titleImage = value;
 
-				this.DoLayout();
+				DoLayout();
 
-				this.InvalidateTitleBar();
+				InvalidateTitleBar();
 
 				OnTitleImageChanged(new ExpandoEventArgs(this));
 			}
@@ -2498,12 +2474,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.TitleImage == null)
+				if (TitleImage == null)
 				{
 					return 0;
 				}
 	
-				return this.TitleImage.Width;
+				return TitleImage.Width;
 			}
 		}
 
@@ -2515,12 +2491,12 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.TitleImage == null)
+				if (TitleImage == null)
 				{
 					return 0;
 				}
 			
-				return this.TitleImage.Height;
+				return TitleImage.Height;
 			}
 		}
 
@@ -2536,16 +2512,16 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.watermark;
+				return watermark;
 			}
 
 			set
 			{
-				if (this.watermark != value)
+				if (watermark != value)
 				{
-					this.watermark = value;
+					watermark = value;
 
-					this.Invalidate();
+					Invalidate();
 
 					OnWatermarkChanged(new ExpandoEventArgs(this));
 				}
@@ -2561,22 +2537,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomSettings.SpecialBackImage != null)
+					if (CustomSettings.SpecialBackImage != null)
 					{
-						return this.CustomSettings.SpecialBackImage;
+						return CustomSettings.SpecialBackImage;
 					}
 
-					return this.SystemSettings.Expando.SpecialBackImage;
+					return SystemSettings.Expando.SpecialBackImage;
 				}
 
-				if (this.CustomSettings.NormalBackImage != null)
+				if (CustomSettings.NormalBackImage != null)
 				{
-					return this.CustomSettings.NormalBackImage;
+					return CustomSettings.NormalBackImage;
 				}
 
-				return this.SystemSettings.Expando.NormalBackImage;
+				return SystemSettings.Expando.NormalBackImage;
 			}
 		}
 
@@ -2593,11 +2569,11 @@ namespace XPExplorerBar
 		Description("The Controls contained in the Expando"), 
 		DesignerSerializationVisibility(DesignerSerializationVisibility.Content), 
 		Editor(typeof(ItemCollectionEditor), typeof(UITypeEditor))]
-		public Expando.ItemCollection Items
+		public ItemCollection Items
 		{
 			get
 			{
-				return this.itemList;
+				return itemList;
 			}
 		}
 
@@ -2607,7 +2583,7 @@ namespace XPExplorerBar
 		/// controls contained within the control
 		/// </summary>
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public new Control.ControlCollection Controls
+		public new ControlCollection Controls
 		{
 			get
 			{
@@ -2630,16 +2606,16 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.autoLayout;
+				return autoLayout;
 			}
 
 			set
 			{
-				this.autoLayout = value;
+				autoLayout = value;
 
-				if (this.autoLayout)
+				if (autoLayout)
 				{
-					this.DoLayout();
+					DoLayout();
 				}
 			}
 		}
@@ -2657,22 +2633,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomSettings.SpecialPadding != Padding.Empty)
+					if (CustomSettings.SpecialPadding != Padding.Empty)
 					{
-						return this.CustomSettings.SpecialPadding;
+						return CustomSettings.SpecialPadding;
 					}
 
-					return this.SystemSettings.Expando.SpecialPadding;
+					return SystemSettings.Expando.SpecialPadding;
 				}
 
-				if (this.CustomSettings.NormalPadding != Padding.Empty)
+				if (CustomSettings.NormalPadding != Padding.Empty)
 				{
-					return this.CustomSettings.NormalPadding;
+					return CustomSettings.NormalPadding;
 				}
 
-				return this.SystemSettings.Expando.NormalPadding;
+				return SystemSettings.Expando.NormalPadding;
 			}
 		}
 
@@ -2686,22 +2662,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				if (this.SpecialGroup)
+				if (SpecialGroup)
 				{
-					if (this.CustomHeaderSettings.SpecialPadding != Padding.Empty)
+					if (CustomHeaderSettings.SpecialPadding != Padding.Empty)
 					{
-						return this.CustomHeaderSettings.SpecialPadding;
+						return CustomHeaderSettings.SpecialPadding;
 					}
 
-					return this.SystemSettings.Header.SpecialPadding;
+					return SystemSettings.Header.SpecialPadding;
 				}
 
-				if (this.CustomHeaderSettings.NormalPadding != Padding.Empty)
+				if (CustomHeaderSettings.NormalPadding != Padding.Empty)
 				{
-					return this.CustomHeaderSettings.NormalPadding;
+					return CustomHeaderSettings.NormalPadding;
 				}
 
-				return this.SystemSettings.Header.NormalPadding;
+				return SystemSettings.Header.NormalPadding;
 			}
 		}
 
@@ -2721,15 +2697,15 @@ namespace XPExplorerBar
 
 			set
 			{
-				if (!this.Size.Equals(value))
+				if (!Size.Equals(value))
 				{
-					if (!this.Animating)
+					if (!Animating)
 					{
-						this.Width = value.Width;
+						Width = value.Width;
 
-						if (!this.Initialising)
+						if (!Initialising)
 						{
-							this.ExpandedHeight = value.Height;
+							ExpandedHeight = value.Height;
 						}
 					}
 				}
@@ -2745,7 +2721,7 @@ namespace XPExplorerBar
 		/// serialized, false otherwise</returns>
 		private bool ShouldSerializeSize()
 		{
-			return this.TaskPane != null;
+			return TaskPane != null;
 		}
 
 		
@@ -2760,22 +2736,22 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.expandedHeight;
+				return expandedHeight;
 			}
 
 			set
 			{
-				this.expandedHeight = value;
+				expandedHeight = value;
 
-				this.CalcAnimationHeights();
+				CalcAnimationHeights();
 						
-				if (!this.Collapsed && !this.Animating)
+				if (!Collapsed && !Animating)
 				{
-					this.Height = this.expandedHeight;
+					Height = expandedHeight;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.DoLayout();
+						TaskPane.DoLayout();
 					}
 				}
 			}
@@ -2789,7 +2765,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.headerHeight;
+				return headerHeight;
 			}
 		}
 
@@ -2801,7 +2777,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.titleBarHeight;
+				return titleBarHeight;
 			}
 		}
 
@@ -2820,39 +2796,39 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.specialGroup;
+				return specialGroup;
 			}
 
 			set
 			{
-				this.specialGroup = value;
+				specialGroup = value;
 
-				this.DoLayout();
+				DoLayout();
 
-				if (this.specialGroup)
+				if (specialGroup)
 				{
-					if (this.CustomSettings.SpecialBackColor != Color.Empty)
+					if (CustomSettings.SpecialBackColor != Color.Empty)
 					{
-						this.BackColor = this.CustomSettings.SpecialBackColor;
+						BackColor = CustomSettings.SpecialBackColor;
 					}
 					else
 					{
-						this.BackColor = this.SystemSettings.Expando.SpecialBackColor;
+						BackColor = SystemSettings.Expando.SpecialBackColor;
 					}
 				}
 				else
 				{
-					if (this.CustomSettings.NormalBackColor != Color.Empty)
+					if (CustomSettings.NormalBackColor != Color.Empty)
 					{
-						this.BackColor = this.CustomSettings.NormalBackColor;
+						BackColor = CustomSettings.NormalBackColor;
 					}
 					else
 					{
-						this.BackColor = this.SystemSettings.Expando.NormalBackColor;
+						BackColor = SystemSettings.Expando.NormalBackColor;
 					}
 				}
 				
-				this.Invalidate();
+				Invalidate();
 
 				OnSpecialGroupChanged(new ExpandoEventArgs(this));
 			}
@@ -2873,47 +2849,47 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.collapsed;
+				return collapsed;
 			}
 
 			set
 			{
-				if (this.collapsed != value)
+				if (collapsed != value)
 				{
 					// if we're supposed to collapse, check if we can
-					if (value && !this.CanCollapse)
+					if (value && !CanCollapse)
 					{
 						// looks like we can't so time to bail
 						return;
 					}
 					
-					this.collapsed = value;
+					collapsed = value;
 
 					// only animate if we're allowed to, we're not in 
 					// design mode and we're not initialising
-					if (this.Animate && !this.DesignMode && !this.Initialising)
+					if (Animate && !DesignMode && !Initialising)
 					{
-						if (this.animationHelper != null)
+						if (animationHelper != null)
 						{
-							this.animationHelper.Dispose();
-							this.animationHelper = null;
+							animationHelper.Dispose();
+							animationHelper = null;
 						}
 							
-						this.animationHelper = new AnimationHelper(this, AnimationHelper.FadeAnimation);
+						animationHelper = new AnimationHelper(this, AnimationHelper.FadeAnimation);
 
-						this.OnStateChanged(new ExpandoEventArgs(this));
+						OnStateChanged(new ExpandoEventArgs(this));
 
-						this.animationHelper.StartAnimation();
+						animationHelper.StartAnimation();
 					}
 					else
 					{
-						if (this.collapsed)
+						if (collapsed)
 						{
-							this.Collapse();
+							Collapse();
 						}
 						else
 						{
-							this.Expand();
+							Expand();
 						}
 
 						// don't need to raise OnStateChanged as 
@@ -2932,7 +2908,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.focusState;
+				return focusState;
 			}
 
 			set
@@ -2942,24 +2918,24 @@ namespace XPExplorerBar
 				//      dani kenan (dani_k@netvision.net.il)
 				//      11/10/2004
 				//      v2.1
-				if (!this.CanCollapse)
+				if (!CanCollapse)
 				{
 					value = FocusStates.None;
 				}
 				
-				if (this.focusState != value)
+				if (focusState != value)
 				{
-					this.focusState = value;
+					focusState = value;
 
-					this.InvalidateTitleBar();
+					InvalidateTitleBar();
 
-					if (this.focusState == FocusStates.Mouse)
+					if (focusState == FocusStates.Mouse)
 					{
-						this.Cursor = Cursors.Hand;
+						Cursor = Cursors.Hand;
 					}
 					else
 					{
-						this.Cursor = Cursors.Default;
+						Cursor = Cursors.Default;
 					}
 				}
 			}
@@ -2977,23 +2953,23 @@ namespace XPExplorerBar
 		{
 			get
 			{ 
-				return this.canCollapse; 
+				return canCollapse; 
 			}
 			
 			set
 			{ 
-				if (this.canCollapse != value)
+				if (canCollapse != value)
 				{
-					this.canCollapse = value; 
+					canCollapse = value; 
 
 					// if the Expando is collapsed and it's not allowed 
 					// to collapse, then we had better expand it
-					if (!this.canCollapse && this.Collapsed)
+					if (!canCollapse && Collapsed)
 					{
-						this.Collapsed = false;
+						Collapsed = false;
 					}
 
-					this.InvalidateTitleBar();
+					InvalidateTitleBar();
 				}
 			}
 		}
@@ -3010,94 +2986,94 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.systemSettings;
+				return systemSettings;
 			}
 			
 			set
 			{
 				// make sure we have a new value
-				if (this.systemSettings != value)
+				if (systemSettings != value)
 				{
-					this.SuspendLayout();
+					SuspendLayout();
 					
 					// get rid of the old settings
-					if (this.systemSettings != null)
+					if (systemSettings != null)
 					{
-						this.systemSettings.Dispose();
-						this.systemSettings = null;
+						systemSettings.Dispose();
+						systemSettings = null;
 					}
 
 					// set the new settings
-					this.systemSettings = value;
+					systemSettings = value;
 
-					this.titleBarHeight = this.systemSettings.Header.BackImageHeight;
+					titleBarHeight = systemSettings.Header.BackImageHeight;
 
 					// is there an image to display on the titlebar
-					if (this.titleImage != null)
+					if (titleImage != null)
 					{
 						// is the image bigger than the height of the titlebar
-						if (this.titleImage.Height > this.titleBarHeight)
+						if (titleImage.Height > titleBarHeight)
 						{
-							this.headerHeight = this.titleImage.Height;
+							headerHeight = titleImage.Height;
 						}
 							// is the image smaller than the height of the titlebar
-						else if (this.titleImage.Height < this.titleBarHeight)
+						else if (titleImage.Height < titleBarHeight)
 						{
-							this.headerHeight = this.titleBarHeight;
+							headerHeight = titleBarHeight;
 						}
 							// is the image smaller than the current header height
-						else if (this.titleImage.Height < this.headerHeight)
+						else if (titleImage.Height < headerHeight)
 						{
-							this.headerHeight = this.titleImage.Height;
+							headerHeight = titleImage.Height;
 						}
 					}
 					else
 					{
-						this.headerHeight = this.titleBarHeight;
+						headerHeight = titleBarHeight;
 					}
 
-					if (this.SpecialGroup)
+					if (SpecialGroup)
 					{
-						if (this.CustomSettings.SpecialBackColor != Color.Empty)
+						if (CustomSettings.SpecialBackColor != Color.Empty)
 						{
-							this.BackColor = this.CustomSettings.SpecialBackColor;
+							BackColor = CustomSettings.SpecialBackColor;
 						}
 						else
 						{
-							this.BackColor = this.SystemSettings.Expando.SpecialBackColor;
+							BackColor = SystemSettings.Expando.SpecialBackColor;
 						}
 					}
 					else
 					{
-						if (this.CustomSettings.NormalBackColor != Color.Empty)
+						if (CustomSettings.NormalBackColor != Color.Empty)
 						{
-							this.BackColor = this.CustomSettings.NormalBackColor;
+							BackColor = CustomSettings.NormalBackColor;
 						}
 						else
 						{
-							this.BackColor = this.SystemSettings.Expando.NormalBackColor;
+							BackColor = SystemSettings.Expando.NormalBackColor;
 						}
 					}
 
 					// update the system settings for each TaskItem
-					for (int i=0; i<this.itemList.Count; i++)
+					for (int i=0; i<itemList.Count; i++)
 					{
-						Control control = (Control) this.itemList[i];
+						Control control = itemList[i];
 
 						if (control is TaskItem)
 						{
-							((TaskItem) control).SystemSettings = this.systemSettings;
+							((TaskItem) control).SystemSettings = systemSettings;
 						}
 					}
 
-					this.ResumeLayout(false);
+					ResumeLayout(false);
 
 					// if our parent is not an TaskPane then re-layout the 
 					// Expando (don't need to do this if our parent is a 
 					// TaskPane as it will tell us when to do it)
-					if (this.TaskPane == null)
+					if (TaskPane == null)
 					{
-						this.DoLayout();
+						DoLayout();
 					}
 				}
 			}
@@ -3115,7 +3091,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.customSettings;
+				return customSettings;
 			}
 		}
 
@@ -3131,7 +3107,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.customHeaderSettings;
+				return customHeaderSettings;
 			}
 		}
 
@@ -3141,10 +3117,10 @@ namespace XPExplorerBar
 		/// </summary>
 		public void ResetCustomSettings()
 		{
-			this.CustomSettings.SetDefaultEmptyValues();
-			this.CustomHeaderSettings.SetDefaultEmptyValues();
+			CustomSettings.SetDefaultEmptyValues();
+			CustomHeaderSettings.SetDefaultEmptyValues();
 
-			this.FireCustomSettingsChanged(EventArgs.Empty);
+			FireCustomSettingsChanged(EventArgs.Empty);
 		}
 
 		#endregion
@@ -3158,16 +3134,16 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.taskpane;
+				return taskpane;
 			}
 
 			set
 			{
-				this.taskpane = value;
+				taskpane = value;
 
 				if (value != null)
 				{
-					this.SystemSettings = this.TaskPane.SystemSettings;
+					SystemSettings = TaskPane.SystemSettings;
 				}
 			}
 		}
@@ -3190,7 +3166,7 @@ namespace XPExplorerBar
 			{
 				base.Text = value;
 
-				this.InvalidateTitleBar();
+				InvalidateTitleBar();
 			}
 		}
 
@@ -3217,13 +3193,13 @@ namespace XPExplorerBar
 				//      22/12/2004
 				//      v3.0
 				//if (base.Visible != value)
-				if (base.Visible != value || (!value && this.Parent != null && !this.Parent.Visible))
+				if (base.Visible != value || (!value && Parent != null && !Parent.Visible))
 				{
 					base.Visible = value;
 
-					if (this.TaskPane != null)
+					if (TaskPane != null)
 					{
-						this.TaskPane.DoLayout();
+						TaskPane.DoLayout();
 					}
 				}
 			}
@@ -3246,7 +3222,7 @@ namespace XPExplorerBar
 		{
 			// don't do anything if we are animating
 			// (as we're probably the ones who added the control)
-			if (this.Animating)
+			if (Animating)
 			{
 				return;
 			}
@@ -3254,9 +3230,9 @@ namespace XPExplorerBar
 			base.OnControlAdded(e);
 			
 			// add the control to the ItemCollection if necessary
-			if (!this.Items.Contains(e.Control))
+			if (!Items.Contains(e.Control))
 			{
-				this.Items.Add(e.Control);
+				Items.Add(e.Control);
 			}
 		}
 
@@ -3269,7 +3245,7 @@ namespace XPExplorerBar
 		{
 			// don't do anything if we are animating 
 			// (as we're probably the ones who removed the control)
-			if (this.Animating)
+			if (Animating)
 			{
 				return;
 			}
@@ -3277,13 +3253,13 @@ namespace XPExplorerBar
 			base.OnControlRemoved(e);
 
 			// remove the control from the itemList
-			if (this.Items.Contains(e.Control))
+			if (Items.Contains(e.Control))
 			{
-				this.Items.Remove(e.Control);
+				Items.Remove(e.Control);
 			}
 
 			// update the layout of the controls
-			this.DoLayout();
+			DoLayout();
 		}
 
 		#endregion
@@ -3296,60 +3272,60 @@ namespace XPExplorerBar
 		/// <param name="e">An EventArgs that contains the event data</param>
 		internal void FireCustomSettingsChanged(EventArgs e)
 		{
-			this.titleBarHeight = this.TitleBackImageHeight;
+			titleBarHeight = TitleBackImageHeight;
 
 			// is there an image to display on the titlebar
-			if (this.titleImage != null)
+			if (titleImage != null)
 			{
 				// is the image bigger than the height of the titlebar
-				if (this.titleImage.Height > this.titleBarHeight)
+				if (titleImage.Height > titleBarHeight)
 				{
-					this.headerHeight = this.titleImage.Height;
+					headerHeight = titleImage.Height;
 				}
 					// is the image smaller than the height of the titlebar
-				else if (this.titleImage.Height < this.titleBarHeight)
+				else if (titleImage.Height < titleBarHeight)
 				{
-					this.headerHeight = this.titleBarHeight;
+					headerHeight = titleBarHeight;
 				}
 					// is the image smaller than the current header height
-				else if (this.titleImage.Height < this.headerHeight)
+				else if (titleImage.Height < headerHeight)
 				{
-					this.headerHeight = this.titleImage.Height;
+					headerHeight = titleImage.Height;
 				}
 			}
 			else
 			{
-				this.headerHeight = this.titleBarHeight;
+				headerHeight = titleBarHeight;
 			}
 
-			if (this.SpecialGroup)
+			if (SpecialGroup)
 			{
-				if (this.CustomSettings.SpecialBackColor != Color.Empty)
+				if (CustomSettings.SpecialBackColor != Color.Empty)
 				{
-					this.BackColor = this.CustomSettings.SpecialBackColor;
+					BackColor = CustomSettings.SpecialBackColor;
 				}
 				else
 				{
-					this.BackColor = this.SystemSettings.Expando.SpecialBackColor;
+					BackColor = SystemSettings.Expando.SpecialBackColor;
 				}
 			}
 			else
 			{
-				if (this.CustomSettings.NormalBackColor != Color.Empty)
+				if (CustomSettings.NormalBackColor != Color.Empty)
 				{
-					this.BackColor = this.CustomSettings.NormalBackColor;
+					BackColor = CustomSettings.NormalBackColor;
 				}
 				else
 				{
-					this.BackColor = this.SystemSettings.Expando.NormalBackColor;
+					BackColor = SystemSettings.Expando.NormalBackColor;
 				}
 			}
 
-			this.DoLayout();
+			DoLayout();
 
-			this.Invalidate(true);
+			Invalidate(true);
 
-			this.OnCustomSettingsChanged(e);
+			OnCustomSettingsChanged(e);
 		}
 
 
@@ -3432,7 +3408,7 @@ namespace XPExplorerBar
 		{
 			base.OnGotFocus(e);
 
-			this.InvalidateTitleBar();
+			InvalidateTitleBar();
 		}
 
 
@@ -3444,7 +3420,7 @@ namespace XPExplorerBar
 		{
 			base.OnLostFocus(e);
 
-			this.InvalidateTitleBar();
+			InvalidateTitleBar();
 		}
 
 		#endregion
@@ -3458,9 +3434,9 @@ namespace XPExplorerBar
 		protected virtual void OnItemAdded(ControlEventArgs e)
 		{
 			// add the expando to the ControlCollection if it hasn't already
-			if (!this.Controls.Contains(e.Control))
+			if (!Controls.Contains(e.Control))
 			{
-				this.Controls.Add(e.Control);
+				Controls.Add(e.Control);
 			}
 
 			// check if the control is a TaskItem
@@ -3473,11 +3449,11 @@ namespace XPExplorerBar
 			
 				// tell the TaskItem who's its daddy...
 				item.Expando = this;
-				item.SystemSettings = this.systemSettings;
+				item.SystemSettings = systemSettings;
 			}
 
 			// update the layout of the controls
-			this.DoLayout();
+			DoLayout();
 
 			//
 			if (ItemAdded != null)
@@ -3494,13 +3470,13 @@ namespace XPExplorerBar
 		protected virtual void OnItemRemoved(ControlEventArgs e)
 		{
 			// remove the control from the ControlCollection if it hasn't already
-			if (this.Controls.Contains(e.Control))
+			if (Controls.Contains(e.Control))
 			{
-				this.Controls.Remove(e.Control);
+				Controls.Remove(e.Control);
 			}
 
 			// update the layout of the controls
-			this.DoLayout();
+			DoLayout();
 
 			//
 			if (ItemRemoved != null)
@@ -3527,7 +3503,7 @@ namespace XPExplorerBar
 
 			if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
 			{
-				this.Collapsed = !this.Collapsed;
+				Collapsed = !Collapsed;
 			}
 		}
 
@@ -3547,9 +3523,9 @@ namespace XPExplorerBar
 			// expando is scrolled from off-screen to on-screen so we'll 
 			// repaint the titlebar if the expando has a titlebar image 
 			// and it is taller then the titlebar
-			if (this.TitleImage != null && this.TitleImageHeight > this.TitleBarHeight)
+			if (TitleImage != null && TitleImageHeight > TitleBarHeight)
 			{
-				this.InvalidateTitleBar();
+				InvalidateTitleBar();
 			}
 		}
 
@@ -3568,34 +3544,34 @@ namespace XPExplorerBar
 			// was it the left mouse button
 			if (e.Button == MouseButtons.Left)
 			{
-				if (this.dragging)
+				if (dragging)
 				{
-					this.Cursor = Cursors.Default;
+					Cursor = Cursors.Default;
 
-					this.dragging = false;
+					dragging = false;
 
-					this.TaskPane.DropExpando(this);
+					TaskPane.DropExpando(this);
 				}
 				else
 				{
 					// was it in the titlebar area
-					if (e.Y < this.HeaderHeight && e.Y > (this.HeaderHeight - this.TitleBarHeight))
+					if (e.Y < HeaderHeight && e.Y > (HeaderHeight - TitleBarHeight))
 					{
 						// make sure that our taskPane (if we have one) is not animating
-						if (!this.Animating)
+						if (!Animating)
 						{
 							// collapse/expand the group
-							this.Collapsed = !this.Collapsed;
+							Collapsed = !Collapsed;
 						}
 
-						if (this.CanCollapse)
+						if (CanCollapse)
 						{
-							this.Select();
+							Select();
 						}
 					}
 				}
 
-				this.dragStart = Point.Empty;
+				dragStart = Point.Empty;
 			}
 		}
 
@@ -3613,9 +3589,9 @@ namespace XPExplorerBar
 
 			if (e.Button == MouseButtons.Left)
 			{
-				if (this.TaskPane != null && this.TaskPane.AllowExpandoDragging && !this.Animating)
+				if (TaskPane != null && TaskPane.AllowExpandoDragging && !Animating)
 				{
-					this.dragStart = this.PointToScreen(new Point(e.X, e.Y));
+					dragStart = PointToScreen(new Point(e.X, e.Y));
 				}
 			}
 		}
@@ -3629,47 +3605,47 @@ namespace XPExplorerBar
 		{
 			base.OnMouseMove(e);
 
-			if (e.Button == MouseButtons.Left && this.dragStart != Point.Empty)
+			if (e.Button == MouseButtons.Left && dragStart != Point.Empty)
 			{
-				Point p = this.PointToScreen(new Point(e.X, e.Y));
+				Point p = PointToScreen(new Point(e.X, e.Y));
 
-				if (!this.dragging)
+				if (!dragging)
 				{
-					if (Math.Abs(this.dragStart.X - p.X) > 8 || Math.Abs(this.dragStart.Y - p.Y) > 8)
+					if (Math.Abs(dragStart.X - p.X) > 8 || Math.Abs(dragStart.Y - p.Y) > 8)
 					{
-						this.dragging = true;
+						dragging = true;
 
-						this.FocusState = FocusStates.None;
+						FocusState = FocusStates.None;
 					}
 				}
 
-				if (this.dragging)
+				if (dragging)
 				{
-					if (this.TaskPane.ClientRectangle.Contains(this.TaskPane.PointToClient(p)))
+					if (TaskPane.ClientRectangle.Contains(TaskPane.PointToClient(p)))
 					{
-						this.Cursor = Cursors.Default;
+						Cursor = Cursors.Default;
 					}
 					else
 					{
-						this.Cursor = Cursors.No;
+						Cursor = Cursors.No;
 					}
 
-					this.TaskPane.UpdateDropPoint(p);
+					TaskPane.UpdateDropPoint(p);
 					
 					return;
 				}
 			}
 
 			// check if the mouse is moving in the titlebar area
-			if (e.Y < this.HeaderHeight && e.Y > (this.HeaderHeight - this.TitleBarHeight))
+			if (e.Y < HeaderHeight && e.Y > (HeaderHeight - TitleBarHeight))
 			{
 				// change the cursor to a hand and highlight the titlebar
-				this.FocusState = FocusStates.Mouse;
+				FocusState = FocusStates.Mouse;
 			}
 			else
 			{
 				// reset the titlebar highlight and cursor if they haven't already
-				this.FocusState = FocusStates.None;
+				FocusState = FocusStates.None;
 			}
 		}
 
@@ -3683,7 +3659,7 @@ namespace XPExplorerBar
 			base.OnMouseLeave(e);
 
 			// reset the titlebar highlight if it hasn't already
-			this.FocusState = FocusStates.None;
+			FocusState = FocusStates.None;
 		}
 
 		#endregion
@@ -3700,22 +3676,22 @@ namespace XPExplorerBar
 			// might have treansparent bits, so instead we draw our own 
 			// transparent background (rather than getting windows to draw 
 			// a solid background)
-			this.PaintTransparentBackground(e.Graphics, e.ClipRectangle);
+			PaintTransparentBackground(e.Graphics, e.ClipRectangle);
 
 			// paint the titlebar background
-			if (this.TitleBarRectangle.IntersectsWith(e.ClipRectangle))
+			if (TitleBarRectangle.IntersectsWith(e.ClipRectangle))
 			{
-				this.OnPaintTitleBarBackground(e.Graphics);
+				OnPaintTitleBarBackground(e.Graphics);
 			}
 
 			// only paint the border and "display rect" if we are not collapsed
-			if (this.Height != this.headerHeight)
+			if (Height != headerHeight)
 			{
-				if (this.PseudoClientRect.IntersectsWith(e.ClipRectangle))
+				if (PseudoClientRect.IntersectsWith(e.ClipRectangle))
 				{
-					this.OnPaintBorder(e.Graphics);
+					OnPaintBorder(e.Graphics);
 
-					this.OnPaintDisplayRect(e.Graphics);
+					OnPaintDisplayRect(e.Graphics);
 				}
 			}
 		}
@@ -3728,9 +3704,9 @@ namespace XPExplorerBar
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			// paint the titlebar
-			if (this.TitleBarRectangle.IntersectsWith(e.ClipRectangle))
+			if (TitleBarRectangle.IntersectsWith(e.ClipRectangle))
 			{
-				this.OnPaintTitleBar(e.Graphics);
+				OnPaintTitleBar(e.Graphics);
 			}
 		}
 
@@ -3751,27 +3727,27 @@ namespace XPExplorerBar
 			int y = 0;
 			
 			// work out where the top of the titleBar actually is
-			if (this.HeaderHeight > this.TitleBarHeight)
+			if (HeaderHeight > TitleBarHeight)
 			{
-				y = this.HeaderHeight - this.TitleBarHeight;
+				y = HeaderHeight - TitleBarHeight;
 			}
 
-			if (this.CustomHeaderSettings.TitleGradient && !this.AnyCustomTitleGradientsEmpty)
+			if (CustomHeaderSettings.TitleGradient && !AnyCustomTitleGradientsEmpty)
 			{
 				// gradient titlebar
-				Color start = this.CustomHeaderSettings.NormalGradientStartColor;
-				if (this.SpecialGroup)
+				Color start = CustomHeaderSettings.NormalGradientStartColor;
+				if (SpecialGroup)
 				{
-					start = this.CustomHeaderSettings.SpecialGradientStartColor;
+					start = CustomHeaderSettings.SpecialGradientStartColor;
 				}
 
-				Color end = this.CustomHeaderSettings.NormalGradientEndColor;
-				if (this.SpecialGroup)
+				Color end = CustomHeaderSettings.NormalGradientEndColor;
+				if (SpecialGroup)
 				{
-					end = this.CustomHeaderSettings.SpecialGradientEndColor;
+					end = CustomHeaderSettings.SpecialGradientEndColor;
 				}
 
-				if (!this.Enabled)
+				if (!Enabled)
 				{
 					// simulate saturation of 0
 
@@ -3783,53 +3759,53 @@ namespace XPExplorerBar
 						(int) (end.GetBrightness() * 255));
 				}
 
-				using (LinearGradientBrush brush = new LinearGradientBrush(this.TitleBarRectangle, start, end, LinearGradientMode.Horizontal))
+				using (LinearGradientBrush brush = new LinearGradientBrush(TitleBarRectangle, start, end, LinearGradientMode.Horizontal))
 				{
 					// work out where the gradient starts
-					if (this.CustomHeaderSettings.GradientOffset > 0f && this.CustomHeaderSettings.GradientOffset < 1f)
+					if (CustomHeaderSettings.GradientOffset > 0f && CustomHeaderSettings.GradientOffset < 1f)
 					{
 						ColorBlend colorBlend = new ColorBlend() ;
-						colorBlend.Colors = new Color [] {brush.LinearColors[0], brush.LinearColors[0], brush.LinearColors[1]} ;
-						colorBlend.Positions = new float [] {0f, this.CustomHeaderSettings.GradientOffset, 1f} ;
+						colorBlend.Colors = new[] {brush.LinearColors[0], brush.LinearColors[0], brush.LinearColors[1]} ;
+						colorBlend.Positions = new[] {0f, CustomHeaderSettings.GradientOffset, 1f} ;
 						brush.InterpolationColors = colorBlend ;
 					}
 						
 					// check if we need round corners
-					if (this.CustomHeaderSettings.TitleRadius > 0)
+					if (CustomHeaderSettings.TitleRadius > 0)
 					{
 						GraphicsPath path = new GraphicsPath();
 							
 						// top
-						path.AddLine(this.TitleBarRectangle.Left + this.CustomHeaderSettings.TitleRadius, 
-							this.TitleBarRectangle.Top, 
-							this.TitleBarRectangle.Right - (this.CustomHeaderSettings.TitleRadius * 2) - 1, 
-							this.TitleBarRectangle.Top);
+						path.AddLine(TitleBarRectangle.Left + CustomHeaderSettings.TitleRadius, 
+							TitleBarRectangle.Top, 
+							TitleBarRectangle.Right - (CustomHeaderSettings.TitleRadius * 2) - 1, 
+							TitleBarRectangle.Top);
 							
 						// right corner
-						path.AddArc(this.TitleBarRectangle.Right - (this.CustomHeaderSettings.TitleRadius * 2) - 1, 
-							this.TitleBarRectangle.Top, 
-							this.CustomHeaderSettings.TitleRadius * 2, 
-							this.CustomHeaderSettings.TitleRadius * 2, 
+						path.AddArc(TitleBarRectangle.Right - (CustomHeaderSettings.TitleRadius * 2) - 1, 
+							TitleBarRectangle.Top, 
+							CustomHeaderSettings.TitleRadius * 2, 
+							CustomHeaderSettings.TitleRadius * 2, 
 							270, 
 							90);
 							
 						// right
-						path.AddLine(this.TitleBarRectangle.Right, 
-							this.TitleBarRectangle.Top + this.CustomHeaderSettings.TitleRadius, 
-							this.TitleBarRectangle.Right, 
-							this.TitleBarRectangle.Bottom);
+						path.AddLine(TitleBarRectangle.Right, 
+							TitleBarRectangle.Top + CustomHeaderSettings.TitleRadius, 
+							TitleBarRectangle.Right, 
+							TitleBarRectangle.Bottom);
 							
 						// bottom
-						path.AddLine(this.TitleBarRectangle.Right, 
-							this.TitleBarRectangle.Bottom, 
-							this.TitleBarRectangle.Left - 1, 
-							this.TitleBarRectangle.Bottom);
+						path.AddLine(TitleBarRectangle.Right, 
+							TitleBarRectangle.Bottom, 
+							TitleBarRectangle.Left - 1, 
+							TitleBarRectangle.Bottom);
 							
 						// left corner
-						path.AddArc(this.TitleBarRectangle.Left, 
-							this.TitleBarRectangle.Top, 
-							this.CustomHeaderSettings.TitleRadius * 2, 
-							this.CustomHeaderSettings.TitleRadius * 2, 
+						path.AddArc(TitleBarRectangle.Left, 
+							TitleBarRectangle.Top, 
+							CustomHeaderSettings.TitleRadius * 2, 
+							CustomHeaderSettings.TitleRadius * 2, 
 							180, 
 							90);
 							
@@ -3841,95 +3817,95 @@ namespace XPExplorerBar
 					}
 					else
 					{
-						g.FillRectangle(brush, this.TitleBarRectangle);
+						g.FillRectangle(brush, TitleBarRectangle);
 					}
 				}
 			}
-			else if (this.TitleBackImage != null)
+			else if (TitleBackImage != null)
 			{
 				// check if the system header background images have different 
 				// RightToLeft values compared to what we do.  if they are different, 
 				// then we had better mirror them
-				if ((this.RightToLeft == RightToLeft.Yes && !this.SystemSettings.Header.RightToLeft) || 
-					(this.RightToLeft == RightToLeft.No && this.SystemSettings.Header.RightToLeft))
+				if ((RightToLeft == RightToLeft.Yes && !SystemSettings.Header.RightToLeft) || 
+					(RightToLeft == RightToLeft.No && SystemSettings.Header.RightToLeft))
 				{
-					if (this.SystemSettings.Header.NormalBackImage != null)
+					if (SystemSettings.Header.NormalBackImage != null)
 					{
-						this.SystemSettings.Header.NormalBackImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+						SystemSettings.Header.NormalBackImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
 					}
 
-					if (this.SystemSettings.Header.SpecialBackImage != null)
+					if (SystemSettings.Header.SpecialBackImage != null)
 					{
-						this.SystemSettings.Header.SpecialBackImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+						SystemSettings.Header.SpecialBackImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
 					}
 
-					this.SystemSettings.Header.RightToLeft = (this.RightToLeft == RightToLeft.Yes);
+					SystemSettings.Header.RightToLeft = (RightToLeft == RightToLeft.Yes);
 				}
 					
-				if (this.Enabled)
+				if (Enabled)
 				{
-					if (this.SystemSettings.OfficialTheme)
+					if (SystemSettings.OfficialTheme)
 					{
 						// left edge
-						g.DrawImage(this.TitleBackImage, 
-							new Rectangle(0, y, 5, this.TitleBarHeight),
-							new Rectangle(0, 0, 5, this.TitleBackImage.Height), 
+						g.DrawImage(TitleBackImage, 
+							new Rectangle(0, y, 5, TitleBarHeight),
+							new Rectangle(0, 0, 5, TitleBackImage.Height), 
 							GraphicsUnit.Pixel);
 
 						// right edge
-						g.DrawImage(this.TitleBackImage, 
-							new Rectangle(this.Width-5, y, 5, this.TitleBarHeight),
-							new Rectangle(this.TitleBackImage.Width-5, 0, 5, this.TitleBackImage.Height), 
+						g.DrawImage(TitleBackImage, 
+							new Rectangle(Width-5, y, 5, TitleBarHeight),
+							new Rectangle(TitleBackImage.Width-5, 0, 5, TitleBackImage.Height), 
 							GraphicsUnit.Pixel);
 
 						// middle
-						g.DrawImage(this.TitleBackImage, 
-							new Rectangle(5, y, this.Width-10, this.TitleBarHeight),
-							new Rectangle(5, 0, this.TitleBackImage.Width-10, this.TitleBackImage.Height), 
+						g.DrawImage(TitleBackImage, 
+							new Rectangle(5, y, Width-10, TitleBarHeight),
+							new Rectangle(5, 0, TitleBackImage.Width-10, TitleBackImage.Height), 
 							GraphicsUnit.Pixel);
 					}
 					else
 					{
-						g.DrawImage(this.TitleBackImage, 0, y, this.Width, this.TitleBarHeight);
+						g.DrawImage(TitleBackImage, 0, y, Width, TitleBarHeight);
 					}
 				}
 				else
 				{
-					if (this.SystemSettings.OfficialTheme)
+					if (SystemSettings.OfficialTheme)
 					{
-						using (Image image = new Bitmap(this.Width, this.TitleBarHeight))
+						using (Image image = new Bitmap(Width, TitleBarHeight))
 						{
 							using (Graphics g2 = Graphics.FromImage(image))
 							{
 								// left edge
-								g2.DrawImage(this.TitleBackImage, 
-									new Rectangle(0, y, 5, this.TitleBarHeight),
-									new Rectangle(0, 0, 5, this.TitleBackImage.Height), 
+								g2.DrawImage(TitleBackImage, 
+									new Rectangle(0, y, 5, TitleBarHeight),
+									new Rectangle(0, 0, 5, TitleBackImage.Height), 
 									GraphicsUnit.Pixel);
 						
 
 								// right edge
-								g2.DrawImage(this.TitleBackImage, 
-									new Rectangle(this.Width-5, y, 5, this.TitleBarHeight),
-									new Rectangle(this.TitleBackImage.Width-5, 0, 5, this.TitleBackImage.Height), 
+								g2.DrawImage(TitleBackImage, 
+									new Rectangle(Width-5, y, 5, TitleBarHeight),
+									new Rectangle(TitleBackImage.Width-5, 0, 5, TitleBackImage.Height), 
 									GraphicsUnit.Pixel);
 
 								// middle
-								g2.DrawImage(this.TitleBackImage, 
-									new Rectangle(5, y, this.Width-10, this.TitleBarHeight),
-									new Rectangle(5, 0, this.TitleBackImage.Width-10, this.TitleBackImage.Height), 
+								g2.DrawImage(TitleBackImage, 
+									new Rectangle(5, y, Width-10, TitleBarHeight),
+									new Rectangle(5, 0, TitleBackImage.Width-10, TitleBackImage.Height), 
 									GraphicsUnit.Pixel);
 							}
 
-							ControlPaint.DrawImageDisabled(g, image, 0, y, this.TitleBackColor);
+							ControlPaint.DrawImageDisabled(g, image, 0, y, TitleBackColor);
 						}
 					}
 					else
 					{
 						// first stretch the background image for ControlPaint.
-						using (Image image = new Bitmap(this.TitleBackImage, this.Width, this.TitleBarHeight))
+						using (Image image = new Bitmap(TitleBackImage, Width, TitleBarHeight))
 						{
-							ControlPaint.DrawImageDisabled(g, image, 0, y, this.TitleBackColor);
+							ControlPaint.DrawImageDisabled(g, image, 0, y, TitleBackColor);
 						}
 					}
 				}
@@ -3937,9 +3913,9 @@ namespace XPExplorerBar
 			else
 			{
 				// single color titlebar
-				using (SolidBrush brush = new SolidBrush(this.TitleBackColor))
+				using (SolidBrush brush = new SolidBrush(TitleBackColor))
 				{
-					g.FillRectangle(brush, 0, y, this.Width, this.TitleBarHeight);
+					g.FillRectangle(brush, 0, y, Width, TitleBarHeight);
 				}
 			}
 		}
@@ -3954,116 +3930,116 @@ namespace XPExplorerBar
 			int y = 0;
 			
 			// work out where the top of the titleBar actually is
-			if (this.HeaderHeight > this.TitleBarHeight)
+			if (HeaderHeight > TitleBarHeight)
 			{
-				y = this.HeaderHeight - this.TitleBarHeight;
+				y = HeaderHeight - TitleBarHeight;
 			}
 
 			// draw the titlebar image if we have one
-			if (this.TitleImage != null)
+			if (TitleImage != null)
 			{
 				int x = 0;
 				//int y = 0;
 				
-				if (this.RightToLeft == RightToLeft.Yes)
+				if (RightToLeft == RightToLeft.Yes)
 				{
-					x = this.Width - this.TitleImage.Width;
+					x = Width - TitleImage.Width;
 				}
 				
-				if (this.Enabled)
+				if (Enabled)
 				{
-					g.DrawImage(this.TitleImage, x, 0);
+					g.DrawImage(TitleImage, x, 0);
 				}
 				else
 				{
-					ControlPaint.DrawImageDisabled(g, TitleImage, x, 0, this.TitleBackColor);
+					ControlPaint.DrawImageDisabled(g, TitleImage, x, 0, TitleBackColor);
 				}
 			}
 
 			// get which collapse/expand arrow we should draw
-			Image arrowImage = this.ArrowImage;
+			Image arrowImage = ArrowImage;
 
 			// get the titlebar's border and padding
-			Border border = this.TitleBorder;
-			Padding padding = this.TitlePadding;
+			Border border = TitleBorder;
+			Padding padding = TitlePadding;
 
 			// draw the arrow if we have one
 			if (arrowImage != null)
 			{
 				// work out where to position the arrow
-				int x = this.Width - arrowImage.Width - border.Right - padding.Right;
+				int x = Width - arrowImage.Width - border.Right - padding.Right;
 				y += border.Top + padding.Top;
 
-				if (this.RightToLeft == RightToLeft.Yes)
+				if (RightToLeft == RightToLeft.Yes)
 				{
 					x = border.Right + padding.Right;
 				}
 
 				// draw it...
-				if (this.Enabled)
+				if (Enabled)
 				{
 					g.DrawImage(arrowImage, x, y);
 				}
 				else
 				{
-					ControlPaint.DrawImageDisabled(g, arrowImage, x, y, this.TitleBackColor);
+					ControlPaint.DrawImageDisabled(g, arrowImage, x, y, TitleBackColor);
 				}
 			}
 
 			// check if we have any text to draw in the titlebar
-			if (this.Text.Length > 0)
+			if (Text.Length > 0)
 			{
 				// a rectangle that will contain our text
 				Rectangle rect = new Rectangle();
 				
 				// work out the x coordinate
-				if (this.TitleImage == null)
+				if (TitleImage == null)
 				{
 					rect.X = border.Left + padding.Left;
 				}
 				else
 				{
-					rect.X = this.TitleImage.Width + border.Left;
+					rect.X = TitleImage.Width + border.Left;
 				}
 
 				// work out the y coordinate
-				ContentAlignment alignment = this.TitleAlignment;
+				ContentAlignment alignment = TitleAlignment;
 
 				switch (alignment)
 				{
 					case ContentAlignment.MiddleLeft:
 					case ContentAlignment.MiddleCenter:
-					case ContentAlignment.MiddleRight:	rect.Y = ((this.HeaderHeight - this.TitleFont.Height) / 2) + ((this.HeaderHeight - this.TitleBarHeight) / 2) + border.Top + padding.Top;
+					case ContentAlignment.MiddleRight:	rect.Y = ((HeaderHeight - TitleFont.Height) / 2) + ((HeaderHeight - TitleBarHeight) / 2) + border.Top + padding.Top;
 						break;
 
 					case ContentAlignment.TopLeft:
 					case ContentAlignment.TopCenter:
-					case ContentAlignment.TopRight:		rect.Y = (this.HeaderHeight - this.TitleBarHeight) + border.Top + padding.Top;
+					case ContentAlignment.TopRight:		rect.Y = (HeaderHeight - TitleBarHeight) + border.Top + padding.Top;
 						break;
 
 					case ContentAlignment.BottomLeft:
 					case ContentAlignment.BottomCenter:
-					case ContentAlignment.BottomRight:	rect.Y = this.HeaderHeight - this.TitleFont.Height;
+					case ContentAlignment.BottomRight:	rect.Y = HeaderHeight - TitleFont.Height;
 						break;
 				}
 
 				// the height of the rectangle
-				rect.Height = this.TitleFont.Height;
+				rect.Height = TitleFont.Height;
 
 				// make sure the text stays inside the header
-				if (rect.Bottom > this.HeaderHeight)
+				if (rect.Bottom > HeaderHeight)
 				{
-					rect.Y -= rect.Bottom - this.HeaderHeight;
+					rect.Y -= rect.Bottom - HeaderHeight;
 				}
 					
 				// work out how wide the rectangle should be
 				if (arrowImage != null)
 				{
-					rect.Width = this.Width - arrowImage.Width - border.Right - padding.Right - rect.X;
+					rect.Width = Width - arrowImage.Width - border.Right - padding.Right - rect.X;
 				}
 				else
 				{
-					rect.Width = this.Width - border.Right - padding.Right - rect.X;
+					rect.Width = Width - border.Right - padding.Right - rect.X;
 				}
 
 				// don't wrap the string, and use an ellipsis if
@@ -4091,49 +4067,49 @@ namespace XPExplorerBar
 						break;
 				}
 
-				if (this.RightToLeft == RightToLeft.Yes)
+				if (RightToLeft == RightToLeft.Yes)
 				{
 					sf.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
 
-					if (this.TitleImage == null)
+					if (TitleImage == null)
 					{
-						rect.X = this.Width - rect.Width - border.Left - padding.Left;
+						rect.X = Width - rect.Width - border.Left - padding.Left;
 					}
 					else
 					{
-						rect.X = this.Width - rect.Width - this.TitleImage.Width - border.Left;
+						rect.X = Width - rect.Width - TitleImage.Width - border.Left;
 					}
 				}
 
 				// draw the text
-				using (SolidBrush brush = new SolidBrush(this.TitleColor))
+				using (SolidBrush brush = new SolidBrush(TitleColor))
 				{
 					//g.DrawString(this.Text, this.TitleFont, brush, rect, sf);
-					if (this.Enabled)
+					if (Enabled)
 					{
-						g.DrawString(this.Text, this.TitleFont, brush, rect, sf);
+						g.DrawString(Text, TitleFont, brush, rect, sf);
 					}
 					else
 					{
-						ControlPaint.DrawStringDisabled(g, this.Text, this.TitleFont, SystemColors.ControlLightLight, rect, sf);
+						ControlPaint.DrawStringDisabled(g, Text, TitleFont, SystemColors.ControlLightLight, rect, sf);
 					}
 				}
 			}
 
 			// check if windows will let us show a focus rectangle 
 			// if we have focus
-			if (this.Focused && base.ShowFocusCues)
+			if (Focused && base.ShowFocusCues)
 			{
-				if (this.ShowFocusCues)
+				if (ShowFocusCues)
 				{
 					// for some reason, if CanCollapse is false the focus rectangle 
 					// will be drawn 2 pixels higher than it should be, so move it down
-					if (!this.CanCollapse)
+					if (!CanCollapse)
 					{
 						y += 2;
 					}
 					
-					ControlPaint.DrawFocusRectangle(g, new Rectangle(2, y, this.Width - 4, this.TitleBarHeight - 3));
+					ControlPaint.DrawFocusRectangle(g, new Rectangle(2, y, Width - 4, TitleBarHeight - 3));
 				}
 			}
 		}
@@ -4151,15 +4127,15 @@ namespace XPExplorerBar
 		protected void OnPaintDisplayRect(Graphics g)
 		{
 			// are we animating a fade
-			if (this.animatingFade && this.AnimationImage != null)
+			if (animatingFade && AnimationImage != null)
 			{
 				// calculate the transparency value for the animation image
-				float alpha = (((float) (this.Height - this.HeaderHeight)) / ((float) (this.ExpandedHeight - this.HeaderHeight)));
+				float alpha = ((Height - HeaderHeight) / ((float) (ExpandedHeight - HeaderHeight)));
 				
 				float[][] ptsArray = {new float[] {1, 0, 0, 0, 0},
 										 new float[] {0, 1, 0, 0, 0},
 										 new float[] {0, 0, 1, 0, 0},
-										 new float[] {0, 0, 0, alpha, 0}, 
+										 new[] {0, 0, 0, alpha, 0}, 
 										 new float[] {0, 0, 0, 0, 1}}; 
 
 				ColorMatrix colorMatrix = new ColorMatrix(ptsArray);
@@ -4167,69 +4143,69 @@ namespace XPExplorerBar
 				imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
 				// work out how far up the animation image we need to start
-				int y = this.AnimationImage.Height - this.PseudoClientHeight - this.Border.Bottom;
+				int y = AnimationImage.Height - PseudoClientHeight - Border.Bottom;
 
 				// draw the image
-				g.DrawImage(this.AnimationImage,
-					new Rectangle(0, this.HeaderHeight, this.Width, this.Height - this.HeaderHeight),
+				g.DrawImage(AnimationImage,
+					new Rectangle(0, HeaderHeight, Width, Height - HeaderHeight),
 					0,
 					y,
-					this.AnimationImage.Width, 
-					this.AnimationImage.Height - y,
+					AnimationImage.Width, 
+					AnimationImage.Height - y,
 					GraphicsUnit.Pixel,
 					imageAttributes);
 			}
 				// are we animating a slide
-			else if (this.animatingSlide)
+			else if (animatingSlide)
 			{
 				// check if we have a background image
-				if (this.BackImage != null)
+				if (BackImage != null)
 				{
 					// tile the backImage
-					using (TextureBrush brush = new TextureBrush(this.BackImage, WrapMode.Tile))
+					using (TextureBrush brush = new TextureBrush(BackImage, WrapMode.Tile))
 					{
-						g.FillRectangle(brush, this.DisplayRectangle);
+						g.FillRectangle(brush, DisplayRectangle);
 					}
 				}
 				else
 				{
 					// just paint the area with a solid brush
-					using (SolidBrush brush = new SolidBrush(this.BackColor))
+					using (SolidBrush brush = new SolidBrush(BackColor))
 					{
 						g.FillRectangle(brush, 
-							this.Border.Left, 
-							this.HeaderHeight + this.Border.Top, 
-							this.Width - this.Border.Left - this.Border.Right,
-							this.Height - this.HeaderHeight - this.Border.Top - this.Border.Bottom);
+							Border.Left, 
+							HeaderHeight + Border.Top, 
+							Width - Border.Left - Border.Right,
+							Height - HeaderHeight - Border.Top - Border.Bottom);
 					}
 				}
 			}
 			else
 			{
 				// check if we have a background image
-				if (this.BackImage != null)
+				if (BackImage != null)
 				{
 					// tile the backImage
-					using (TextureBrush brush = new TextureBrush(this.BackImage, WrapMode.Tile))
+					using (TextureBrush brush = new TextureBrush(BackImage, WrapMode.Tile))
 					{
-						g.FillRectangle(brush, this.DisplayRectangle);
+						g.FillRectangle(brush, DisplayRectangle);
 					}
 				}
 				else
 				{
 					// just paint the area with a solid brush
-					using (SolidBrush brush = new SolidBrush(this.BackColor))
+					using (SolidBrush brush = new SolidBrush(BackColor))
 					{
-						g.FillRectangle(brush, this.DisplayRectangle);
+						g.FillRectangle(brush, DisplayRectangle);
 					}
 				}
 
-				if (this.Watermark != null)
+				if (Watermark != null)
 				{
 					// work out a rough location of where the watermark should go
-					Rectangle rect = new Rectangle(0, 0, this.Watermark.Width, this.Watermark.Height);
-					rect.X = this.PseudoClientRect.Right - this.Watermark.Width;
-					rect.Y = this.DisplayRectangle.Bottom - this.Watermark.Height;
+					Rectangle rect = new Rectangle(0, 0, Watermark.Width, Watermark.Height);
+					rect.X = PseudoClientRect.Right - Watermark.Width;
+					rect.Y = DisplayRectangle.Bottom - Watermark.Height;
 
 					// shrink the destination rect if necesary so that we
 					// can see all of the image
@@ -4239,23 +4215,23 @@ namespace XPExplorerBar
 						rect.X = 0;
 					}
 
-					if (rect.Width > this.ClientRectangle.Width)
+					if (rect.Width > ClientRectangle.Width)
 					{
-						rect.Width = this.ClientRectangle.Width;
+						rect.Width = ClientRectangle.Width;
 					}
 
-					if (rect.Y < this.DisplayRectangle.Top)
+					if (rect.Y < DisplayRectangle.Top)
 					{
-						rect.Y = this.DisplayRectangle.Top;
+						rect.Y = DisplayRectangle.Top;
 					}
 
-					if (rect.Height > this.DisplayRectangle.Height)
+					if (rect.Height > DisplayRectangle.Height)
 					{
-						rect.Height = this.DisplayRectangle.Height;
+						rect.Height = DisplayRectangle.Height;
 					}
 
 					// draw the watermark
-					g.DrawImage(this.Watermark, rect);
+					g.DrawImage(Watermark, rect);
 				}
 			}
 		}
@@ -4271,14 +4247,14 @@ namespace XPExplorerBar
 		protected void OnPaintBorder(Graphics g)
 		{
 			// get the current border and border colors
-			Border border = this.Border;
-			Color c = this.BorderColor;
+			Border border = Border;
+			Color c = BorderColor;
 
 			// check if we are currently animating a fade
-			if (this.animatingFade)
+			if (animatingFade)
 			{
 				// calculate the alpha value for the color
-				int alpha = (int) (255 * (((float) (this.Height - this.HeaderHeight)) / ((float) (this.ExpandedHeight - this.HeaderHeight))));
+				int alpha = (int) (255 * ((Height - HeaderHeight) / ((float) (ExpandedHeight - HeaderHeight))));
 
 				// make sure it doesn't go past 0 or 255
 				if (alpha < 0)
@@ -4297,10 +4273,10 @@ namespace XPExplorerBar
 			// draw the borders
 			using (SolidBrush brush = new SolidBrush(c))
 			{
-				g.FillRectangle(brush, border.Left, this.HeaderHeight, this.Width-border.Left-border.Right, border.Top); // top border
-				g.FillRectangle(brush, 0, this.HeaderHeight, border.Left, this.Height-this.HeaderHeight); // left border
-				g.FillRectangle(brush, this.Width-border.Right, this.HeaderHeight, border.Right, this.Height-this.HeaderHeight); // right border
-				g.FillRectangle(brush, border.Left, this.Height-border.Bottom, this.Width-border.Left-border.Right, border.Bottom); // bottom border
+				g.FillRectangle(brush, border.Left, HeaderHeight, Width-border.Left-border.Right, border.Top); // top border
+				g.FillRectangle(brush, 0, HeaderHeight, border.Left, Height-HeaderHeight); // left border
+				g.FillRectangle(brush, Width-border.Right, HeaderHeight, border.Right, Height-HeaderHeight); // right border
+				g.FillRectangle(brush, border.Left, Height-border.Bottom, Width-border.Left-border.Right, border.Bottom); // bottom border
 			}
 		}
 
@@ -4319,10 +4295,10 @@ namespace XPExplorerBar
 		protected void PaintTransparentBackground(Graphics g, Rectangle clipRect)
 		{
 			// check if we have a parent
-			if (this.Parent != null)
+			if (Parent != null)
 			{
 				// convert the clipRects coordinates from ours to our parents
-				clipRect.Offset(this.Location);
+				clipRect.Offset(Location);
 
 				PaintEventArgs e = new PaintEventArgs(g, clipRect);
 
@@ -4334,11 +4310,11 @@ namespace XPExplorerBar
 				{
 					// move the graphics object so that we are drawing in 
 					// the correct place
-					g.TranslateTransform((float) -this.Location.X, (float) -this.Location.Y);
+					g.TranslateTransform(-Location.X, -Location.Y);
 					
 					// draw the parents background and foreground
-					this.InvokePaintBackground(this.Parent, e);
-					this.InvokePaint(this.Parent, e);
+					InvokePaintBackground(Parent, e);
+					InvokePaint(Parent, e);
 
 					return;
 				}
@@ -4346,7 +4322,7 @@ namespace XPExplorerBar
 				{
 					// reset everything back to where they were before
 					g.Restore(state);
-					clipRect.Offset(-this.Location.X, -this.Location.Y);
+					clipRect.Offset(-Location.X, -Location.Y);
 				}
 			}
 
@@ -4367,15 +4343,15 @@ namespace XPExplorerBar
 		/// <param name="e">An EventArgs that contains the event data</param>
 		protected override void OnParentChanged(EventArgs e)
 		{
-			if (this.Parent == null)
+			if (Parent == null)
 			{
-				this.TaskPane = null;
+				TaskPane = null;
 			}
-			else if (this.Parent is TaskPane)
+			else if (Parent is TaskPane)
 			{
-				this.TaskPane = (TaskPane) this.Parent;
+				TaskPane = (TaskPane) Parent;
 
-				this.Location = this.TaskPane.CalcExpandoLocation(this);
+				Location = TaskPane.CalcExpandoLocation(this);
 			}
 			
 			base.OnParentChanged(e);
@@ -4399,34 +4375,34 @@ namespace XPExplorerBar
 			// to use for the animation. (if we were to continue to 
 			// use the old image it would be shrunk or stretched making 
 			// the animation look wierd)
-			if (this.Animating && this.Width != this.oldWidth)
+			if (Animating && Width != oldWidth)
 			{
 				// if the width or height of the group is zero it probably 
 				// means that our parent form has been minimized so we should 
 				// immediately stop animating
-				if (this.Width == 0)
+				if (Width == 0)
 				{
-					this.animationHelper.StopAnimation();
+					animationHelper.StopAnimation();
 				}
 				else
 				{
-					this.oldWidth = this.Width;
+					oldWidth = Width;
 				
-					if (this.AnimationImage != null)
+					if (AnimationImage != null)
 					{
 						// get the new animationImage
-						this.animationImage = this.GetFadeAnimationImage();
+						animationImage = GetFadeAnimationImage();
 					}
 				}
 			}
 				// check if the width has changed.  if it has re-layout
 				// the group so that the TaskItems can resize themselves
 				// if neccessary
-			else if (this.Width != this.oldWidth)
+			else if (Width != oldWidth)
 			{
-				this.oldWidth = this.Width;
+				oldWidth = Width;
 				
-				this.DoLayout();
+				DoLayout();
 			}
 		}
 
@@ -4459,7 +4435,7 @@ namespace XPExplorerBar
 			/// </summary>
 			/// <param name="owner">An Expando representing the expando that owns 
 			/// the Control collection</param>
-			public ItemCollection(Expando owner) : base()
+			public ItemCollection(Expando owner)
 			{
 				if (owner == null)
 				{
@@ -4485,10 +4461,10 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("value");
 				}
 
-				this.List.Add(value);
-				this.owner.Controls.Add(value);
+				List.Add(value);
+				owner.Controls.Add(value);
 
-				this.owner.OnItemAdded(new ControlEventArgs(value));
+				owner.OnItemAdded(new ControlEventArgs(value));
 			}
 
 
@@ -4506,7 +4482,7 @@ namespace XPExplorerBar
 
 				for (int i=0; i<controls.Length; i++)
 				{
-					this.Add(controls[i]);
+					Add(controls[i]);
 				}
 			}
 			
@@ -4516,9 +4492,9 @@ namespace XPExplorerBar
 			/// </summary>
 			public new void Clear()
 			{
-				while (this.Count > 0)
+				while (Count > 0)
 				{
-					this.RemoveAt(0);
+					RemoveAt(0);
 				}
 			}
 
@@ -4537,7 +4513,7 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("control");
 				}
 
-				return (this.IndexOf(control) != -1);
+				return (IndexOf(control) != -1);
 			}
 
 
@@ -4555,7 +4531,7 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("control");
 				}
 				
-				for (int i=0; i<this.Count; i++)
+				for (int i=0; i<Count; i++)
 				{
 					if (this[i] == control)
 					{
@@ -4579,10 +4555,10 @@ namespace XPExplorerBar
 					throw new ArgumentNullException("value");
 				}
 
-				this.List.Remove(value);
-				this.owner.Controls.Remove(value);
+				List.Remove(value);
+				owner.Controls.Remove(value);
 
-				this.owner.OnItemRemoved(new ControlEventArgs(value));
+				owner.OnItemRemoved(new ControlEventArgs(value));
 			}
 
 			
@@ -4594,7 +4570,7 @@ namespace XPExplorerBar
 			/// remove</param>
 			public new void RemoveAt(int index)
 			{
-				this.Remove(this[index]);
+				Remove(this[index]);
 			}
 
 
@@ -4617,35 +4593,35 @@ namespace XPExplorerBar
 				{
 					index = 0;
 				}
-				else if (index > this.Count)
+				else if (index > Count)
 				{
-					index = this.Count;
+					index = Count;
 				}
 
 				// don't go any further if the expando is already 
 				// in the desired position or we don't contain it
-				if (!this.Contains(value) || this.IndexOf(value) == index)
+				if (!Contains(value) || IndexOf(value) == index)
 				{
 					return;
 				}
 
-				this.List.Remove(value);
+				List.Remove(value);
 
 				// if the index we're supposed to move the expando to
 				// is now greater to the number of expandos contained, 
 				// add it to the end of the list, otherwise insert it at 
 				// the specified index
-				if (index > this.Count)
+				if (index > Count)
 				{
-					this.List.Add(value);
+					List.Add(value);
 				}
 				else
 				{
-					this.List.Insert(index, value);
+					List.Insert(index, value);
 				}
 
 				// re-layout the controls
-				this.owner.MatchControlCollToItemColl();
+				owner.MatchControlCollToItemColl();
 			}
 
 
@@ -4655,7 +4631,7 @@ namespace XPExplorerBar
 			/// <param name="value">The control to be moved</param>
 			public void MoveToTop(Control value)
 			{
-				this.Move(value, 0);
+				Move(value, 0);
 			}
 
 
@@ -4665,7 +4641,7 @@ namespace XPExplorerBar
 			/// <param name="value">The control to be moved</param>
 			public void MoveToBottom(Control value)
 			{
-				this.Move(value, this.Count);
+				Move(value, Count);
 			}
 
 			#endregion
@@ -4683,7 +4659,7 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.List[index] as Control;
+					return List[index] as Control;
 				}
 			}
 
@@ -4741,7 +4717,7 @@ namespace XPExplorerBar
 			/// <returns>An array of data types that this collection can contain</returns>
 			protected override Type[] CreateNewItemTypes()
 			{
-				return new Type[] {typeof(TaskItem),
+				return new[] {typeof(TaskItem),
 									  typeof(Button),
 									  typeof(CheckBox),
 									  typeof(CheckedListBox),
@@ -4839,11 +4815,11 @@ namespace XPExplorerBar
 			/// <summary>
 			/// Initializes a new instance of the AnimationPanel class with default settings
 			/// </summary>
-			public AnimationPanel() : base()
+			public AnimationPanel()
 			{
-				this.headerHeight = 0;
-				this.border = new Border();
-				this.backImage = null;
+				headerHeight = 0;
+				border = new Border();
+				backImage = null;
 			}
 
 			#endregion
@@ -4875,12 +4851,12 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.headerHeight;
+					return headerHeight;
 				}
 
 				set
 				{
-					this.headerHeight = value;
+					headerHeight = value;
 				}
 			}
 
@@ -4892,12 +4868,12 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.border;
+					return border;
 				}
 
 				set
 				{
-					this.border = value;
+					border = value;
 				}
 			}
 
@@ -4909,12 +4885,12 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.backImage;
+					return backImage;
 				}
 
 				set
 				{
-					this.backImage = value;
+					backImage = value;
 				}
 			}
 
@@ -4927,10 +4903,10 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return new Rectangle(this.Border.Left, 
-						this.HeaderHeight + this.Border.Top,
-						this.Width - this.Border.Left - this.Border.Right,
-						this.Height - this.HeaderHeight - this.Border.Top - this.Border.Bottom);
+					return new Rectangle(Border.Left, 
+						HeaderHeight + Border.Top,
+						Width - Border.Left - Border.Right,
+						Height - HeaderHeight - Border.Top - Border.Bottom);
 				}
 			}
 
@@ -4947,9 +4923,9 @@ namespace XPExplorerBar
 			{
 				base.OnPaint(e);
 
-				if (this.BackImage != null)
+				if (BackImage != null)
 				{
-					e.Graphics.DrawImageUnscaled(this.BackImage, 0, 0);
+					e.Graphics.DrawImageUnscaled(BackImage, 0, 0);
 				}
 			}
 
@@ -5016,7 +4992,7 @@ namespace XPExplorerBar
 			/// <summary>
 			/// A timer that notifies the helper when the next frame is due
 			/// </summary>
-			private System.Windows.Forms.Timer animationTimer;
+			private Timer animationTimer;
 
 			#endregion
 
@@ -5033,17 +5009,17 @@ namespace XPExplorerBar
 				this.expando = expando;
 				this.animationType = animationType;
 
-				this.animating = false;
+				animating = false;
 
-				this.numAnimationSteps = NumAnimationFrames;
-				this.animationFrameInterval = 10;
+				numAnimationSteps = NumAnimationFrames;
+				animationFrameInterval = 10;
 
 				// I know that this isn't the best way to do this, but I 
 				// haven't quite worked out how to do it with threads so 
 				// this will have to do for the moment
-				this.animationTimer = new System.Windows.Forms.Timer();
-				this.animationTimer.Tick += new EventHandler(this.animationTimer_Tick);
-				this.animationTimer.Interval = this.animationFrameInterval;
+				animationTimer = new Timer();
+				animationTimer.Tick += animationTimer_Tick;
+				animationTimer.Interval = animationFrameInterval;
 			}
 
 			#endregion
@@ -5056,14 +5032,14 @@ namespace XPExplorerBar
 			/// </summary>
 			public void Dispose()
 			{
-				if (this.animationTimer != null)
+				if (animationTimer != null)
 				{
-					this.animationTimer.Stop();
-					this.animationTimer.Dispose();
-					this.animationTimer = null;
+					animationTimer.Stop();
+					animationTimer.Dispose();
+					animationTimer = null;
 				}
 
-				this.expando = null;
+				expando = null;
 			}
 
 			
@@ -5073,25 +5049,25 @@ namespace XPExplorerBar
 			public void StartAnimation()
 			{
 				// don't bother going any further if we are already animating
-				if (this.Animating)
+				if (Animating)
 				{
 					return;
 				}
 			
-				this.animationStepNum = 0;
+				animationStepNum = 0;
 
 				// tell the expando to get ready to animate
-				if (this.AnimationType == FadeAnimation)
+				if (AnimationType == FadeAnimation)
 				{
-					this.expando.StartFadeAnimation();
+					expando.StartFadeAnimation();
 				}
 				else
 				{
-					this.expando.StartSlideAnimation();
+					expando.StartSlideAnimation();
 				}
 
 				// start the animation timer
-				this.animationTimer.Start();
+				animationTimer.Start();
 			}
 
 
@@ -5101,24 +5077,24 @@ namespace XPExplorerBar
 			protected void PerformAnimation()
 			{
 				// if we have more animation steps to perform
-				if (this.animationStepNum < this.numAnimationSteps)
+				if (animationStepNum < numAnimationSteps)
 				{
 					// update the animation step number
-					this.animationStepNum++;
+					animationStepNum++;
 
 					// tell the animating expando to update the animation
-					if (this.AnimationType == FadeAnimation)
+					if (AnimationType == FadeAnimation)
 					{
-						this.expando.UpdateFadeAnimation(this.animationStepNum, this.numAnimationSteps);
+						expando.UpdateFadeAnimation(animationStepNum, numAnimationSteps);
 					}
 					else
 					{
-						this.expando.UpdateSlideAnimation(this.animationStepNum, this.numAnimationSteps);
+						expando.UpdateSlideAnimation(animationStepNum, numAnimationSteps);
 					}
 				}
 				else
 				{
-					this.StopAnimation();
+					StopAnimation();
 				}
 			}
 
@@ -5129,16 +5105,16 @@ namespace XPExplorerBar
 			public void StopAnimation()
 			{
 				// stop the animation
-				this.animationTimer.Stop();
-				this.animationTimer.Dispose();
+				animationTimer.Stop();
+				animationTimer.Dispose();
 
-				if (this.AnimationType == FadeAnimation)
+				if (AnimationType == FadeAnimation)
 				{
-					this.expando.StopFadeAnimation();
+					expando.StopFadeAnimation();
 				}
 				else
 				{
-					this.expando.StopSlideAnimation();
+					expando.StopSlideAnimation();
 				}
 			}
 
@@ -5154,7 +5130,7 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.expando;
+					return expando;
 				}
 			}
 
@@ -5167,7 +5143,7 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.numAnimationSteps;
+					return numAnimationSteps;
 				}
 
 				set
@@ -5180,9 +5156,9 @@ namespace XPExplorerBar
 					// only change this if we are not currently animating
 					// (if we are animating, changing this could cause things
 					// to screw up big time)
-					if (!this.animating)
+					if (!animating)
 					{
-						this.numAnimationSteps = value;
+						numAnimationSteps = value;
 					}
 				}
 			}
@@ -5196,12 +5172,12 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.animationFrameInterval;
+					return animationFrameInterval;
 				}
 
 				set
 				{
-					this.animationFrameInterval = value;
+					animationFrameInterval = value;
 				}
 			}
 
@@ -5213,7 +5189,7 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.animating;
+					return animating;
 				}
 			}
 
@@ -5225,7 +5201,7 @@ namespace XPExplorerBar
 			{
 				get
 				{
-					return this.animationType;
+					return animationType;
 				}
 			}
 
@@ -5242,7 +5218,7 @@ namespace XPExplorerBar
 			private void animationTimer_Tick(object sender, EventArgs e)
 			{
 				// do the next bit of the aniation
-				this.PerformAnimation();
+				PerformAnimation();
 			}
 
 			#endregion
@@ -5257,7 +5233,7 @@ namespace XPExplorerBar
 		/// A class that is serialized instead of an Expando (as 
 		/// Expandos contain objects that cause serialization problems)
 		/// </summary>
-		[Serializable()]
+		[Serializable]
 			public class ExpandoSurrogate : ISerializable
 		{
 			#region Class Data
@@ -5432,40 +5408,40 @@ namespace XPExplorerBar
 			/// </summary>
 			public ExpandoSurrogate()
 			{
-				this.Name = null;
-				this.Text = null;
-				this.Size = Size.Empty;
-				this.Location = Point.Empty;
+				Name = null;
+				Text = null;
+				Size = Size.Empty;
+				Location = Point.Empty;
 
-				this.BackColor = ThemeManager.ConvertColorToString(SystemColors.Control);
-				this.ExpandedHeight = -1;
+				BackColor = ThemeManager.ConvertColorToString(SystemColors.Control);
+				ExpandedHeight = -1;
 				
-				this.CustomSettings = null;
-				this.CustomHeaderSettings = null;
+				CustomSettings = null;
+				CustomHeaderSettings = null;
 
-				this.Animate = false;
-				this.ShowFocusCues = false;
-				this.Collapsed = false;
-				this.CanCollapse = true;
-				this.SpecialGroup = false;
+				Animate = false;
+				ShowFocusCues = false;
+				Collapsed = false;
+				CanCollapse = true;
+				SpecialGroup = false;
 
-				this.TitleImage = new byte[0];
-				this.Watermark = new byte[0];
+				TitleImage = new byte[0];
+				Watermark = new byte[0];
 
-				this.Enabled = true;
-				this.Visible = true;
-				this.AutoLayout = false;
+				Enabled = true;
+				Visible = true;
+				AutoLayout = false;
 
-				this.Anchor = AnchorStyles.None;
-				this.Dock = DockStyle.None;
+				Anchor = AnchorStyles.None;
+				Dock = DockStyle.None;
 
-				this.FontName = "Tahoma";
-				this.FontSize = 8.25f;
-				this.FontDecoration = FontStyle.Regular;
+				FontName = "Tahoma";
+				FontSize = 8.25f;
+				FontDecoration = FontStyle.Regular;
 
-				this.Items = new ArrayList();
+				Items = new ArrayList();
 
-				this.Tag = new byte[0];
+				Tag = new byte[0];
 			}
 
 			#endregion
@@ -5481,40 +5457,40 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(Expando expando)
 			{
-				this.Name = expando.Name;
-				this.Text = expando.Text;
-				this.Size = expando.Size;
-				this.Location = expando.Location;
+				Name = expando.Name;
+				Text = expando.Text;
+				Size = expando.Size;
+				Location = expando.Location;
 
-				this.BackColor = ThemeManager.ConvertColorToString(expando.BackColor);
-				this.ExpandedHeight = expando.ExpandedHeight;
+				BackColor = ThemeManager.ConvertColorToString(expando.BackColor);
+				ExpandedHeight = expando.ExpandedHeight;
 
-				this.CustomSettings = new ExpandoInfo.ExpandoInfoSurrogate();
-				this.CustomSettings.Load(expando.CustomSettings);
-				this.CustomHeaderSettings = new HeaderInfo.HeaderInfoSurrogate();
-				this.CustomHeaderSettings.Load(expando.CustomHeaderSettings);
+				CustomSettings = new ExpandoInfo.ExpandoInfoSurrogate();
+				CustomSettings.Load(expando.CustomSettings);
+				CustomHeaderSettings = new HeaderInfo.HeaderInfoSurrogate();
+				CustomHeaderSettings.Load(expando.CustomHeaderSettings);
 
-				this.Animate = expando.Animate;
-				this.ShowFocusCues = expando.ShowFocusCues;
-				this.Collapsed = expando.Collapsed;
-				this.CanCollapse = expando.CanCollapse;
-				this.SpecialGroup = expando.SpecialGroup;
+				Animate = expando.Animate;
+				ShowFocusCues = expando.ShowFocusCues;
+				Collapsed = expando.Collapsed;
+				CanCollapse = expando.CanCollapse;
+				SpecialGroup = expando.SpecialGroup;
 
-				this.TitleImage = ThemeManager.ConvertImageToByteArray(expando.TitleImage);
-				this.Watermark = ThemeManager.ConvertImageToByteArray(expando.Watermark);
+				TitleImage = ThemeManager.ConvertImageToByteArray(expando.TitleImage);
+				Watermark = ThemeManager.ConvertImageToByteArray(expando.Watermark);
 
-				this.Enabled = expando.Enabled;
-				this.Visible = expando.Visible;
-				this.AutoLayout = expando.AutoLayout;
+				Enabled = expando.Enabled;
+				Visible = expando.Visible;
+				AutoLayout = expando.AutoLayout;
 
-				this.Anchor = expando.Anchor;
-				this.Dock = expando.Dock;
+				Anchor = expando.Anchor;
+				Dock = expando.Dock;
 
-				this.FontName = expando.Font.FontFamily.Name;
-				this.FontSize = expando.Font.SizeInPoints;
-				this.FontDecoration = expando.Font.Style;
+				FontName = expando.Font.FontFamily.Name;
+				FontSize = expando.Font.SizeInPoints;
+				FontDecoration = expando.Font.Style;
 
-				this.Tag = ThemeManager.ConvertObjectToByteArray(expando.Tag);
+				Tag = ThemeManager.ConvertObjectToByteArray(expando.Tag);
 
 				for (int i=0; i<expando.Items.Count; i++)
 				{
@@ -5524,7 +5500,7 @@ namespace XPExplorerBar
 
 						tis.Load((TaskItem) expando.Items[i]);
 
-						this.Items.Add(tis);
+						Items.Add(tis);
 					}
 				}
 			}
@@ -5540,40 +5516,40 @@ namespace XPExplorerBar
 				((ISupportInitialize) expando).BeginInit();
 				expando.SuspendLayout();
 
-				expando.Name = this.Name;
-				expando.Text = this.Text;
-				expando.Size = this.Size;
-				expando.Location = this.Location;
+				expando.Name = Name;
+				expando.Text = Text;
+				expando.Size = Size;
+				expando.Location = Location;
 
-				expando.BackColor = ThemeManager.ConvertStringToColor(this.BackColor);
-				expando.ExpandedHeight = this.ExpandedHeight;
+				expando.BackColor = ThemeManager.ConvertStringToColor(BackColor);
+				expando.ExpandedHeight = ExpandedHeight;
 
-				expando.customSettings = this.CustomSettings.Save();
+				expando.customSettings = CustomSettings.Save();
 				expando.customSettings.Expando = expando;
-				expando.customHeaderSettings = this.CustomHeaderSettings.Save();
+				expando.customHeaderSettings = CustomHeaderSettings.Save();
 				expando.customHeaderSettings.Expando = expando;
 
-				expando.TitleImage = ThemeManager.ConvertByteArrayToImage(this.TitleImage);
-				expando.Watermark = ThemeManager.ConvertByteArrayToImage(this.Watermark);
+				expando.TitleImage = ThemeManager.ConvertByteArrayToImage(TitleImage);
+				expando.Watermark = ThemeManager.ConvertByteArrayToImage(Watermark);
 
-				expando.Animate = this.Animate;
-				expando.ShowFocusCues = this.ShowFocusCues;
-				expando.Collapsed = this.Collapsed;
-				expando.CanCollapse = this.CanCollapse;
-				expando.SpecialGroup = this.SpecialGroup;
+				expando.Animate = Animate;
+				expando.ShowFocusCues = ShowFocusCues;
+				expando.Collapsed = Collapsed;
+				expando.CanCollapse = CanCollapse;
+				expando.SpecialGroup = SpecialGroup;
 
-				expando.Enabled = this.Enabled;
-				expando.Visible = this.Visible;
-				expando.AutoLayout = this.AutoLayout;
+				expando.Enabled = Enabled;
+				expando.Visible = Visible;
+				expando.AutoLayout = AutoLayout;
 
-				expando.Anchor = this.Anchor;
-				expando.Dock = this.Dock;
+				expando.Anchor = Anchor;
+				expando.Dock = Dock;
 
-				expando.Font = new Font(this.FontName, this.FontSize, this.FontDecoration);
+				expando.Font = new Font(FontName, FontSize, FontDecoration);
 
-				expando.Tag = ThemeManager.ConvertByteArrayToObject(this.Tag);
+				expando.Tag = ThemeManager.ConvertByteArrayToObject(Tag);
 
-				foreach (Object o in this.Items)
+				foreach (Object o in Items)
 				{
 					TaskItem ti = ((TaskItem.TaskItemSurrogate) o).Save();
 
@@ -5595,42 +5571,42 @@ namespace XPExplorerBar
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
 			public void GetObjectData(SerializationInfo info, StreamingContext context)
 			{
-				info.AddValue("Version", this.Version);
+				info.AddValue("Version", Version);
 				
-				info.AddValue("Name", this.Name);
-				info.AddValue("Text", this.Text);
-				info.AddValue("Size", this.Size);
-				info.AddValue("Location", this.Location);
+				info.AddValue("Name", Name);
+				info.AddValue("Text", Text);
+				info.AddValue("Size", Size);
+				info.AddValue("Location", Location);
 
-				info.AddValue("BackColor", this.BackColor);
-				info.AddValue("ExpandedHeight", this.ExpandedHeight);
+				info.AddValue("BackColor", BackColor);
+				info.AddValue("ExpandedHeight", ExpandedHeight);
 
-				info.AddValue("CustomSettings", this.CustomSettings);
-				info.AddValue("CustomHeaderSettings", this.CustomHeaderSettings);
+				info.AddValue("CustomSettings", CustomSettings);
+				info.AddValue("CustomHeaderSettings", CustomHeaderSettings);
 				
-				info.AddValue("Animate", this.Animate);
-				info.AddValue("ShowFocusCues", this.ShowFocusCues);
-				info.AddValue("Collapsed", this.Collapsed);
-				info.AddValue("CanCollapse", this.CanCollapse);
-				info.AddValue("SpecialGroup", this.SpecialGroup);
+				info.AddValue("Animate", Animate);
+				info.AddValue("ShowFocusCues", ShowFocusCues);
+				info.AddValue("Collapsed", Collapsed);
+				info.AddValue("CanCollapse", CanCollapse);
+				info.AddValue("SpecialGroup", SpecialGroup);
 
-				info.AddValue("TitleImage", this.TitleImage);
-				info.AddValue("Watermark", this.Watermark);
+				info.AddValue("TitleImage", TitleImage);
+				info.AddValue("Watermark", Watermark);
 				
-				info.AddValue("Enabled", this.Enabled);
-				info.AddValue("Visible", this.Visible);
-				info.AddValue("AutoLayout", this.AutoLayout);
+				info.AddValue("Enabled", Enabled);
+				info.AddValue("Visible", Visible);
+				info.AddValue("AutoLayout", AutoLayout);
 
-				info.AddValue("Anchor", this.Anchor);
-				info.AddValue("Dock", this.Dock);
+				info.AddValue("Anchor", Anchor);
+				info.AddValue("Dock", Dock);
 				
-				info.AddValue("FontName", this.FontName);
-				info.AddValue("FontSize", this.FontSize);
-				info.AddValue("FontDecoration", this.FontDecoration);
+				info.AddValue("FontName", FontName);
+				info.AddValue("FontSize", FontSize);
+				info.AddValue("FontDecoration", FontDecoration);
 				
-				info.AddValue("Tag", this.Tag);
+				info.AddValue("Tag", Tag);
 				
-				info.AddValue("Items", this.Items);
+				info.AddValue("Items", Items);
 			}
 
 
@@ -5641,44 +5617,44 @@ namespace XPExplorerBar
 			/// <param name="info">The information to populate the ExpandoSurrogate</param>
 			/// <param name="context">The source from which the ExpandoSurrogate is deserialized</param>
 			[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter=true)]
-			protected ExpandoSurrogate(SerializationInfo info, StreamingContext context) : base()
+			protected ExpandoSurrogate(SerializationInfo info, StreamingContext context)
 			{
 				int version = info.GetInt32("Version");
 
-				this.Name = info.GetString("Name");
-				this.Text = info.GetString("Text");
-				this.Size = (Size) info.GetValue("Size", typeof(Size));
-				this.Location = (Point) info.GetValue("Location", typeof(Point));
+				Name = info.GetString("Name");
+				Text = info.GetString("Text");
+				Size = (Size) info.GetValue("Size", typeof(Size));
+				Location = (Point) info.GetValue("Location", typeof(Point));
 
-				this.BackColor = info.GetString("BackColor");
-				this.ExpandedHeight = info.GetInt32("ExpandedHeight");
+				BackColor = info.GetString("BackColor");
+				ExpandedHeight = info.GetInt32("ExpandedHeight");
 
-				this.CustomSettings = (ExpandoInfo.ExpandoInfoSurrogate) info.GetValue("CustomSettings", typeof(ExpandoInfo.ExpandoInfoSurrogate));
-				this.CustomHeaderSettings = (HeaderInfo.HeaderInfoSurrogate) info.GetValue("CustomHeaderSettings", typeof(HeaderInfo.HeaderInfoSurrogate));
+				CustomSettings = (ExpandoInfo.ExpandoInfoSurrogate) info.GetValue("CustomSettings", typeof(ExpandoInfo.ExpandoInfoSurrogate));
+				CustomHeaderSettings = (HeaderInfo.HeaderInfoSurrogate) info.GetValue("CustomHeaderSettings", typeof(HeaderInfo.HeaderInfoSurrogate));
 
-				this.Animate = info.GetBoolean("Animate");
-				this.ShowFocusCues = info.GetBoolean("ShowFocusCues");
-				this.Collapsed = info.GetBoolean("Collapsed");
-				this.CanCollapse = info.GetBoolean("CanCollapse");
-				this.SpecialGroup = info.GetBoolean("SpecialGroup");
+				Animate = info.GetBoolean("Animate");
+				ShowFocusCues = info.GetBoolean("ShowFocusCues");
+				Collapsed = info.GetBoolean("Collapsed");
+				CanCollapse = info.GetBoolean("CanCollapse");
+				SpecialGroup = info.GetBoolean("SpecialGroup");
 
-				this.TitleImage = (byte[]) info.GetValue("TitleImage", typeof(byte[]));
-				this.Watermark = (byte[]) info.GetValue("Watermark", typeof(byte[]));
+				TitleImage = (byte[]) info.GetValue("TitleImage", typeof(byte[]));
+				Watermark = (byte[]) info.GetValue("Watermark", typeof(byte[]));
 
-				this.Enabled = info.GetBoolean("Enabled");
-				this.Visible = info.GetBoolean("Visible");
-				this.AutoLayout = info.GetBoolean("AutoLayout");
+				Enabled = info.GetBoolean("Enabled");
+				Visible = info.GetBoolean("Visible");
+				AutoLayout = info.GetBoolean("AutoLayout");
 				
-				this.Anchor = (AnchorStyles) info.GetValue("Anchor", typeof(AnchorStyles));
-				this.Dock = (DockStyle) info.GetValue("Dock", typeof(DockStyle));
+				Anchor = (AnchorStyles) info.GetValue("Anchor", typeof(AnchorStyles));
+				Dock = (DockStyle) info.GetValue("Dock", typeof(DockStyle));
 
-				this.FontName = info.GetString("FontName");
-				this.FontSize = info.GetSingle("FontSize");
-				this.FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
+				FontName = info.GetString("FontName");
+				FontSize = info.GetSingle("FontSize");
+				FontDecoration = (FontStyle) info.GetValue("FontDecoration", typeof(FontStyle));
 
-				this.Tag = (byte[]) info.GetValue("Tag", typeof(byte[]));
+				Tag = (byte[]) info.GetValue("Tag", typeof(byte[]));
 
-				this.Items = (ArrayList) info.GetValue("Items", typeof(ArrayList));
+				Items = (ArrayList) info.GetValue("Items", typeof(ArrayList));
 			}
 
 			#endregion
@@ -5741,7 +5717,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.expando;
+				return expando;
 			}
 		}
 
@@ -5753,7 +5729,7 @@ namespace XPExplorerBar
 		{
 			get
 			{
-				return this.expando.Collapsed;
+				return expando.Collapsed;
 			}
 		}
 
@@ -5836,7 +5812,7 @@ namespace XPExplorerBar
 		/// <summary>
 		/// Initializes a new instance of the ExpandoDesigner class
 		/// </summary>
-		public ExpandoDesigner() : base()
+		public ExpandoDesigner()
 		{
 			
 		}

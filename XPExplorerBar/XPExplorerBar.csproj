@@ -1,88 +1,57 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>10</LangVersion>
     <ProductVersion>8.0.50215</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D4B2101F-AF3A-4E28-B3BE-6F69C131BFB5}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XPExplorerBar</RootNamespace>
-    <AssemblyName>XPExplorerBar</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>XPExplorerBar.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-    <LangVersion>8</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <AssemblyTitle>XPExplorerBar</AssemblyTitle>
+    <Product>XPExplorerBar</Product>
+    <Description>A fully customisable Windows XP style Explorer Bar that supports Windows XP themes and animated expand/collapse with transparency</Description>
+    <Copyright>Copyright © 2004-2005, Mathew Hall.  All rights reserved.</Copyright>
+    <AssemblyVersion>3.3.0.0</AssemblyVersion>
+    <FileVersion>3.3.0.0</FileVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\XPExplorerBar.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\XPExplorerBar.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\XPExplorerBar.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Compile Update="Expando.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="TaskItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="TaskPane.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="XPControls.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expando.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ExplorerBarInfo.cs" />
-    <Compile Include="NativeMethods.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TaskPane.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ThemeManager.cs" />
-    <Compile Include="XPControls.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Expando.resx">
+    <EmbeddedResource Update="Expando.resx">
       <DependentUpon>Expando.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExpandoArrows.resX" />
-    <EmbeddedResource Include="TaskItem.resx">
+    <EmbeddedResource Update="TaskItem.resx">
       <DependentUpon>TaskItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TaskPane.resx">
+    <EmbeddedResource Update="TaskPane.resx">
       <DependentUpon>TaskPane.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="XPExplorerBar.snk" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="Themes\*.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Design" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+  </ItemGroup>
 </Project>
