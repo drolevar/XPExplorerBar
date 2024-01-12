@@ -35,8 +35,12 @@
     <Version>3300</Version>
   </TaskItemInfoSurrogate>
   <ExpandoInfoSurrogate>
-    <SpecialBackColor>255:239:243:255</SpecialBackColor>
-    <NormalBackColor>255:214:223:247</NormalBackColor>
+    <SpecialGradientStartColor>255:239:243:255</SpecialGradientStartColor>
+    <SpecialGradientEndColor>255:214:223:247</SpecialGradientEndColor>
+    <SpecialGradientDirection>Horizontal</SpecialGradientDirection>
+    <NormalGradientStartColor>255:214:223:247</NormalGradientStartColor>
+    <NormalGradientEndColor>255:214:223:247</NormalGradientEndColor>
+    <NormalGradientDirection>Horizontal</NormalGradientDirection>
     <SpecialBorder>
       <Left>1</Left>
       <Right>1</Right>

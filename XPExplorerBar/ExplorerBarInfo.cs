@@ -1648,14 +1648,34 @@ namespace XPExplorerBar
 		#region Class Data
 
 		/// <summary>
-		/// The background Color of an Expando that is a special group
+		/// The starting Color for the normal Expando's background gradient
 		/// </summary>
-		private Color specialBackColor;
-		
+		private Color normalGradientStartColor;
+
 		/// <summary>
-		/// The background Color of an Expando that is a normal group
+		/// The ending Color for the normal Expando's background gradient
 		/// </summary>
-		private Color normalBackColor;
+		private Color normalGradientEndColor;
+
+		/// <summary>
+		/// The direction of the normal Expando's gradient background
+		/// </summary>
+		private LinearGradientMode normalDirection;
+
+		/// <summary>
+		/// The starting Color for the special Expando's background gradient
+		/// </summary>
+		private Color specialGradientStartColor;
+
+		/// <summary>
+		/// The ending Color for the special Expando's background gradient
+		/// </summary>
+		private Color specialGradientEndColor;
+
+		/// <summary>
+		/// The direction of the special Expando's gradient background
+		/// </summary>
+		private LinearGradientMode specialDirection;
 
 		/// <summary>
 		/// The width of the Border along each edge of an Expando that 
@@ -1722,8 +1742,10 @@ namespace XPExplorerBar
 		public ExpandoInfo()
 		{
 			// set background color values
-			specialBackColor = Color.Transparent;
-			normalBackColor = Color.Transparent;
+			specialGradientStartColor = Color.Transparent;
+			specialGradientEndColor = Color.Transparent;
+			normalGradientStartColor = Color.Transparent;
+			normalGradientEndColor = Color.Transparent;
 
 			// set border values
 			specialBorder = new Border(1, 0, 1, 1);
@@ -1755,8 +1777,10 @@ namespace XPExplorerBar
 		public void SetDefaultValues()
 		{
 			// set background color values
-			specialBackColor = SystemColors.Window;
-			normalBackColor = SystemColors.Window;
+			specialGradientStartColor = SystemColors.Window;
+			specialGradientEndColor = SystemColors.Window;
+			normalGradientStartColor = SystemColors.Window;
+			normalGradientEndColor = SystemColors.Window;
 
 			// set border values
 			specialBorder.Left = 1;
@@ -1797,8 +1821,10 @@ namespace XPExplorerBar
 		public void SetDefaultEmptyValues()
 		{
 			// set background color values
-			specialBackColor = Color.Empty;
-			normalBackColor = Color.Empty;
+			specialGradientStartColor = Color.Empty;
+			specialGradientEndColor = Color.Empty;
+			normalGradientStartColor = Color.Empty;
+			normalGradientEndColor = Color.Empty;
 
 			// set border values
 			specialBorder = Border.Empty;
@@ -1842,82 +1868,6 @@ namespace XPExplorerBar
 		#region Properties
 
 		#region Background
-
-		/// <summary>
-		/// Gets or sets the background color of a special expando
-		/// </summary>
-		[Description("The background color of a special Expando")]
-		public Color SpecialBackColor
-		{
-			get
-			{
-				return specialBackColor;
-			}
-
-			set
-			{
-				if (specialBackColor != value)
-				{
-					specialBackColor = value;
-
-					if (Expando != null)
-					{
-						Expando.FireCustomSettingsChanged(EventArgs.Empty);
-					}
-				}
-			}
-		}
-
-
-		/// <summary>
-		/// Specifies whether the SpecialBackColor property should be 
-		/// serialized at design time
-		/// </summary>
-		/// <returns>true if the SpecialBackColor property should be 
-		/// serialized, false otherwise</returns>
-		private bool ShouldSerializeSpecialBackColor()
-		{
-			return SpecialBackColor != Color.Empty;
-		}
-
-
-		/// <summary>
-		/// Gets or sets the background color of a normal expando
-		/// </summary>
-		[Description("The background color of a normal Expando")]
-		public Color NormalBackColor
-		{
-			get
-			{
-				return normalBackColor;
-			}
-
-			set
-			{
-				if (normalBackColor != value)
-				{
-					normalBackColor = value;
-
-					if (Expando != null)
-					{
-						Expando.FireCustomSettingsChanged(EventArgs.Empty);
-					}
-				}
-			}
-		}
-
-
-		/// <summary>
-		/// Specifies whether the NormalBackColor property should be 
-		/// serialized at design time
-		/// </summary>
-		/// <returns>true if the NormalBackColor property should be 
-		/// serialized, false otherwise</returns>
-		private bool ShouldSerializeNormalBackColor()
-		{
-			return NormalBackColor != Color.Empty;
-		}
-
 		
 		/// <summary>
 		/// Gets or sets the alignment for the expando's background image
@@ -1994,6 +1944,220 @@ namespace XPExplorerBar
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the normal Expando's first gradient background color
+		/// </summary>
+		[Description("The normal Expando's first gradient background color")]
+		public Color NormalGradientStartColor
+		{
+			get
+			{
+				return normalGradientStartColor;
+			}
+
+			set
+			{
+				if (normalGradientStartColor != value)
+				{
+					normalGradientStartColor = value;
+
+					if (Expando != null)
+					{
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
+					}
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Specifies whether the NormalGradientStartColor property should be 
+		/// serialized at design time
+		/// </summary>
+		/// <returns>true if the NormalGradientStartColor property should be 
+		/// serialized, false otherwise</returns>
+		private bool ShouldSerializeNormalGradientStartColor()
+		{
+			return NormalGradientStartColor != Color.Empty;
+		}
+
+
+		/// <summary>
+		/// Gets or sets the normal Expando's second gradient background color
+		/// </summary>
+		[Description("The normal Expando's second gradient background color")]
+		public Color NormalGradientEndColor
+		{
+			get
+			{
+				return normalGradientEndColor;
+			}
+
+			set
+			{
+				if (normalGradientEndColor != value)
+				{
+					normalGradientEndColor = value;
+
+					if (Expando != null)
+					{
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
+					}
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Specifies whether the NormalGradientEndColor property should be 
+		/// serialized at design time
+		/// </summary>
+		/// <returns>true if the NormalGradientEndColor property should be 
+		/// serialized, false otherwise</returns>
+		private bool ShouldSerializeNormalGradientEndColor()
+		{
+			return NormalGradientEndColor != Color.Empty;
+		}
+
+
+		/// <summary>
+		/// Gets or sets the direction of the normal Expando's gradient
+		/// </summary>
+		[DefaultValue(LinearGradientMode.Vertical),
+		Description("The direction of the normal Expando's background gradient")]
+		public LinearGradientMode NormalGradientDirection
+		{
+			get
+			{
+				return normalDirection;
+			}
+
+			set
+			{
+				if (!Enum.IsDefined(typeof(LinearGradientMode), value)) 
+				{
+					throw new InvalidEnumArgumentException("value", (int) value, typeof(LinearGradientMode));
+				}
+
+				if (normalDirection != value)
+				{
+					normalDirection = value;
+
+					if (Expando != null)
+					{
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the special Expando's first gradient background color
+		/// </summary>
+		[Description("The special Expando's first gradient background color")]
+		public Color SpecialGradientStartColor
+		{
+			get
+			{
+				return specialGradientStartColor;
+			}
+
+			set
+			{
+				if (specialGradientStartColor != value)
+				{
+					specialGradientStartColor = value;
+
+					if (Expando != null)
+					{
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
+					}
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Specifies whether the SpecialGradientStartColor property should be 
+		/// serialized at design time
+		/// </summary>
+		/// <returns>true if the SpecialGradientStartColor property should be 
+		/// serialized, false otherwise</returns>
+		private bool ShouldSerializeSpecialGradientStartColor()
+		{
+			return SpecialGradientStartColor != Color.Empty;
+		}
+
+
+		/// <summary>
+		/// Gets or sets the special Expando's second gradient background color
+		/// </summary>
+		[Description("The special Expando's second gradient background color")]
+		public Color SpecialGradientEndColor
+		{
+			get
+			{
+				return specialGradientEndColor;
+			}
+
+			set
+			{
+				if (specialGradientEndColor != value)
+				{
+					specialGradientEndColor = value;
+
+					if (Expando != null)
+					{
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
+					}
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Specifies whether the SpecialGradientEndColor property should be 
+		/// serialized at design time
+		/// </summary>
+		/// <returns>true if the SpecialGradientEndColor property should be 
+		/// serialized, false otherwise</returns>
+		private bool ShouldSerializeSpecialGradientEndColor()
+		{
+			return SpecialGradientEndColor != Color.Empty;
+		}
+
+
+		/// <summary>
+		/// Gets or sets the direction of the special Expando's gradient
+		/// </summary>
+		[DefaultValue(LinearGradientMode.Vertical),
+		Description("The direction of the special Expando's background gradient")]
+		public LinearGradientMode SpecialGradientDirection
+		{
+			get
+			{
+				return specialDirection;
+			}
+
+			set
+			{
+				if (!Enum.IsDefined(typeof(LinearGradientMode), value)) 
+				{
+					throw new InvalidEnumArgumentException("value", (int) value, typeof(LinearGradientMode));
+				}
+
+				if (specialDirection != value)
+				{
+					specialDirection = value;
+
+					if (Expando != null)
+					{
+						Expando.FireCustomSettingsChanged(EventArgs.Empty);
+					}
+				}
+			}
+		}
+		
 		#endregion
 
 		#region Border
@@ -2265,16 +2429,28 @@ namespace XPExplorerBar
 			#region Class Data
 			
 			/// <summary>
-			/// See ExpandoInfo.SpecialBackColor.  This member is not 
+			/// See ExpandoInfo.SpecialGradientStartColor.  This member is not 
 			/// intended to be used directly from your code.
 			/// </summary>
-			public string SpecialBackColor;
+			public string SpecialGradientStartColor;
 			
 			/// <summary>
-			/// See ExpandoInfo.NormalBackColor.  This member is not 
+			/// See ExpandoInfo.SpecialGradientEndColor.  This member is not 
 			/// intended to be used directly from your code.
 			/// </summary>
-			public string NormalBackColor;
+			public string SpecialGradientEndColor;
+			
+			/// <summary>
+			/// See ExpandoInfo.NormalGradientStartColor.  This member is not 
+			/// intended to be used directly from your code.
+			/// </summary>
+			public string NormalGradientStartColor;
+			
+			/// <summary>
+			/// See ExpandoInfo.NormalGradientEndColor.  This member is not 
+			/// intended to be used directly from your code.
+			/// </summary>
+			public string NormalGradientEndColor;
 			
 			/// <summary>
 			/// See ExpandoInfo.SpecialBorder.  This member is not 
@@ -2348,8 +2524,10 @@ namespace XPExplorerBar
 			/// </summary>
 			public ExpandoInfoSurrogate()
 			{
-				SpecialBackColor = ThemeManager.ConvertColorToString(Color.Empty);
-				NormalBackColor = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialGradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
+				SpecialGradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalGradientStartColor = ThemeManager.ConvertColorToString(Color.Empty);
+				NormalGradientEndColor = ThemeManager.ConvertColorToString(Color.Empty);
 
 				SpecialBorder = Border.Empty;
 				NormalBorder = Border.Empty;
@@ -2379,8 +2557,10 @@ namespace XPExplorerBar
 			/// to be serialized</param>
 			public void Load(ExpandoInfo expandoInfo)
 			{
-				SpecialBackColor = ThemeManager.ConvertColorToString(expandoInfo.SpecialBackColor);
-				NormalBackColor =ThemeManager.ConvertColorToString( expandoInfo.NormalBackColor);
+				SpecialGradientStartColor = ThemeManager.ConvertColorToString(expandoInfo.SpecialGradientStartColor);
+				SpecialGradientEndColor = ThemeManager.ConvertColorToString(expandoInfo.SpecialGradientEndColor);
+				NormalGradientStartColor = ThemeManager.ConvertColorToString(expandoInfo.NormalGradientStartColor);
+				NormalGradientEndColor = ThemeManager.ConvertColorToString(expandoInfo.NormalGradientEndColor);
 
 				SpecialBorder = expandoInfo.SpecialBorder;
 				NormalBorder = expandoInfo.NormalBorder;
@@ -2406,8 +2586,10 @@ namespace XPExplorerBar
 			{
 				ExpandoInfo expandoInfo = new ExpandoInfo();
 
-				expandoInfo.SpecialBackColor = ThemeManager.ConvertStringToColor(SpecialBackColor);
-				expandoInfo.NormalBackColor = ThemeManager.ConvertStringToColor(NormalBackColor);
+				expandoInfo.SpecialGradientStartColor = ThemeManager.ConvertStringToColor(SpecialGradientStartColor);
+				expandoInfo.SpecialGradientEndColor = ThemeManager.ConvertStringToColor(SpecialGradientEndColor);
+				expandoInfo.NormalGradientStartColor = ThemeManager.ConvertStringToColor(NormalGradientStartColor);
+				expandoInfo.NormalGradientEndColor = ThemeManager.ConvertStringToColor(NormalGradientEndColor);
 
 				expandoInfo.SpecialBorder = SpecialBorder;
 				expandoInfo.NormalBorder = NormalBorder;
@@ -2437,8 +2619,10 @@ namespace XPExplorerBar
 			{
 				info.AddValue("Version", Version);
 				
-				info.AddValue("SpecialBackColor", SpecialBackColor);
-				info.AddValue("NormalBackColor", NormalBackColor);
+				info.AddValue("SpecialGradientStartColor", SpecialGradientStartColor);
+				info.AddValue("SpecialGradientEndColor", SpecialGradientEndColor);
+				info.AddValue("NormalGradientStartColor", NormalGradientStartColor);
+				info.AddValue("NormalGradientEndColor", NormalGradientEndColor);
 				
 				info.AddValue("SpecialBorder", SpecialBorder);
 				info.AddValue("NormalBorder", NormalBorder);
@@ -2467,8 +2651,10 @@ namespace XPExplorerBar
 			{
 				int version = info.GetInt32("Version");
 
-				SpecialBackColor = info.GetString("SpecialBackColor");
-				NormalBackColor = info.GetString("NormalBackColor");
+				SpecialGradientStartColor = info.GetString("SpecialGradientStartColor");
+				SpecialGradientEndColor = info.GetString("SpecialGradientEndColor");
+				NormalGradientStartColor = info.GetString("NormalGradientStartColor");
+				NormalGradientEndColor = info.GetString("NormalGradientEndColor");
 
 				SpecialBorder = (Border) info.GetValue("SpecialBorder", typeof(Border));
 				NormalBorder = (Border) info.GetValue("NormalBorder", typeof(Border));

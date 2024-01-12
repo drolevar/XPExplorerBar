@@ -323,8 +323,6 @@ namespace XPExplorerBar
 			customHeaderSettings.Expando = this;
 			customHeaderSettings.SetDefaultEmptyValues();
 
-			BackColor = systemSettings.Expando.NormalBackColor;
-
 			// the height of the Expando in the expanded state
 			expandedHeight = 100;
 
@@ -661,10 +659,24 @@ namespace XPExplorerBar
 					Border.Bottom); 
 			}
 
+			
 			// "client area"
-			using (SolidBrush brush = new SolidBrush(BackColor))
+			Brush clientBrush;
+			if (GradientStartColor != GradientEndColor)
 			{
-				g.FillRectangle(brush, 
+				clientBrush = new LinearGradientBrush(DisplayRectangle,
+					GradientStartColor,
+					GradientEndColor,
+					GradientDirection);
+			}
+			else
+			{
+				clientBrush = new SolidBrush(GradientStartColor);
+			}
+
+			using (clientBrush)
+			{
+				g.FillRectangle(clientBrush, 
 					Border.Left, 
 					HeaderHeight, 
 					width - Border.Left - Border.Right,
@@ -2044,6 +2056,91 @@ namespace XPExplorerBar
 			}
 		}
 
+		/// <summary>
+		/// Gets the first color of the Expando's background gradient fill.
+		/// </summary>
+		[Browsable(false)]
+		public Color GradientStartColor
+		{
+			get
+			{
+				if (SpecialGroup)
+				{
+					if (CustomSettings.SpecialGradientStartColor != Color.Empty)
+					{
+						return CustomSettings.SpecialGradientStartColor;
+					}
+
+					return SystemSettings.Expando.SpecialGradientStartColor;
+				}
+
+				if (CustomSettings.NormalGradientStartColor != Color.Empty)
+				{
+					return CustomSettings.NormalGradientStartColor;
+				}
+
+				return SystemSettings.Expando.NormalGradientStartColor;
+			}
+		}
+
+
+		/// <summary>
+		/// Gets the second color of the Expando's background gradient fill.
+		/// </summary>
+		[Browsable(false)]
+		public Color GradientEndColor
+		{
+			get
+			{
+				if (SpecialGroup)
+				{
+					if (CustomSettings.SpecialGradientEndColor != Color.Empty)
+					{
+						return CustomSettings.SpecialGradientEndColor;
+					}
+
+					return SystemSettings.Expando.SpecialGradientEndColor;
+				}
+
+				if (CustomSettings.NormalGradientEndColor != Color.Empty)
+				{
+					return CustomSettings.NormalGradientEndColor;
+				}
+
+				return SystemSettings.Expando.NormalGradientEndColor;
+			}
+		}
+
+
+		/// <summary>
+		/// Gets the direction of the Expando's background gradient fill.
+		/// </summary>
+		[Browsable(false)]
+		public LinearGradientMode GradientDirection
+		{
+			get
+			{
+				if (SpecialGroup)
+				{
+					if (CustomSettings.SpecialGradientStartColor != Color.Empty && 
+						CustomSettings.SpecialGradientEndColor != Color.Empty)
+					{
+						return CustomSettings.SpecialGradientDirection;
+					}
+
+					return SystemSettings.Expando.SpecialGradientDirection;
+				}
+
+				if (CustomSettings.NormalGradientStartColor != Color.Empty &&
+				    CustomSettings.NormalGradientEndColor != Color.Empty)
+				{
+					return CustomSettings.NormalGradientDirection;
+				}
+
+				return SystemSettings.Expando.NormalGradientDirection;
+			}
+		}
+
 		#endregion
 
 		#region Client Rectangle
@@ -2804,29 +2901,6 @@ namespace XPExplorerBar
 				specialGroup = value;
 
 				DoLayout();
-
-				if (specialGroup)
-				{
-					if (CustomSettings.SpecialBackColor != Color.Empty)
-					{
-						BackColor = CustomSettings.SpecialBackColor;
-					}
-					else
-					{
-						BackColor = SystemSettings.Expando.SpecialBackColor;
-					}
-				}
-				else
-				{
-					if (CustomSettings.NormalBackColor != Color.Empty)
-					{
-						BackColor = CustomSettings.NormalBackColor;
-					}
-					else
-					{
-						BackColor = SystemSettings.Expando.NormalBackColor;
-					}
-				}
 				
 				Invalidate();
 
@@ -3030,29 +3104,6 @@ namespace XPExplorerBar
 					else
 					{
 						headerHeight = titleBarHeight;
-					}
-
-					if (SpecialGroup)
-					{
-						if (CustomSettings.SpecialBackColor != Color.Empty)
-						{
-							BackColor = CustomSettings.SpecialBackColor;
-						}
-						else
-						{
-							BackColor = SystemSettings.Expando.SpecialBackColor;
-						}
-					}
-					else
-					{
-						if (CustomSettings.NormalBackColor != Color.Empty)
-						{
-							BackColor = CustomSettings.NormalBackColor;
-						}
-						else
-						{
-							BackColor = SystemSettings.Expando.NormalBackColor;
-						}
 					}
 
 					// update the system settings for each TaskItem
@@ -3296,29 +3347,6 @@ namespace XPExplorerBar
 			else
 			{
 				headerHeight = titleBarHeight;
-			}
-
-			if (SpecialGroup)
-			{
-				if (CustomSettings.SpecialBackColor != Color.Empty)
-				{
-					BackColor = CustomSettings.SpecialBackColor;
-				}
-				else
-				{
-					BackColor = SystemSettings.Expando.SpecialBackColor;
-				}
-			}
-			else
-			{
-				if (CustomSettings.NormalBackColor != Color.Empty)
-				{
-					BackColor = CustomSettings.NormalBackColor;
-				}
-				else
-				{
-					BackColor = SystemSettings.Expando.NormalBackColor;
-				}
 			}
 
 			DoLayout();
@@ -4158,47 +4186,11 @@ namespace XPExplorerBar
 				// are we animating a slide
 			else if (animatingSlide)
 			{
-				// check if we have a background image
-				if (BackImage != null)
-				{
-					// tile the backImage
-					using (TextureBrush brush = new TextureBrush(BackImage, WrapMode.Tile))
-					{
-						g.FillRectangle(brush, DisplayRectangle);
-					}
-				}
-				else
-				{
-					// just paint the area with a solid brush
-					using (SolidBrush brush = new SolidBrush(BackColor))
-					{
-						g.FillRectangle(brush, 
-							Border.Left, 
-							HeaderHeight + Border.Top, 
-							Width - Border.Left - Border.Right,
-							Height - HeaderHeight - Border.Top - Border.Bottom);
-					}
-				}
+				PaintBackground(g);
 			}
 			else
 			{
-				// check if we have a background image
-				if (BackImage != null)
-				{
-					// tile the backImage
-					using (TextureBrush brush = new TextureBrush(BackImage, WrapMode.Tile))
-					{
-						g.FillRectangle(brush, DisplayRectangle);
-					}
-				}
-				else
-				{
-					// just paint the area with a solid brush
-					using (SolidBrush brush = new SolidBrush(BackColor))
-					{
-						g.FillRectangle(brush, DisplayRectangle);
-					}
-				}
+				PaintBackground(g);
 
 				if (Watermark != null)
 				{
@@ -4233,6 +4225,31 @@ namespace XPExplorerBar
 					// draw the watermark
 					g.DrawImage(Watermark, rect);
 				}
+			}
+		}
+
+		private void PaintBackground(Graphics g)
+		{
+			Brush brush;
+			if (BackImage != null)
+			{
+				brush = new TextureBrush(BackImage, WrapMode.Tile);
+			}
+			else if (GradientStartColor != GradientEndColor)
+			{
+				brush = new LinearGradientBrush(DisplayRectangle,
+					GradientStartColor,
+					GradientEndColor,
+					GradientDirection);
+			}
+			else
+			{
+				brush = new SolidBrush(GradientStartColor);
+			}
+			
+			using (brush)
+			{
+				g.FillRectangle(brush, DisplayRectangle);
 			}
 		}
 
@@ -5263,12 +5280,6 @@ namespace XPExplorerBar
 			public Point Location;
 			
 			/// <summary>
-			/// See Expando.BackColor.  This member is not intended to be used 
-			/// directly from your code.
-			/// </summary>
-			public string BackColor;
-			
-			/// <summary>
 			/// See Expando.ExpandedHeight.  This member is not intended to be used 
 			/// directly from your code.
 			/// </summary>
@@ -5413,7 +5424,6 @@ namespace XPExplorerBar
 				Size = Size.Empty;
 				Location = Point.Empty;
 
-				BackColor = ThemeManager.ConvertColorToString(SystemColors.Control);
 				ExpandedHeight = -1;
 				
 				CustomSettings = null;
@@ -5462,7 +5472,6 @@ namespace XPExplorerBar
 				Size = expando.Size;
 				Location = expando.Location;
 
-				BackColor = ThemeManager.ConvertColorToString(expando.BackColor);
 				ExpandedHeight = expando.ExpandedHeight;
 
 				CustomSettings = new ExpandoInfo.ExpandoInfoSurrogate();
@@ -5521,7 +5530,6 @@ namespace XPExplorerBar
 				expando.Size = Size;
 				expando.Location = Location;
 
-				expando.BackColor = ThemeManager.ConvertStringToColor(BackColor);
 				expando.ExpandedHeight = ExpandedHeight;
 
 				expando.customSettings = CustomSettings.Save();
@@ -5578,7 +5586,6 @@ namespace XPExplorerBar
 				info.AddValue("Size", Size);
 				info.AddValue("Location", Location);
 
-				info.AddValue("BackColor", BackColor);
 				info.AddValue("ExpandedHeight", ExpandedHeight);
 
 				info.AddValue("CustomSettings", CustomSettings);
@@ -5626,7 +5633,6 @@ namespace XPExplorerBar
 				Size = (Size) info.GetValue("Size", typeof(Size));
 				Location = (Point) info.GetValue("Location", typeof(Point));
 
-				BackColor = info.GetString("BackColor");
 				ExpandedHeight = info.GetInt32("ExpandedHeight");
 
 				CustomSettings = (ExpandoInfo.ExpandoInfoSurrogate) info.GetValue("CustomSettings", typeof(ExpandoInfo.ExpandoInfoSurrogate));

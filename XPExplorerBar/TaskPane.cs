@@ -1246,19 +1246,19 @@ namespace XPExplorerBar
 
 				using (TextureBrush brush = new TextureBrush(BackImage, wrap))
 				{
-					e.Graphics.FillRectangle(brush, DisplayRectangle);
+					e.Graphics.FillRectangle(brush, ClientRectangle);
 				}
 			}
 			else
 			{
 				if (GradientStartColor != GradientEndColor)
 				{
-					using (LinearGradientBrush brush = new LinearGradientBrush(DisplayRectangle, 
+					using (LinearGradientBrush brush = new LinearGradientBrush(ClientRectangle, 
 							   GradientStartColor, 
 							   GradientEndColor, 
 							   GradientDirection))
 					{
-						e.Graphics.FillRectangle(brush, DisplayRectangle);
+						e.Graphics.FillRectangle(brush, ClientRectangle);
 					}
 				}
 				else

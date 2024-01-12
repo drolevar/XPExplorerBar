@@ -123,6 +123,9 @@ namespace XPExplorerBarDemo
 	        // systemTaskPane
 	        // 
 	        this.systemTaskPane.AutoScrollMargin = new System.Drawing.Size(12, 12);
+	        this.systemTaskPane.CustomSettings.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+	        this.systemTaskPane.CustomSettings.GradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(157)))));
+	        this.systemTaskPane.CustomSettings.GradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(202)))));
 	        this.systemTaskPane.Expandos.AddRange(new XPExplorerBar.Expando[] { this.pictureTasksExpando, this.fileAndFolderTasksExpando, this.otherPlacesExpando, this.detailsExpando });
 	        this.systemTaskPane.Location = new System.Drawing.Point(0, 0);
 	        this.systemTaskPane.Name = "systemTaskPane";
@@ -201,6 +204,14 @@ namespace XPExplorerBarDemo
 	        // 
 	        this.fileAndFolderTasksExpando.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.fileAndFolderTasksExpando.AutoLayout = true;
+	        this.fileAndFolderTasksExpando.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+	        this.fileAndFolderTasksExpando.CustomHeaderSettings.NormalGradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(216)))), ((int)(((byte)(225)))));
+	        this.fileAndFolderTasksExpando.CustomHeaderSettings.NormalGradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(254)))));
+	        this.fileAndFolderTasksExpando.CustomHeaderSettings.NormalTitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+	        this.fileAndFolderTasksExpando.CustomHeaderSettings.TitleGradient = true;
+	        this.fileAndFolderTasksExpando.CustomSettings.NormalGradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+	        this.fileAndFolderTasksExpando.CustomSettings.NormalGradientEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+	        this.fileAndFolderTasksExpando.CustomSettings.NormalGradientStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
 	        this.fileAndFolderTasksExpando.ExpandedHeight = 112;
 	        this.fileAndFolderTasksExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.fileAndFolderTasksExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.newFolderTaskItem, this.publishToWebTaskItem, this.shareFolderTaskItem });
@@ -214,6 +225,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        this.newFolderTaskItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.newFolderTaskItem.BackColor = System.Drawing.Color.Transparent;
+	        this.newFolderTaskItem.CustomSettings.LinkColor = System.Drawing.Color.DarkBlue;
 	        this.newFolderTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("newFolderTaskItem.Image")));
 	        this.newFolderTaskItem.Location = new System.Drawing.Point(12, 33);
 	        this.newFolderTaskItem.Name = "newFolderTaskItem";
@@ -227,6 +239,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        this.publishToWebTaskItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.publishToWebTaskItem.BackColor = System.Drawing.Color.Transparent;
+	        this.publishToWebTaskItem.CustomSettings.LinkColor = System.Drawing.Color.DarkBlue;
 	        this.publishToWebTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("publishToWebTaskItem.Image")));
 	        this.publishToWebTaskItem.Location = new System.Drawing.Point(12, 53);
 	        this.publishToWebTaskItem.Name = "publishToWebTaskItem";
@@ -240,6 +253,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        this.shareFolderTaskItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
 	        this.shareFolderTaskItem.BackColor = System.Drawing.Color.Transparent;
+	        this.shareFolderTaskItem.CustomSettings.LinkColor = System.Drawing.Color.DarkBlue;
 	        this.shareFolderTaskItem.Image = ((System.Drawing.Image)(resources.GetObject("shareFolderTaskItem.Image")));
 	        this.shareFolderTaskItem.Location = new System.Drawing.Point(12, 85);
 	        this.shareFolderTaskItem.Name = "shareFolderTaskItem";
@@ -657,7 +671,7 @@ namespace XPExplorerBarDemo
 	        // 
 	        // label4
 	        // 
-	        this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+	        this.label4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 	        this.label4.Location = new System.Drawing.Point(8, 184);
 	        this.label4.Name = "label4";
 	        this.label4.Size = new System.Drawing.Size(208, 16);
@@ -718,8 +732,9 @@ namespace XPExplorerBarDemo
 	        this.serializeExpando.CustomHeaderSettings.TitleFont = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 	        this.serializeExpando.CustomHeaderSettings.TitleGradient = true;
 	        this.serializeExpando.CustomHeaderSettings.TitleRadius = 5;
-	        this.serializeExpando.CustomSettings.SpecialBackColor = System.Drawing.Color.WhiteSmoke;
 	        this.serializeExpando.CustomSettings.SpecialBorderColor = System.Drawing.Color.Black;
+	        this.serializeExpando.CustomSettings.SpecialGradientEndColor = System.Drawing.Color.WhiteSmoke;
+	        this.serializeExpando.CustomSettings.SpecialGradientStartColor = System.Drawing.Color.WhiteSmoke;
 	        this.serializeExpando.ExpandedHeight = 109;
 	        this.serializeExpando.Font = new System.Drawing.Font("Segoe UI", 8.25F);
 	        this.serializeExpando.Items.AddRange(new System.Windows.Forms.Control[] { this.serializeTaskItem1, this.serializeTaskItem2, this.serializeTaskItem3 });
